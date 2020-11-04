@@ -106,9 +106,16 @@ namespace Server
             {
                 try
                 {
-                    sendString("Wpisz logout aby wyjść\r\n", buffer, stream);
+                    sendString("Wpisz logout aby wyjść / wpisz haslo aby sprawdzic swoje haslo\r\n", buffer, stream);
                     string str = ReadString(stream, buffer);
-                    if (str.ToLower() == "logout") break;
+                    if (str.ToLower() == "logout")
+                    {
+                        break;
+                    }
+                    else if(str.ToLower() == "haslo")
+                    {
+                        sendString("twoje haslo to: " + manager.getPassword(), buffer, stream);
+                    }
                 }
                 catch (IOException e)
                 {
