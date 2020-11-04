@@ -106,9 +106,9 @@ namespace Server
             {
                 try
                 {
-                    sendString("Wpisz exit aby wyjść\r\n", buffer, stream);
+                    sendString("Wpisz logout aby wyjść\r\n", buffer, stream);
                     string str = ReadString(stream, buffer);
-                    if (str.ToLower() == "exit") break;
+                    if (str.ToLower() == "logout") break;
                 }
                 catch (IOException e)
                 {
