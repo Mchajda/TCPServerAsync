@@ -8,3 +8,13 @@ C:\Users\Maciej\source\repos\serverAsync\serverAsync\obj\Debug\serverAsync.pdb
 C:\Users\Maciej\source\repos\serverAsync\serverAsync\bin\Debug\Server.dll
 C:\Users\Maciej\source\repos\serverAsync\serverAsync\bin\Debug\Server.pdb
 C:\Users\Maciej\source\repos\serverAsync\serverAsync\obj\Debug\serverAsync.csproj.CopyComplete
+C:\Users\Maciej\source\repos\TCPServerAsync\serverAsync\bin\Debug\serverAsync.exe.config
+C:\Users\Maciej\source\repos\TCPServerAsync\serverAsync\bin\Debug\serverAsync.exe
+C:\Users\Maciej\source\repos\TCPServerAsync\serverAsync\bin\Debug\serverAsync.pdb
+C:\Users\Maciej\source\repos\TCPServerAsync\serverAsync\bin\Debug\Server.dll
+C:\Users\Maciej\source\repos\TCPServerAsync\serverAsync\bin\Debug\Server.pdb
+C:\Users\Maciej\source\repos\TCPServerAsync\serverAsync\obj\Debug\serverAsync.csprojAssemblyReference.cache
+C:\Users\Maciej\source\repos\TCPServerAsync\serverAsync\obj\Debug\serverAsync.csproj.CoreCompileInputs.cache
+C:\Users\Maciej\source\repos\TCPServerAsync\serverAsync\obj\Debug\serverAsync.csproj.CopyComplete
+C:\Users\Maciej\source\repos\TCPServerAsync\serverAsync\obj\Debug\serverAsync.exe
+C:\Users\Maciej\source\repos\TCPServerAsync\serverAsync\obj\Debug\serverAsync.pdb

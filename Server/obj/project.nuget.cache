@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "ioyIJAKpisFZD3UdrV6uGSaafB9+wmscCmeYOzh7mFLC4F1OJRmFuZ646CK483QzpMQdtaOlcmYQVbxp7TfLTA==",
+  "dgSpecHash": "5pPeqaq/XDGKMxZ0zqSyz/p+VVoI3JnCZXVr9kVDpwY3UUXt4ifCsqfaqDSowe3xYuVWGf3n50wl2ubfNlEevA==",
   "success": true,
-  "projectFilePath": "C:\\Users\\Maciej\\source\\repos\\serverAsync\\Server\\Server.csproj",
+  "projectFilePath": "C:\\Users\\Maciej\\source\\repos\\TCPServerAsync\\Server\\Server.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Maciej\\.nuget\\packages\\microsoft.netcore.platforms\\1.1.0\\microsoft.netcore.platforms.1.1.0.nupkg.sha512",
     "C:\\Users\\Maciej\\.nuget\\packages\\netstandard.library\\2.0.3\\netstandard.library.2.0.3.nupkg.sha512"

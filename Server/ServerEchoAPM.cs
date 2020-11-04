@@ -10,8 +10,8 @@ namespace Server
 {
     public class ServerEchoAPM : ServerEcho
     {
-        string message = "podaj login";
-        bool isLogged = false;
+        //string message = "podaj login: ";
+        int buffer_size = 1024;
 
         public delegate void TransmissionDataDelegate(NetworkStream stream);
 
@@ -45,25 +45,78 @@ namespace Server
             // sprzątanie
         }
 
+        private string ReadString(NetworkStream stream, byte[] buffer)
+        {
+            int message_size = stream.Read(buffer, 0, buffer_size);
+            stream.ReadByte();
+            stream.ReadByte();
+            return new ASCIIEncoding().GetString(buffer, 0, message_size);
+        }
+
+        private void sendString(string str, byte[] buffer, NetworkStream stream)
+        {
+            buffer = Encoding.ASCII.GetBytes(str);
+            stream.Write(buffer, 0, str.Length);
+        }
+
         protected override void BeginDataTransmission(NetworkStream stream)
         {
             byte[] buffer = new byte[Buffer_size];
+            UserManager manager = new UserManager();
 
-            while (isLogged != true)
+            while (manager.getIsLogged() != true)
             {
                 try
                 {
-                    stream.Write(Encoding.ASCII.GetBytes(message), 0, message.Length);
-                    int message_size = stream.Read(buffer, 0, Buffer_size);
+                    sendString("podaj login: ", buffer, stream);
+                    //int message_size = stream.Read(buffer, 0, Buffer_size);
                     //stream.Write(buffer, 0, message_size);
+                    string login = ReadString(stream, buffer);
+
+                    if (login == manager.getLogin())
+                    {
+                        sendString("podaj haslo: ", buffer, stream);
+                        string password = ReadString(stream, buffer);
+
+                        if (password == manager.getPassword())
+                        {
+                            sendString("Zostales poprawnie zalogowany\r\n", buffer, stream);
+                            System.Threading.Thread.Sleep(5000);
+                            manager.setLogged();
+                            break;
+                        }
+                        else
+                        {
+                            sendString("Niepoprawne haslo\r\n", buffer, stream);
+                            continue;
+                        }
+                    }
+                    else
+                    {
+                        sendString("Niepoprawny login\r\n", buffer, stream);
+                        continue;
+                    }
                 }
                 catch (IOException e)
                 {
                     break;
                 }
             }
+            while (manager.getIsLogged() != true)
+            {
+                try
+                {
+                    sendString("Wpisz exit aby wyjść\r\n", buffer, stream);
+                    string str = ReadString(stream, buffer);
+                    if (str.ToLower() == "exit") break;
+                }
+                catch (IOException e)
+                {
+                    // e.Message;
+                    break;
+                }
+            }
         }
-
         public override void Start()
         {
             StartListening();
