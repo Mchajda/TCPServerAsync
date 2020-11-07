@@ -102,11 +102,11 @@ namespace Server
                     break;
                 }
             }
-            while (manager.getIsLogged() != true)
+            while (manager.getIsLogged() == true)
             {
                 try
                 {
-                    sendString("Wpisz logout aby wyjść / wpisz haslo aby sprawdzic swoje haslo\r\n", buffer, stream);
+                    sendString("Wpisz logout aby wyjsc / wpisz haslo aby sprawdzic swoje haslo\r\n", buffer, stream);
                     string str = ReadString(stream, buffer);
                     if (str.ToLower() == "logout")
                     {
