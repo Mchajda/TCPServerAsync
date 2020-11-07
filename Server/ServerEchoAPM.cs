@@ -12,12 +12,13 @@ namespace Server
     {
         //string message = "podaj login: ";
         int buffer_size = 1024;
+        UserManager manager;
 
         public delegate void TransmissionDataDelegate(NetworkStream stream);
 
         public ServerEchoAPM(IPAddress IP, int port) : base(IP, port)
         {
-
+            manager = new UserManager();
         }
 
         protected override void AcceptClient()
@@ -62,15 +63,12 @@ namespace Server
         protected override void BeginDataTransmission(NetworkStream stream)
         {
             byte[] buffer = new byte[Buffer_size];
-            UserManager manager = new UserManager();
 
             while (manager.getIsLogged() != true)
             {
                 try
                 {
                     sendString("podaj login: ", buffer, stream);
-                    //int message_size = stream.Read(buffer, 0, Buffer_size);
-                    //stream.Write(buffer, 0, message_size);
                     string login = ReadString(stream, buffer);
 
                     if (login == manager.getLogin())
@@ -81,8 +79,10 @@ namespace Server
                         if (password == manager.getPassword())
                         {
                             sendString("Zostales poprawnie zalogowany\r\n", buffer, stream);
-                            System.Threading.Thread.Sleep(5000);
                             manager.setLogged();
+
+                            string json;
+
                             break;
                         }
                         else
