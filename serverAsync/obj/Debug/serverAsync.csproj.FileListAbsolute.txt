@@ -18,3 +18,5 @@ C:\Users\Maciej\source\repos\TCPServerAsync\serverAsync\obj\Debug\serverAsync.cs
 C:\Users\Maciej\source\repos\TCPServerAsync\serverAsync\obj\Debug\serverAsync.csproj.CopyComplete
 C:\Users\Maciej\source\repos\TCPServerAsync\serverAsync\obj\Debug\serverAsync.exe
 C:\Users\Maciej\source\repos\TCPServerAsync\serverAsync\obj\Debug\serverAsync.pdb
+C:\Users\Maciej\source\repos\TCPServerAsync\serverAsync\bin\Debug\Newtonsoft.Json.dll
+C:\Users\Maciej\source\repos\TCPServerAsync\serverAsync\bin\Debug\Newtonsoft.Json.xml

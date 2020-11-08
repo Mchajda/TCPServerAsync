@@ -5,6 +5,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
+using Newtonsoft.Json;
 
 namespace Server
 {
@@ -81,7 +82,9 @@ namespace Server
                             sendString("Zostales poprawnie zalogowany\r\n", buffer, stream);
                             manager.setLogged();
 
-                            string json;
+                            string result = JsonConvert.SerializeObject(manager);
+                            this.manager.saveUser(result);
+                            Console.WriteLine(result);
 
                             break;
                         }
@@ -112,7 +115,7 @@ namespace Server
                     {
                         break;
                     }
-                    else if(str.ToLower() == "haslo")
+                    else if (str.ToLower() == "haslo")
                     {
                         sendString("twoje haslo to: " + manager.getPassword(), buffer, stream);
                     }
@@ -124,6 +127,7 @@ namespace Server
                 }
             }
         }
+
         public override void Start()
         {
             StartListening();
