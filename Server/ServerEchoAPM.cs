@@ -14,6 +14,7 @@ namespace Server
         //string message = "podaj login: ";
         int buffer_size = 1024;
         UserManager manager;
+        User current_user;
 
         public delegate void TransmissionDataDelegate(NetworkStream stream);
 
@@ -64,55 +65,27 @@ namespace Server
         protected override void BeginDataTransmission(NetworkStream stream)
         {
             byte[] buffer = new byte[Buffer_size];
-            User u = new User("maciej", "chajda");
-            this.manager.readUsers();
-
-            foreach(User user in this.manager.getUsers())
-            {
-                Console.WriteLine(user.getLogin());
-            }
-
-            while (u.getIsLogged() != true)
+         
+            while (this.manager.session_is_logged != true)
             {
                 try
                 {
                     sendString("podaj login: ", buffer, stream);
                     string login = ReadString(stream, buffer);
 
-                    if (login == u.getLogin())
-                    {
-                        sendString("podaj haslo: ", buffer, stream);
-                        string password = ReadString(stream, buffer);
+                    sendString("podaj haslo: ", buffer, stream);
+                    string password = ReadString(stream, buffer);
 
-                        if (password == u.getPassword())
-                        {
-                            sendString("Zostales poprawnie zalogowany\r\n", buffer, stream);
-                            u.setLogged();
-
-                            string result = JsonConvert.SerializeObject(u);
-                            this.manager.saveUser(result);
-                            Console.WriteLine(result);
-
-                            break;
-                        }
-                        else
-                        {
-                            sendString("Niepoprawne haslo\r\n", buffer, stream);
-                            continue;
-                        }
-                    }
-                    else
-                    {
-                        sendString("Niepoprawny login\r\n", buffer, stream);
-                        continue;
-                    }
+                    //authorization
+                    current_user = this.manager.authorize(login, password, this.manager);
+                   
                 }
                 catch (IOException e)
                 {
                     break;
                 }
             }
-            while (u.getIsLogged() == true)
+            while (this.manager.session_is_logged == true)
             {
                 try
                 {
@@ -124,7 +97,7 @@ namespace Server
                     }
                     else if (str.ToLower() == "haslo")
                     {
-                        sendString("twoje haslo to: " + u.getPassword(), buffer, stream);
+                        sendString("nie pokaze lol ", buffer, stream);
                     }
                 }
                 catch (IOException e)

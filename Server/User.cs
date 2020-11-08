@@ -28,6 +28,11 @@ namespace Server
             this.isLogged = true;
         }
 
+        public void unSetLogged()
+        {
+            this.isLogged = false;
+        }
+
         public string getLogin()
         {
             return this.login;

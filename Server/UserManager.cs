@@ -10,12 +10,19 @@ namespace Server
     class UserManager
     {
         private ArrayList users;
+        public bool session_is_logged;
+        public User current_user;
 
         private string usersPath;
         public UserManager()
         {
             this.usersPath = @"users.json";
             this.users = new ArrayList();
+            //getting users to program
+            this.readUsers();
+            this.users = this.getUsers();
+            //flags
+            this.session_is_logged = false;
         }
 
         public void saveUser(string user)
@@ -62,6 +69,26 @@ namespace Server
         public ArrayList getUsers()
         {
             return this.users;
+        }
+
+        public User authorize(string login, string password, UserManager manager)
+        {
+            User current_user = new User(login, password);
+
+            foreach (User user in this.getUsers())
+            {
+                if (user.getLogin() == login && user.getPassword() == password)
+                {
+                    manager.session_is_logged = true;
+                    current_user.setLogged();
+                }
+                else
+                {
+                    current_user.unSetLogged();
+                }
+            }
+
+            return current_user;
         }
     }
 }
