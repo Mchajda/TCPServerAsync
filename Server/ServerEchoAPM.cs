@@ -65,6 +65,12 @@ namespace Server
         {
             byte[] buffer = new byte[Buffer_size];
             User u = new User("maciej", "chajda");
+            this.manager.readUsers();
+
+            foreach(User user in this.manager.getUsers())
+            {
+                Console.WriteLine(user.getLogin());
+            }
 
             while (u.getIsLogged() != true)
             {
@@ -83,7 +89,7 @@ namespace Server
                             sendString("Zostales poprawnie zalogowany\r\n", buffer, stream);
                             u.setLogged();
 
-                            string result = JsonConvert.SerializeObject(manager);
+                            string result = JsonConvert.SerializeObject(u);
                             this.manager.saveUser(result);
                             Console.WriteLine(result);
 
