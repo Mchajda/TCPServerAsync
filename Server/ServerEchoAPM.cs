@@ -64,23 +64,24 @@ namespace Server
         protected override void BeginDataTransmission(NetworkStream stream)
         {
             byte[] buffer = new byte[Buffer_size];
+            User u = new User("maciej", "chajda");
 
-            while (manager.getIsLogged() != true)
+            while (u.getIsLogged() != true)
             {
                 try
                 {
                     sendString("podaj login: ", buffer, stream);
                     string login = ReadString(stream, buffer);
 
-                    if (login == manager.getLogin())
+                    if (login == u.getLogin())
                     {
                         sendString("podaj haslo: ", buffer, stream);
                         string password = ReadString(stream, buffer);
 
-                        if (password == manager.getPassword())
+                        if (password == u.getPassword())
                         {
                             sendString("Zostales poprawnie zalogowany\r\n", buffer, stream);
-                            manager.setLogged();
+                            u.setLogged();
 
                             string result = JsonConvert.SerializeObject(manager);
                             this.manager.saveUser(result);
@@ -105,7 +106,7 @@ namespace Server
                     break;
                 }
             }
-            while (manager.getIsLogged() == true)
+            while (u.getIsLogged() == true)
             {
                 try
                 {
@@ -117,7 +118,7 @@ namespace Server
                     }
                     else if (str.ToLower() == "haslo")
                     {
-                        sendString("twoje haslo to: " + manager.getPassword(), buffer, stream);
+                        sendString("twoje haslo to: " + u.getPassword(), buffer, stream);
                     }
                 }
                 catch (IOException e)
