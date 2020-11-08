@@ -27,10 +27,8 @@ namespace Server
 
         public void saveUser(string user)
         {
-            // This text is added only once to the file.
             if (!File.Exists(this.usersPath))
             {
-                // Create a file to write to.
                 using (StreamWriter sw = File.CreateText(this.usersPath))
                 {
                     sw.WriteLine(user);
@@ -38,8 +36,6 @@ namespace Server
                 }
             }
 
-            // This text is always added, making the file longer over time
-            // if it is not deleted.
             using (StreamWriter sw = File.AppendText(this.usersPath))
             {
                 sw.WriteLine(user);

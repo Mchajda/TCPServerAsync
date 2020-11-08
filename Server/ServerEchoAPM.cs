@@ -89,6 +89,7 @@ namespace Server
             {
                 try
                 {
+                    sendString("Witaj "+this.current_user.getLogin()+"\r\n", buffer, stream);
                     sendString("Wpisz logout aby wyjsc / wpisz haslo aby sprawdzic swoje haslo\r\n", buffer, stream);
                     string str = ReadString(stream, buffer);
                     if (str.ToLower() == "logout")
