@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
+using System.Security.Cryptography;
 using System.Text;
 using Newtonsoft.Json;
 
@@ -70,15 +71,26 @@ namespace Server
             {
                 try
                 {
+                    /* LOGOWANIE
                     sendString("podaj login: ", buffer, stream);
                     string login = ReadString(stream, buffer);
-
                     sendString("podaj haslo: ", buffer, stream);
                     string password = ReadString(stream, buffer);
-
                     //authorization
                     current_user = this.manager.authorize(login, password, this.manager);
-                   
+                    */
+
+                    /*Rejestracja
+                    sendString("podaj login: ", buffer, stream);
+                    string login = ReadString(stream, buffer);
+                    sendString("podaj haslo: ", buffer, stream);
+                    string password = ReadString(stream, buffer);
+                    sendString("podaj ponownie haslo: ", buffer, stream);
+                    string passwordCheck = ReadString(stream, buffer);
+
+                    this.manager.register(login, password, passwordCheck);
+                    */
+
                 }
                 catch (IOException e)
                 {

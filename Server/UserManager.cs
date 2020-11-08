@@ -86,5 +86,29 @@ namespace Server
 
             return current_user;
         }
+
+        public void register(string login, string password, string passwordCheck)
+        {
+            bool is_valid_user = true;
+            if(password == passwordCheck)
+            {
+                foreach (User user in this.getUsers())
+                {
+                    if (user.getLogin() == login)
+                    {
+                        Console.WriteLine("jest juz taki uzytkownik o podanym loginie!");
+                        is_valid_user = false;
+                    }
+                }
+
+                if (is_valid_user == true)
+                {
+                    User newUser = new User(login, password);
+                    string json = JsonConvert.SerializeObject(newUser);
+                    this.saveUser(json);
+                    Console.WriteLine("poprawnie zarejestrowano nowego uzytkownika!");
+                }
+            }
+        }
     }
 }
