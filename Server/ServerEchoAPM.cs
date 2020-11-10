@@ -46,7 +46,8 @@ namespace Server
 
         private void TransmissionCallback(IAsyncResult ar)
         {
-            // sprzątanie
+            TcpClient client = (TcpClient)ar.AsyncState;
+            client.Close();
         }
 
         private string ReadString(NetworkStream stream, byte[] buffer)
@@ -71,14 +72,14 @@ namespace Server
             {
                 try
                 {
-                    /* LOGOWANIE
+                    // LOGOWANIE
                     sendString("podaj login: ", buffer, stream);
                     string login = ReadString(stream, buffer);
                     sendString("podaj haslo: ", buffer, stream);
                     string password = ReadString(stream, buffer);
                     //authorization
                     current_user = this.manager.authorize(login, password, this.manager);
-                    */
+                    
 
                     /*Rejestracja
                     sendString("podaj login: ", buffer, stream);
