@@ -1,12 +1,12 @@
 {
   "version": 2,
-  "dgSpecHash": "UDscJ8eXALbE+p36io7tewi/YuZA3CnplcYK3vLFdL0u0GVCtZXnm4CinbNsXXopMokw56G/8jnYk7rtLAAGnA==",
+  "dgSpecHash": "KJEC0wJZ6QgHUzIcZA4/gTn8FEHN2WiQhiOBHxS9yFEambf+XyUis2xgCjcHpOYw2wwq0qo2B8bXvELtFxKXkQ==",
   "success": true,
-  "projectFilePath": "C:\\Users\\Maciej\\source\\repos\\TCPServerAsync\\Server\\Server.csproj",
+  "projectFilePath": "C:\\Users\\inny\\Source\\Repos\\TCPServerAsync\\Server\\Server.csproj",
   "expectedPackageFiles": [
-    "C:\\Users\\Maciej\\.nuget\\packages\\microsoft.netcore.platforms\\1.1.0\\microsoft.netcore.platforms.1.1.0.nupkg.sha512",
-    "C:\\Users\\Maciej\\.nuget\\packages\\netstandard.library\\2.0.3\\netstandard.library.2.0.3.nupkg.sha512",
-    "C:\\Users\\Maciej\\.nuget\\packages\\newtonsoft.json\\12.0.3\\newtonsoft.json.12.0.3.nupkg.sha512"
+    "C:\\Users\\inny\\.nuget\\packages\\microsoft.netcore.platforms\\1.1.0\\microsoft.netcore.platforms.1.1.0.nupkg.sha512",
+    "C:\\Users\\inny\\.nuget\\packages\\netstandard.library\\2.0.3\\netstandard.library.2.0.3.nupkg.sha512",
+    "C:\\Users\\inny\\.nuget\\packages\\newtonsoft.json\\12.0.3\\newtonsoft.json.12.0.3.nupkg.sha512"
   ],
   "logs": []
 }

@@ -50,7 +50,7 @@ namespace Server
             client.Close();
         }
 
-        private string ReadString(NetworkStream stream, byte[] buffer)
+        protected override string ReadString(NetworkStream stream, byte[] buffer)
         {
             int message_size = stream.Read(buffer, 0, buffer_size);
             stream.ReadByte();
@@ -58,7 +58,7 @@ namespace Server
             return new ASCIIEncoding().GetString(buffer, 0, message_size);
         }
 
-        private void sendString(string str, byte[] buffer, NetworkStream stream)
+        protected override void SendString(string str, byte[] buffer, NetworkStream stream)
         {
             buffer = Encoding.ASCII.GetBytes(str);
             stream.Write(buffer, 0, str.Length);
@@ -73,20 +73,20 @@ namespace Server
                 try
                 {
                     // LOGOWANIE
-                    sendString("podaj login: ", buffer, stream);
+                    SendString("podaj login: ", buffer, stream);
                     string login = ReadString(stream, buffer);
-                    sendString("podaj haslo: ", buffer, stream);
+                    SendString("podaj haslo: ", buffer, stream);
                     string password = ReadString(stream, buffer);
                     //authorization
                     current_user = this.manager.authorize(login, password, this.manager);
                     
 
                     /*Rejestracja
-                    sendString("podaj login: ", buffer, stream);
+                    SendString("podaj login: ", buffer, stream);
                     string login = ReadString(stream, buffer);
-                    sendString("podaj haslo: ", buffer, stream);
+                    SendString("podaj haslo: ", buffer, stream);
                     string password = ReadString(stream, buffer);
-                    sendString("podaj ponownie haslo: ", buffer, stream);
+                    SendString("podaj ponownie haslo: ", buffer, stream);
                     string passwordCheck = ReadString(stream, buffer);
 
                     this.manager.register(login, password, passwordCheck);
@@ -102,8 +102,8 @@ namespace Server
             {
                 try
                 {
-                    sendString("Witaj "+this.current_user.getLogin()+"\r\n", buffer, stream);
-                    sendString("Wpisz logout aby wyjsc / wpisz haslo aby sprawdzic swoje haslo\r\n", buffer, stream);
+                    SendString("Witaj "+this.current_user.getLogin()+"\r\n", buffer, stream);
+                    SendString("Wpisz logout aby wyjsc / wpisz haslo aby sprawdzic swoje haslo\r\n", buffer, stream);
                     string str = ReadString(stream, buffer);
                     if (str.ToLower() == "logout")
                     {
@@ -111,7 +111,7 @@ namespace Server
                     }
                     else if (str.ToLower() == "haslo")
                     {
-                        sendString("nie pokaze lol ", buffer, stream);
+                        SendString("nie pokaze lol ", buffer, stream);
                     }
                 }
                 catch (IOException e)

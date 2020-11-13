@@ -20,3 +20,15 @@ C:\Users\Maciej\source\repos\TCPServerAsync\serverAsync\obj\Debug\serverAsync.ex
 C:\Users\Maciej\source\repos\TCPServerAsync\serverAsync\obj\Debug\serverAsync.pdb
 C:\Users\Maciej\source\repos\TCPServerAsync\serverAsync\bin\Debug\Newtonsoft.Json.dll
 C:\Users\Maciej\source\repos\TCPServerAsync\serverAsync\bin\Debug\Newtonsoft.Json.xml
+C:\Users\inny\Source\Repos\TCPServerAsync\serverAsync\bin\Debug\serverAsync.exe.config
+C:\Users\inny\Source\Repos\TCPServerAsync\serverAsync\bin\Debug\serverAsync.exe
+C:\Users\inny\Source\Repos\TCPServerAsync\serverAsync\bin\Debug\serverAsync.pdb
+C:\Users\inny\Source\Repos\TCPServerAsync\serverAsync\bin\Debug\Newtonsoft.Json.dll
+C:\Users\inny\Source\Repos\TCPServerAsync\serverAsync\bin\Debug\Server.dll
+C:\Users\inny\Source\Repos\TCPServerAsync\serverAsync\bin\Debug\Server.pdb
+C:\Users\inny\Source\Repos\TCPServerAsync\serverAsync\bin\Debug\Newtonsoft.Json.xml
+C:\Users\inny\Source\Repos\TCPServerAsync\serverAsync\obj\Debug\serverAsync.csprojAssemblyReference.cache
+C:\Users\inny\Source\Repos\TCPServerAsync\serverAsync\obj\Debug\serverAsync.csproj.CoreCompileInputs.cache
+C:\Users\inny\Source\Repos\TCPServerAsync\serverAsync\obj\Debug\serverAsync.csproj.CopyComplete
+C:\Users\inny\Source\Repos\TCPServerAsync\serverAsync\obj\Debug\serverAsync.exe
+C:\Users\inny\Source\Repos\TCPServerAsync\serverAsync\obj\Debug\serverAsync.pdb
