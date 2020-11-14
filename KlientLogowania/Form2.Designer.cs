@@ -49,6 +49,7 @@ namespace KlientLogowania
             this.label3.TabIndex = 13;
             this.label3.Text = "label3";
             this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.label3.Click += new System.EventHandler(this.label3_Click);
             // 
             // button1
             // 
@@ -59,6 +60,7 @@ namespace KlientLogowania
             this.button1.TabIndex = 11;
             this.button1.Text = "Submit";
             this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // textBox2
             // 

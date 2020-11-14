@@ -12,6 +12,8 @@ namespace KlientLogowania
 {
     public partial class Form1 : Form
     {
+        Form2 register = new Form2();
+
         public Form1()
         {
             InitializeComponent();
@@ -25,7 +27,7 @@ namespace KlientLogowania
 
         private void button2_Click(object sender, EventArgs e)
         {
-
+            register.Show();
         }
     }
 }
