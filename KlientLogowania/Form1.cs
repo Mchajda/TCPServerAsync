@@ -67,7 +67,7 @@ namespace KlientLogowania
             label12.Hide();
             label14.Hide();
             label16.Hide();
-            button9.Hide();
+            button10.Hide();
         }
 
         private void ShowRegister()
@@ -122,7 +122,7 @@ namespace KlientLogowania
             label16.Show();
             textBox3.Show();
             textBox4.Show();
-            button9.Show();
+            button10.Show();
         }
 
         private void OpenRegister()
@@ -505,6 +505,41 @@ namespace KlientLogowania
         private void label12_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void button10_Click(object sender, EventArgs e)
+        {
+            //This changes username
+            if (textBox3.TextLength != 0 && textBox4.TextLength != 0 && textBox5.TextLength != 0)
+            {
+                stream.Write(Encoding.ASCII.GetBytes("change username"), 0, "change username".Length);
+                stream.Read(buffer, 0, buffer.Length);
+                stream.Write(Encoding.ASCII.GetBytes(textBox3.Text), 0, textBox3.TextLength);
+                stream.Read(buffer, 0, buffer.Length);
+                stream.Write(Encoding.ASCII.GetBytes(textBox4.Text), 0, textBox4.TextLength);
+                stream.Read(buffer, 0, buffer.Length);
+                stream.Write(Encoding.ASCII.GetBytes(textBox5.Text), 0, textBox5.TextLength);
+
+                int message_size = stream.Read(buffer, 0, buffer.Length);
+                string message = new ASCIIEncoding().GetString(buffer, 0, message_size);
+                if (message == "changed password")
+                {
+                    //label10.Show();
+                    OpenLoggedIn();
+                    label15.Show();
+                    label15.Text = "You have successfully changed password";
+                }
+                else if (message == "wrong password")
+                {
+                    label5.Show();
+                    label5.Text = "Wrong current password";
+                }
+            }
+            else
+            {
+                label5.Show();
+                label5.Text = "Don't leave any field empty";
+            }
         }
     }
 }

@@ -122,6 +122,9 @@ namespace Server
                         case "change password":
                             ChangePassword(buffer, stream);
                             break;
+                        case "change username":
+                            ChangeUsername(buffer, stream);
+                            break;
                         default:
                             break;
                     }
@@ -148,6 +151,26 @@ namespace Server
                 {
                     SendString(exc.Message, buffer, stream);
                 }
+            }
+        }
+
+        private void ChangeUsername(byte[] buffer, NetworkStream stream)
+        {
+            SendString("oldpassword", buffer, stream);
+            string oldpassword = ReadString(stream, buffer);
+            SendString("newlogin", buffer, stream);
+            string login = ReadString(stream, buffer);
+            SendString("password confirm", buffer, stream);
+            string passwordCheck = oldpassword;
+
+            if (this.current_user.getPassword() == oldpassword)
+            {
+                current_user.setLogin(login);
+                throw new Exception("changed password");
+            }
+            else
+            {
+                throw new Exception("wrong password");
             }
         }
 

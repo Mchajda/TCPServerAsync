@@ -59,6 +59,7 @@ namespace KlientLogowania
             this.label14 = new System.Windows.Forms.Label();
             this.label15 = new System.Windows.Forms.Label();
             this.label16 = new System.Windows.Forms.Label();
+            this.button10 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // label1
@@ -395,11 +396,23 @@ namespace KlientLogowania
             this.label16.Text = "New login";
             this.label16.Click += new System.EventHandler(this.label16_Click);
             // 
+            // button10
+            // 
+            this.button10.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.button10.Location = new System.Drawing.Point(14, 243);
+            this.button10.Name = "button10";
+            this.button10.Size = new System.Drawing.Size(260, 34);
+            this.button10.TabIndex = 37;
+            this.button10.Text = "Submit";
+            this.button10.UseVisualStyleBackColor = true;
+            this.button10.Click += new System.EventHandler(this.button10_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(284, 281);
+            this.Controls.Add(this.button10);
             this.Controls.Add(this.label16);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.label15);
@@ -471,6 +484,7 @@ namespace KlientLogowania
         private System.Windows.Forms.Label label14;
         private System.Windows.Forms.Label label15;
         private System.Windows.Forms.Label label16;
+        private System.Windows.Forms.Button button10;
     }
 }
 
