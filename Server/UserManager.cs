@@ -77,6 +77,7 @@ namespace Server
                 {
                     manager.session_is_logged = true;
                     current_user.setLogged();
+                    throw new Exception("login success");
                 }
                 else
                 {

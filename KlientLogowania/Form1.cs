@@ -16,6 +16,7 @@ namespace KlientLogowania
     {
         TcpClient client;
         NetworkStream stream;
+        byte[] buffer = new byte[1024];
 
         private void HideRegister()
         {
@@ -107,7 +108,7 @@ namespace KlientLogowania
             
             label3.Text = "";
             label5.Text = "";
-            label12.Text = "";
+            label12.Text = "";            
             
             client = new TcpClient("localhost", 2311);
             client.SendBufferSize = 1024;
@@ -117,6 +118,7 @@ namespace KlientLogowania
             //Hide register form
             HideRegister();
             label10.Hide();
+            label13.Hide();
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -157,7 +159,10 @@ namespace KlientLogowania
 
         private void button3_Click(object sender, EventArgs e)
         {
-            
+            stream.Write(Encoding.ASCII.GetBytes("generuj"), 0, "generuj".Length);
+            int message_size = stream.Read(buffer, 0, buffer.Length);
+            textBox4.Text = new ASCIIEncoding().GetString(buffer, 0, message_size);
+            textBox5.Text = textBox4.Text;
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -166,6 +171,18 @@ namespace KlientLogowania
             if (textBox1.TextLength != 0 && textBox2.TextLength != 0)
             {
                 //Username and password are typed
+                stream.Write(Encoding.ASCII.GetBytes("login"), 0, "login".Length);
+                stream.Read(buffer, 0, buffer.Length);
+                stream.Write(Encoding.ASCII.GetBytes(textBox1.Text), 0, textBox1.TextLength);
+                stream.Read(buffer, 0, buffer.Length);
+                stream.Write(Encoding.ASCII.GetBytes(textBox2.Text), 0, textBox2.TextLength);
+
+                int message_size = stream.Read(buffer, 0, buffer.Length);
+                if(new ASCIIEncoding().GetString(buffer, 0, message_size) == "login success")
+                {
+                    HideLogIn();
+                    label13.Show();
+                }
             }
             else
             {
@@ -179,7 +196,13 @@ namespace KlientLogowania
             //This submits the register form - must check if any field is empty
             if (textBox4.TextLength != 0 && textBox3.TextLength != 0)
             {
-                stream.Write(Encoding.ASCII.GetBytes(textBox4.Text), 0, client.SendBufferSize);
+                stream.Write(Encoding.ASCII.GetBytes("register"), 0, "regsiter".Length);
+                stream.Read(buffer, 0, buffer.Length);
+                stream.Write(Encoding.ASCII.GetBytes(textBox3.Text), 0, textBox3.TextLength);
+                stream.Read(buffer, 0, buffer.Length);
+                stream.Write(Encoding.ASCII.GetBytes(textBox4.Text), 0, textBox4.TextLength);
+                stream.Read(buffer, 0, buffer.Length);
+                stream.Write(Encoding.ASCII.GetBytes(textBox5.Text), 0, textBox5.TextLength);
 
                 label10.Show();
                 OpenLogin();
@@ -247,6 +270,11 @@ namespace KlientLogowania
         }
 
         private void label11_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label13_Click(object sender, EventArgs e)
         {
 
         }
