@@ -46,6 +46,7 @@ namespace Server
         public void readUsers()
         {
             string line;
+            this.users.Clear();
 
             System.IO.StreamReader file = new System.IO.StreamReader(this.usersPath);
             while ((line = file.ReadLine()) != null)
@@ -98,6 +99,7 @@ namespace Server
                 {
                     Console.WriteLine("jest juz taki uzytkownik o podanym loginie!");
                     is_valid_user = false;
+                    throw new Exception("user exists");
                 }
             }
 
@@ -109,6 +111,7 @@ namespace Server
                     string json = JsonConvert.SerializeObject(newUser);
                     this.saveUser(json);
                     Console.WriteLine("poprawnie zarejestrowano nowego uzytkownika!");
+                    throw new Exception("registration successful");
                 }
                 else Console.WriteLine("podane hasla sie nie zgadzaja");
             }

@@ -72,6 +72,7 @@ namespace Server
          
             while (this.manager.session_is_logged != true)
             {
+                manager.readUsers();
                 try
                 {
                     switch(ReadString(stream, buffer))
@@ -85,6 +86,7 @@ namespace Server
                             LogIn(buffer, stream);
                             break;
                         case "generuj":
+                            //Generowanie hasła
                             SendString(PasswordGenerator.GeneratePassword(8), buffer, stream);
                             break;
                         default:
@@ -98,8 +100,6 @@ namespace Server
                 catch (Exception exc)
                 {
                     SendString(exc.Message, buffer, stream);
-                    if (exc.Message == "login success")
-                        break;
                 }
             }
             while (this.manager.session_is_logged == true)
@@ -157,6 +157,10 @@ namespace Server
             string password = ReadString(stream, buffer);
             //authorization
             current_user = this.manager.authorize(login, password, this.manager);
+            if (!(manager.session_is_logged))
+            {
+                SendString("login failed", buffer, stream);
+            }
         }
 
         public override void Start()

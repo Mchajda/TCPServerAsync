@@ -159,6 +159,8 @@ namespace KlientLogowania
 
         private void button3_Click(object sender, EventArgs e)
         {
+            label10.Hide();
+            //This generates random 8-char password
             stream.Write(Encoding.ASCII.GetBytes("generuj"), 0, "generuj".Length);
             int message_size = stream.Read(buffer, 0, buffer.Length);
             textBox4.Text = new ASCIIEncoding().GetString(buffer, 0, message_size);
@@ -166,7 +168,8 @@ namespace KlientLogowania
         }
 
         private void button1_Click(object sender, EventArgs e)
-        {            
+        {
+            label10.Hide();
             //This logs in the user
             if (textBox1.TextLength != 0 && textBox2.TextLength != 0)
             {
@@ -178,24 +181,36 @@ namespace KlientLogowania
                 stream.Write(Encoding.ASCII.GetBytes(textBox2.Text), 0, textBox2.TextLength);
 
                 int message_size = stream.Read(buffer, 0, buffer.Length);
-                if(new ASCIIEncoding().GetString(buffer, 0, message_size) == "login success")
+                string message = new ASCIIEncoding().GetString(buffer, 0, message_size);
+                if (message == "login success")
                 {
                     HideLogIn();
                     label13.Show();
+                }
+                else if(message == "login failed")
+                {
+                    label3.Show();
+                    label3.Text = "Incorrect username or password. Try again!";
                 }
             }
             else
             {
                 label3.Show();
-                label3.Text = "Type an username and a password";
+                label3.Text = "Type an username and a password.";
             }
         }
 
         private void button4_Click(object sender, EventArgs e)
         {
             //This submits the register form - must check if any field is empty
-            if (textBox4.TextLength != 0 && textBox3.TextLength != 0)
+            if (textBox3.TextLength != 0 && textBox4.TextLength != 0 && textBox5.TextLength != 0)
             {
+                if(textBox4.Text != textBox5.Text)
+                {
+                    label5.Show();
+                    label5.Text = "Passwords do not match. Try again.";
+                    return;
+                }
                 stream.Write(Encoding.ASCII.GetBytes("register"), 0, "regsiter".Length);
                 stream.Read(buffer, 0, buffer.Length);
                 stream.Write(Encoding.ASCII.GetBytes(textBox3.Text), 0, textBox3.TextLength);
@@ -204,13 +219,22 @@ namespace KlientLogowania
                 stream.Read(buffer, 0, buffer.Length);
                 stream.Write(Encoding.ASCII.GetBytes(textBox5.Text), 0, textBox5.TextLength);
 
+                int message_size = stream.Read(buffer, 0, buffer.Length);
+                string message = new ASCIIEncoding().GetString(buffer, 0, message_size);
+                if (message == "user exists")
+                {
+                    label12.Show();
+                    label12.Text = "Username occupied";
+                    return;
+                }
+
                 label10.Show();
                 OpenLogin();
             }
             else
             {
                 label5.Show();
-                label5.Text = "Type an username and a password";
+                label5.Text = "Type an username and a password.";
             }
         }
 
@@ -256,6 +280,7 @@ namespace KlientLogowania
 
         private void button5_Click(object sender, EventArgs e)
         {
+            label10.Hide();
             OpenLogin();
         }
 
