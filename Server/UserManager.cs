@@ -11,9 +11,8 @@ namespace Server
     {
         private ArrayList users;
         public bool session_is_logged;
-        public User current_user;
-
         private string usersPath;
+
         public UserManager()
         {
             this.usersPath = @"users.json";
@@ -23,6 +22,16 @@ namespace Server
             this.users = this.getUsers();
             //flags
             this.session_is_logged = false;
+        }
+
+        public void saveUsers()
+        {
+            File.WriteAllText(usersPath, "");
+            foreach (User user in this.getUsers())
+            {
+                string json = JsonConvert.SerializeObject(user);
+                this.saveUser(json);
+            }
         }
 
         public void saveUser(string user)
@@ -78,7 +87,7 @@ namespace Server
                 {
                     manager.session_is_logged = true;
                     current_user.setLogged();
-                    throw new Exception("login success");
+                    break;
                 }
                 else
                 {
@@ -116,6 +125,23 @@ namespace Server
                 else Console.WriteLine("podane hasla sie nie zgadzaja");
             }
             else Console.WriteLine("istnieje użytkownik o podanym loginie");
+        }
+
+        public void changePassword(string login, string password, string passwordCheck)
+        {
+            foreach (User user in this.getUsers())
+            {
+                if (user.getLogin() == login)
+                {
+                    if (password == passwordCheck)
+                    {
+                        user.setPassword(password);
+                        saveUsers();
+                    }
+                    else
+                        throw new Exception("podane hasla sie nie zgadzaja");
+                }
+            }
         }
     }
 }

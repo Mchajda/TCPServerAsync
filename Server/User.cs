@@ -43,5 +43,9 @@ namespace Server
             return this.password;
         }
 
+        public void setPassword(string passwd)
+        {
+            this.password = passwd;
+        }
     }
 }

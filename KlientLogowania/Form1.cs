@@ -47,6 +47,29 @@ namespace KlientLogowania
             button2.Hide();
         }
 
+        private void HideLoggedIn()
+        {
+            label13.Hide();
+            label15.Hide();
+            button6.Hide();
+            button7.Hide();
+            button8.Hide();
+        }
+
+        private void HideChangePassword()
+        {
+            label14.Hide();
+            button9.Hide();
+        }
+
+        private void HideChangeUsername()
+        {
+            label12.Hide();
+            label14.Hide();
+            label16.Hide();
+            button9.Hide();
+        }
+
         private void ShowRegister()
         {
             label6.Show();
@@ -72,20 +95,54 @@ namespace KlientLogowania
             button1.Show();
             button2.Show();
         }
-        
+
+        private void ShowLoggedIn()
+        {
+            label13.Show();
+            button6.Show();
+            button7.Show();
+            button8.Show();
+        }
+
+        private void ShowChangePassword()
+        {
+            ShowRegister();
+            label7.Hide();
+            label9.Hide();
+            label14.Show();
+            button5.Hide();
+            button4.Hide();
+            button9.Show();
+        }
+        private void ShowChangeUsername()
+        {
+            label8.Show();
+            label12.Show();
+            label14.Show();
+            label16.Show();
+            textBox3.Show();
+            textBox4.Show();
+            button9.Show();
+        }
 
         private void OpenRegister()
         {
             //Hide log in form
             HideLogIn();
 
+            //Hide logged in form
+            HideLoggedIn();
+
             label5.Hide();
             //Show register form
             ShowRegister();
 
             //Clear textboxes
+            textBox1.Text = "";
+            textBox2.Text = "";
             textBox3.Text = "";
             textBox4.Text = "";
+            textBox5.Text = "";
         }
 
         private void OpenLogin()
@@ -97,9 +154,70 @@ namespace KlientLogowania
             //Hide register form
             HideRegister();
 
+            //Hide logged in form
+            HideLoggedIn();
+
             //Clear textboxes
             textBox1.Text = "";
             textBox2.Text = "";
+            textBox3.Text = "";
+            textBox4.Text = "";
+            textBox5.Text = "";
+        }
+
+        private void OpenLoggedIn()
+        {
+            //Hide register form
+            HideRegister();
+
+            //Hide log in form
+            HideLogIn();
+
+            //Hide ChangePassword form
+            HideChangePassword();
+
+            //Hide ChangeUsername form
+            HideChangeUsername();
+
+            ShowLoggedIn();
+            
+            label13.Text = "User X is now logged in";
+
+            //Clear textboxes
+            textBox1.Text = "";
+            textBox2.Text = "";
+            textBox3.Text = "";
+            textBox4.Text = "";
+            textBox5.Text = "";
+        }
+
+        private void OpenChangePassword()
+        {
+            HideLoggedIn();
+            ShowChangePassword();
+            label8.Text = "Change password";
+
+            //Clear textboxes
+            textBox1.Text = "";
+            textBox2.Text = "";
+            textBox3.Text = "";
+            textBox4.Text = "";
+            textBox5.Text = "";
+        }
+
+        private void OpenChangeUsername()
+        {
+            HideLoggedIn();
+            ShowChangeUsername();
+
+            label8.Text = "Change username";
+
+            //Clear textboxes
+            textBox1.Text = "";
+            textBox2.Text = "";
+            textBox3.Text = "";
+            textBox4.Text = "";
+            textBox5.Text = "";
         }
 
         public Form1()
@@ -118,7 +236,15 @@ namespace KlientLogowania
             //Hide register form
             HideRegister();
             label10.Hide();
-            label13.Hide();
+
+            //Hide logged in form
+            HideLoggedIn();
+
+            //Hide ChangePassword form
+            HideChangePassword();
+
+            //Hide ChangePassword form
+            HideChangeUsername();
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -161,7 +287,7 @@ namespace KlientLogowania
         {
             label10.Hide();
             //This generates random 8-char password
-            stream.Write(Encoding.ASCII.GetBytes("generuj"), 0, "generuj".Length);
+            stream.Write(Encoding.ASCII.GetBytes("generate"), 0, "generate".Length);
             int message_size = stream.Read(buffer, 0, buffer.Length);
             textBox4.Text = new ASCIIEncoding().GetString(buffer, 0, message_size);
             textBox5.Text = textBox4.Text;
@@ -184,8 +310,7 @@ namespace KlientLogowania
                 string message = new ASCIIEncoding().GetString(buffer, 0, message_size);
                 if (message == "login success")
                 {
-                    HideLogIn();
-                    label13.Show();
+                    OpenLoggedIn();
                 }
                 else if(message == "login failed")
                 {
@@ -211,6 +336,7 @@ namespace KlientLogowania
                     label5.Text = "Passwords do not match. Try again.";
                     return;
                 }
+
                 stream.Write(Encoding.ASCII.GetBytes("register"), 0, "regsiter".Length);
                 stream.Read(buffer, 0, buffer.Length);
                 stream.Write(Encoding.ASCII.GetBytes(textBox3.Text), 0, textBox3.TextLength);
@@ -300,6 +426,83 @@ namespace KlientLogowania
         }
 
         private void label13_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button8_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button6_Click(object sender, EventArgs e)
+        {
+            OpenChangePassword();
+        }
+
+        private void button7_Click(object sender, EventArgs e)
+        {
+            OpenChangeUsername();
+        }
+
+        private void button9_Click(object sender, EventArgs e)
+        {
+            //This changes password
+            if (textBox3.TextLength != 0 && textBox4.TextLength != 0 && textBox5.TextLength != 0)
+            {
+                if (textBox4.Text != textBox5.Text)
+                {
+                    label5.Show();
+                    label5.Text = "Passwords do not match. Try again.";
+                    return;
+                }
+
+                stream.Write(Encoding.ASCII.GetBytes("change password"), 0, "change password".Length);
+                stream.Read(buffer, 0, buffer.Length);
+                stream.Write(Encoding.ASCII.GetBytes(textBox3.Text), 0, textBox3.TextLength);
+                stream.Read(buffer, 0, buffer.Length);
+                stream.Write(Encoding.ASCII.GetBytes(textBox4.Text), 0, textBox4.TextLength);
+                stream.Read(buffer, 0, buffer.Length);
+                stream.Write(Encoding.ASCII.GetBytes(textBox5.Text), 0, textBox5.TextLength);
+                
+                int message_size = stream.Read(buffer, 0, buffer.Length);
+                string message = new ASCIIEncoding().GetString(buffer, 0, message_size);
+                if (message == "changed password")
+                {
+                    //label10.Show();
+                    OpenLoggedIn();
+                    label15.Show();
+                    label15.Text = "You have successfully changed password";
+                }
+                else if (message == "wrong password")
+                {
+                    label5.Show();
+                    label5.Text = "Wrong current password";
+                }
+            }
+            else
+            {
+                label5.Show();
+                label5.Text = "Don't leave any field empty";
+            }
+        }
+
+        private void label14_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label15_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label16_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label12_Click(object sender, EventArgs e)
         {
 
         }

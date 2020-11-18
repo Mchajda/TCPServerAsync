@@ -85,7 +85,7 @@ namespace Server
                             // LOGOWANIE
                             LogIn(buffer, stream);
                             break;
-                        case "generuj":
+                        case "generate":
                             //Generowanie hasła
                             SendString(PasswordGenerator.GeneratePassword(8), buffer, stream);
                             break;
@@ -107,13 +107,23 @@ namespace Server
                 try
                 {
                     string str = ReadString(stream, buffer);
-                    if (str.ToLower() == "logout")
+                    switch (str)
                     {
-                        this.manager.session_is_logged = false;
-                    }
-                    else if (str.ToLower() == "haslo")
-                    {
-                        SendString("nie pokaze lol ", buffer, stream);
+                        case "logout":
+                            this.manager.session_is_logged = false;
+                            break;
+                        case "haslo":
+                            SendString("nie pokaze lol ", buffer, stream);
+                            break;
+                        case "generate":
+                            //Generowanie hasła
+                            SendString(PasswordGenerator.GeneratePassword(8), buffer, stream);
+                            break;
+                        case "change password":
+                            ChangePassword(buffer, stream);
+                            break;
+                        default:
+                            break;
                     }
                     /*
                     SendString("Witaj "+this.current_user.getLogin()+"\r\n", buffer, stream);
@@ -134,7 +144,30 @@ namespace Server
                     // e.Message;
                     break;
                 }
+                catch (Exception exc)
+                {
+                    SendString(exc.Message, buffer, stream);
+                }
             }
+        }
+
+        private void ChangePassword(byte[] buffer, NetworkStream stream)
+        {
+            SendString("oldpassword", buffer, stream);
+            string oldpassword = ReadString(stream, buffer);
+            SendString("newpassword", buffer, stream);
+            string password = ReadString(stream, buffer);
+            SendString("password confirm", buffer, stream);
+            string passwordCheck = ReadString(stream, buffer);
+
+            if (this.current_user.getPassword() == oldpassword)
+            {
+                this.manager.changePassword(current_user.getLogin(), password, passwordCheck);
+                throw new Exception("changed password");
+            }
+            else { 
+                throw new Exception("wrong password");
+            }                      
         }
 
         private void Register(byte[] buffer, NetworkStream stream)
@@ -156,10 +189,14 @@ namespace Server
             SendString("podaj haslo: ", buffer, stream);
             string password = ReadString(stream, buffer);
             //authorization
-            current_user = this.manager.authorize(login, password, this.manager);
+            this.current_user = this.manager.authorize(login, password, this.manager);
             if (!(manager.session_is_logged))
             {
-                SendString("login failed", buffer, stream);
+                throw new Exception("login failed");
+            }
+            else
+            {
+                throw new Exception("login success");
             }
         }
 
