@@ -8,7 +8,6 @@ C:\Users\inny\Source\Repos\TCPServerAsync\KlientLogowania\obj\Debug\KlientLogowa
 C:\Users\inny\Source\Repos\TCPServerAsync\KlientLogowania\obj\Debug\KlientLogowania.csproj.CoreCompileInputs.cache
 C:\Users\inny\Source\Repos\TCPServerAsync\KlientLogowania\obj\Debug\KlientLogowania.exe
 C:\Users\inny\Source\Repos\TCPServerAsync\KlientLogowania\obj\Debug\KlientLogowania.pdb
-C:\Users\inny\Source\Repos\TCPServerAsync\KlientLogowania\obj\Debug\KlientLogowania.Form2.resources
 C:\Users\inny\Source\Repos\TCPServerAsync\KlientLogowania\bin\Debug\Server.dll
 C:\Users\inny\Source\Repos\TCPServerAsync\KlientLogowania\bin\Debug\Server.pdb
 C:\Users\inny\Source\Repos\TCPServerAsync\KlientLogowania\obj\Debug\KlientLogowania.csproj.CopyComplete
