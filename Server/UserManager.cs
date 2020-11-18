@@ -12,6 +12,7 @@ namespace Server
         private ArrayList users;
         public bool session_is_logged;
         private string usersPath;
+        private User curr_user;
 
         public UserManager()
         {
@@ -65,11 +66,11 @@ namespace Server
                 User resultUser = JsonConvert.DeserializeObject<User>(resultJson);
                 //adding users to users array
                 this.users.Add(resultUser);
-                Console.WriteLine();
+                //Console.WriteLine();
             }
 
             file.Close();
-            System.Console.WriteLine();
+            //System.Console.WriteLine();
         }
 
         public ArrayList getUsers()
@@ -87,6 +88,7 @@ namespace Server
                 {
                     manager.session_is_logged = true;
                     current_user.setLogged();
+                    this.curr_user = current_user;
                     break;
                 }
                 else
@@ -140,6 +142,18 @@ namespace Server
                     }
                     else
                         throw new Exception("podane hasla sie nie zgadzaja");
+                }
+            }
+        }
+
+        public void changeLogin(string curr_login, string new_login)
+        {
+            foreach (User user in this.getUsers())
+            {
+                if (user.getLogin() == curr_login)
+                {
+                    user.setLogin(new_login);
+                    saveUsers();
                 }
             }
         }

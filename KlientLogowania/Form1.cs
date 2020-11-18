@@ -18,6 +18,22 @@ namespace KlientLogowania
         NetworkStream stream;
         byte[] buffer = new byte[1024];
 
+        private int PasswordStrength(string password)
+        {
+            int strength = 0;
+            strength += password.Length;
+            foreach (var c in password)
+            {
+                if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z'))
+                    strength++;
+                else if (c >= '0' && c <= '9')
+                    strength += 2;
+                else
+                    strength += 4;                
+            }
+            return strength;
+        }
+
         private void HideRegister()
         {
             label5.Hide();
@@ -27,6 +43,7 @@ namespace KlientLogowania
             label9.Hide();
             label11.Hide();
             label12.Hide();
+            label17.Hide();
             textBox3.Hide();
             textBox4.Hide();
             textBox5.Hide();
@@ -59,7 +76,9 @@ namespace KlientLogowania
         private void HideChangePassword()
         {
             label14.Hide();
+            label17.Hide();
             button9.Hide();
+            button11.Hide();
         }
 
         private void HideChangeUsername()
@@ -68,6 +87,7 @@ namespace KlientLogowania
             label14.Hide();
             label16.Hide();
             button10.Hide();
+            button11.Hide();
         }
 
         private void ShowRegister()
@@ -77,6 +97,8 @@ namespace KlientLogowania
             label8.Show();
             label9.Show();
             label11.Show();
+            label17.Show();
+            label17.Text = "";
             textBox3.Show();
             textBox4.Show();
             textBox5.Show();
@@ -110,9 +132,12 @@ namespace KlientLogowania
             label7.Hide();
             label9.Hide();
             label14.Show();
+            label17.Show();
+            label17.Text = "";
             button5.Hide();
             button4.Hide();
             button9.Show();
+            button11.Show();
         }
         private void ShowChangeUsername()
         {
@@ -123,6 +148,7 @@ namespace KlientLogowania
             textBox3.Show();
             textBox4.Show();
             button10.Show();
+            button11.Show();
         }
 
         private void OpenRegister()
@@ -180,8 +206,8 @@ namespace KlientLogowania
             HideChangeUsername();
 
             ShowLoggedIn();
-            
-            label13.Text = "User X is now logged in";
+
+            label13.Text = "User " + getUsername() + " is now logged in";
 
             //Clear textboxes
             textBox1.Text = "";
@@ -220,6 +246,13 @@ namespace KlientLogowania
             textBox5.Text = "";
         }
 
+        private string getUsername()
+        {
+            stream.Write(Encoding.ASCII.GetBytes("username"), 0, "username".Length);
+            int message_size = stream.Read(buffer, 0, buffer.Length);
+            return new ASCIIEncoding().GetString(buffer, 0, message_size);
+        }
+
         public Form1()
         {
             InitializeComponent();
@@ -246,7 +279,6 @@ namespace KlientLogowania
             //Hide ChangePassword form
             HideChangeUsername();
         }
-
         private void Form1_Load(object sender, EventArgs e)
         {
 
@@ -355,6 +387,7 @@ namespace KlientLogowania
                 }
 
                 label10.Show();
+                label10.Text = "You have successfully registered";
                 OpenLogin();
             }
             else
@@ -366,7 +399,25 @@ namespace KlientLogowania
 
         private void textBox4_TextChanged(object sender, EventArgs e)
         {
-
+            if(textBox4.Text.Length == 0)
+            {
+                label17.Text = "";
+            }
+            else if (PasswordStrength(textBox4.Text) < textBox4.Text.Length * 3)
+            {
+                label17.Text = "Siła hasła: słabe";
+                label17.ForeColor = Color.Red;
+            }
+            else if (PasswordStrength(textBox4.Text) < textBox4.Text.Length * 4)
+            {
+                label17.Text = "Siła hasła: średnie";
+                label17.ForeColor = Color.Orange;
+            }
+            else
+            {
+                label17.Text = "Siła hasła: mocne";
+                label17.ForeColor = Color.Green;
+            }
         }
 
         private void textBox3_TextChanged(object sender, EventArgs e)
@@ -432,7 +483,13 @@ namespace KlientLogowania
 
         private void button8_Click(object sender, EventArgs e)
         {
+            //this logs out
 
+            stream.Write(Encoding.ASCII.GetBytes("logout"), 0, "logout".Length);
+
+            OpenLogin();
+            label10.Show();
+            label10.Text = "You have successfully log out";
         }
 
         private void button6_Click(object sender, EventArgs e)
@@ -510,24 +567,22 @@ namespace KlientLogowania
         private void button10_Click(object sender, EventArgs e)
         {
             //This changes username
-            if (textBox3.TextLength != 0 && textBox4.TextLength != 0 && textBox5.TextLength != 0)
+            if (textBox3.TextLength != 0 && textBox4.TextLength != 0)
             {
                 stream.Write(Encoding.ASCII.GetBytes("change username"), 0, "change username".Length);
                 stream.Read(buffer, 0, buffer.Length);
                 stream.Write(Encoding.ASCII.GetBytes(textBox3.Text), 0, textBox3.TextLength);
                 stream.Read(buffer, 0, buffer.Length);
                 stream.Write(Encoding.ASCII.GetBytes(textBox4.Text), 0, textBox4.TextLength);
-                stream.Read(buffer, 0, buffer.Length);
-                stream.Write(Encoding.ASCII.GetBytes(textBox5.Text), 0, textBox5.TextLength);
 
                 int message_size = stream.Read(buffer, 0, buffer.Length);
                 string message = new ASCIIEncoding().GetString(buffer, 0, message_size);
-                if (message == "changed password")
+                if (message == "changed username")
                 {
                     //label10.Show();
                     OpenLoggedIn();
                     label15.Show();
-                    label15.Text = "You have successfully changed password";
+                    label15.Text = "You have successfully changed username";
                 }
                 else if (message == "wrong password")
                 {
@@ -540,6 +595,11 @@ namespace KlientLogowania
                 label5.Show();
                 label5.Text = "Don't leave any field empty";
             }
+        }
+
+        private void button11_Click(object sender, EventArgs e)
+        {
+            OpenLoggedIn();
         }
     }
 }

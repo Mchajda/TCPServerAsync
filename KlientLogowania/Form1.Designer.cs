@@ -60,13 +60,15 @@ namespace KlientLogowania
             this.label15 = new System.Windows.Forms.Label();
             this.label16 = new System.Windows.Forms.Label();
             this.button10 = new System.Windows.Forms.Button();
+            this.button11 = new System.Windows.Forms.Button();
+            this.label17 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // label1
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.label1.Location = new System.Drawing.Point(122, 89);
+            this.label1.Location = new System.Drawing.Point(174, 89);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(44, 18);
             this.label1.TabIndex = 0;
@@ -77,7 +79,7 @@ namespace KlientLogowania
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.label2.Location = new System.Drawing.Point(111, 138);
+            this.label2.Location = new System.Drawing.Point(159, 138);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(75, 18);
             this.label2.TabIndex = 1;
@@ -90,7 +92,7 @@ namespace KlientLogowania
             this.textBox1.Location = new System.Drawing.Point(14, 110);
             this.textBox1.Multiline = true;
             this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(260, 25);
+            this.textBox1.Size = new System.Drawing.Size(357, 25);
             this.textBox1.TabIndex = 2;
             this.textBox1.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
             // 
@@ -100,16 +102,16 @@ namespace KlientLogowania
             this.textBox2.Location = new System.Drawing.Point(14, 159);
             this.textBox2.Multiline = true;
             this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(260, 25);
+            this.textBox2.Size = new System.Drawing.Size(358, 25);
             this.textBox2.TabIndex = 3;
             this.textBox2.TextChanged += new System.EventHandler(this.textBox2_TextChanged);
             // 
             // button1
             // 
             this.button1.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.button1.Location = new System.Drawing.Point(14, 190);
+            this.button1.Location = new System.Drawing.Point(12, 255);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(258, 34);
+            this.button1.Size = new System.Drawing.Size(360, 34);
             this.button1.TabIndex = 4;
             this.button1.Text = "Login";
             this.button1.UseVisualStyleBackColor = true;
@@ -118,9 +120,9 @@ namespace KlientLogowania
             // button2
             // 
             this.button2.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.button2.Location = new System.Drawing.Point(14, 230);
+            this.button2.Location = new System.Drawing.Point(12, 295);
             this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(258, 34);
+            this.button2.Size = new System.Drawing.Size(360, 34);
             this.button2.TabIndex = 5;
             this.button2.Text = "Register";
             this.button2.UseVisualStyleBackColor = true;
@@ -141,19 +143,19 @@ namespace KlientLogowania
             // 
             // label4
             // 
-            this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.label4.Location = new System.Drawing.Point(12, 9);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(259, 25);
+            this.label4.Size = new System.Drawing.Size(360, 25);
             this.label4.TabIndex = 7;
             this.label4.Text = "LOG IN TO THE SYSTEM";
+            this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.label4.Click += new System.EventHandler(this.label4_Click);
             // 
             // button3
             // 
             this.button3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.button3.Location = new System.Drawing.Point(151, 95);
+            this.button3.Location = new System.Drawing.Point(249, 94);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(123, 21);
             this.button3.TabIndex = 21;
@@ -166,7 +168,7 @@ namespace KlientLogowania
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.label5.ForeColor = System.Drawing.Color.Red;
-            this.label5.Location = new System.Drawing.Point(11, 195);
+            this.label5.Location = new System.Drawing.Point(11, 234);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(46, 18);
             this.label5.TabIndex = 20;
@@ -177,9 +179,9 @@ namespace KlientLogowania
             // button4
             // 
             this.button4.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.button4.Location = new System.Drawing.Point(14, 243);
+            this.button4.Location = new System.Drawing.Point(12, 295);
             this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(260, 34);
+            this.button4.Size = new System.Drawing.Size(360, 34);
             this.button4.TabIndex = 19;
             this.button4.Text = "Submit";
             this.button4.UseVisualStyleBackColor = true;
@@ -191,7 +193,7 @@ namespace KlientLogowania
             this.textBox3.Location = new System.Drawing.Point(14, 64);
             this.textBox3.Multiline = true;
             this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(260, 25);
+            this.textBox3.Size = new System.Drawing.Size(358, 25);
             this.textBox3.TabIndex = 18;
             this.textBox3.TextChanged += new System.EventHandler(this.textBox3_TextChanged);
             // 
@@ -201,7 +203,7 @@ namespace KlientLogowania
             this.textBox4.Location = new System.Drawing.Point(14, 118);
             this.textBox4.Multiline = true;
             this.textBox4.Name = "textBox4";
-            this.textBox4.Size = new System.Drawing.Size(260, 25);
+            this.textBox4.Size = new System.Drawing.Size(357, 25);
             this.textBox4.TabIndex = 17;
             this.textBox4.TextChanged += new System.EventHandler(this.textBox4_TextChanged);
             // 
@@ -229,13 +231,13 @@ namespace KlientLogowania
             // 
             // label8
             // 
-            this.label8.AutoSize = true;
             this.label8.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.label8.Location = new System.Drawing.Point(23, 9);
+            this.label8.Location = new System.Drawing.Point(12, 9);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(236, 25);
+            this.label8.Size = new System.Drawing.Size(360, 25);
             this.label8.TabIndex = 22;
             this.label8.Text = "CREATE A NEW USER";
+            this.label8.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.label8.Click += new System.EventHandler(this.label8_Click);
             // 
             // label9
@@ -243,7 +245,7 @@ namespace KlientLogowania
             this.label9.AutoSize = true;
             this.label9.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.label9.ForeColor = System.Drawing.Color.Black;
-            this.label9.Location = new System.Drawing.Point(14, 219);
+            this.label9.Location = new System.Drawing.Point(12, 274);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(176, 18);
             this.label9.TabIndex = 23;
@@ -254,7 +256,7 @@ namespace KlientLogowania
             // button5
             // 
             this.button5.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.button5.Location = new System.Drawing.Point(196, 219);
+            this.button5.Location = new System.Drawing.Point(294, 268);
             this.button5.Name = "button5";
             this.button5.Size = new System.Drawing.Size(78, 21);
             this.button5.TabIndex = 24;
@@ -268,7 +270,7 @@ namespace KlientLogowania
             this.label10.ForeColor = System.Drawing.Color.YellowGreen;
             this.label10.Location = new System.Drawing.Point(12, 43);
             this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(262, 36);
+            this.label10.Size = new System.Drawing.Size(360, 36);
             this.label10.TabIndex = 25;
             this.label10.Text = "You have successfully created a new account";
             this.label10.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -291,7 +293,7 @@ namespace KlientLogowania
             this.textBox5.Location = new System.Drawing.Point(14, 167);
             this.textBox5.Multiline = true;
             this.textBox5.Name = "textBox5";
-            this.textBox5.Size = new System.Drawing.Size(260, 25);
+            this.textBox5.Size = new System.Drawing.Size(358, 25);
             this.textBox5.TabIndex = 27;
             this.textBox5.TextChanged += new System.EventHandler(this.textBox5_TextChanged);
             // 
@@ -312,10 +314,9 @@ namespace KlientLogowania
             this.label13.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.label13.Location = new System.Drawing.Point(12, 9);
             this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(262, 25);
+            this.label13.Size = new System.Drawing.Size(360, 52);
             this.label13.TabIndex = 29;
             this.label13.Text = "Someone is logged in";
-            this.label13.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.label13.Click += new System.EventHandler(this.label13_Click);
             // 
             // button6
@@ -323,7 +324,7 @@ namespace KlientLogowania
             this.button6.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.button6.Location = new System.Drawing.Point(14, 43);
             this.button6.Name = "button6";
-            this.button6.Size = new System.Drawing.Size(125, 21);
+            this.button6.Size = new System.Drawing.Size(105, 36);
             this.button6.TabIndex = 30;
             this.button6.Text = "Change password";
             this.button6.UseVisualStyleBackColor = true;
@@ -332,9 +333,9 @@ namespace KlientLogowania
             // button7
             // 
             this.button7.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.button7.Location = new System.Drawing.Point(149, 43);
+            this.button7.Location = new System.Drawing.Point(140, 43);
             this.button7.Name = "button7";
-            this.button7.Size = new System.Drawing.Size(125, 21);
+            this.button7.Size = new System.Drawing.Size(105, 36);
             this.button7.TabIndex = 31;
             this.button7.Text = "Change username";
             this.button7.UseVisualStyleBackColor = true;
@@ -343,9 +344,9 @@ namespace KlientLogowania
             // button8
             // 
             this.button8.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.button8.Location = new System.Drawing.Point(14, 70);
+            this.button8.Location = new System.Drawing.Point(266, 43);
             this.button8.Name = "button8";
-            this.button8.Size = new System.Drawing.Size(125, 21);
+            this.button8.Size = new System.Drawing.Size(105, 36);
             this.button8.TabIndex = 32;
             this.button8.Text = "Log out";
             this.button8.UseVisualStyleBackColor = true;
@@ -354,9 +355,9 @@ namespace KlientLogowania
             // button9
             // 
             this.button9.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.button9.Location = new System.Drawing.Point(13, 243);
+            this.button9.Location = new System.Drawing.Point(12, 295);
             this.button9.Name = "button9";
-            this.button9.Size = new System.Drawing.Size(260, 34);
+            this.button9.Size = new System.Drawing.Size(359, 34);
             this.button9.TabIndex = 33;
             this.button9.Text = "Submit";
             this.button9.UseVisualStyleBackColor = true;
@@ -379,7 +380,7 @@ namespace KlientLogowania
             this.label15.ForeColor = System.Drawing.Color.YellowGreen;
             this.label15.Location = new System.Drawing.Point(12, 102);
             this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(262, 36);
+            this.label15.Size = new System.Drawing.Size(360, 36);
             this.label15.TabIndex = 35;
             this.label15.Text = "You have successfully created a new account";
             this.label15.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -399,24 +400,47 @@ namespace KlientLogowania
             // button10
             // 
             this.button10.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.button10.Location = new System.Drawing.Point(14, 243);
+            this.button10.Location = new System.Drawing.Point(12, 295);
             this.button10.Name = "button10";
-            this.button10.Size = new System.Drawing.Size(260, 34);
+            this.button10.Size = new System.Drawing.Size(360, 34);
             this.button10.TabIndex = 37;
             this.button10.Text = "Submit";
             this.button10.UseVisualStyleBackColor = true;
             this.button10.Click += new System.EventHandler(this.button10_Click);
             // 
+            // button11
+            // 
+            this.button11.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.button11.Location = new System.Drawing.Point(266, 255);
+            this.button11.Name = "button11";
+            this.button11.Size = new System.Drawing.Size(106, 34);
+            this.button11.TabIndex = 38;
+            this.button11.Text = "Return";
+            this.button11.UseVisualStyleBackColor = true;
+            this.button11.Click += new System.EventHandler(this.button11_Click);
+            // 
+            // label17
+            // 
+            this.label17.AutoSize = true;
+            this.label17.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.label17.ForeColor = System.Drawing.Color.DarkSlateGray;
+            this.label17.Location = new System.Drawing.Point(12, 195);
+            this.label17.Name = "label17";
+            this.label17.Size = new System.Drawing.Size(54, 18);
+            this.label17.TabIndex = 39;
+            this.label17.Text = "label17";
+            this.label17.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(284, 281);
-            this.Controls.Add(this.button10);
+            this.ClientSize = new System.Drawing.Size(384, 341);
+            this.Controls.Add(this.label17);
+            this.Controls.Add(this.button11);
+            this.Controls.Add(this.button6);
             this.Controls.Add(this.label16);
             this.Controls.Add(this.label6);
-            this.Controls.Add(this.label15);
-            this.Controls.Add(this.button8);
             this.Controls.Add(this.button7);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.textBox5);
@@ -428,24 +452,26 @@ namespace KlientLogowania
             this.Controls.Add(this.button1);
             this.Controls.Add(this.textBox2);
             this.Controls.Add(this.label2);
-            this.Controls.Add(this.label8);
-            this.Controls.Add(this.textBox3);
-            this.Controls.Add(this.textBox1);
             this.Controls.Add(this.textBox4);
             this.Controls.Add(this.button2);
-            this.Controls.Add(this.label4);
             this.Controls.Add(this.button9);
             this.Controls.Add(this.button4);
-            this.Controls.Add(this.label12);
-            this.Controls.Add(this.label13);
-            this.Controls.Add(this.label14);
             this.Controls.Add(this.label7);
-            this.Controls.Add(this.label10);
+            this.Controls.Add(this.label14);
+            this.Controls.Add(this.button8);
+            this.Controls.Add(this.label12);
+            this.Controls.Add(this.textBox3);
             this.Controls.Add(this.label3);
-            this.Controls.Add(this.button6);
+            this.Controls.Add(this.label13);
+            this.Controls.Add(this.label8);
+            this.Controls.Add(this.label4);
+            this.Controls.Add(this.button10);
+            this.Controls.Add(this.label10);
+            this.Controls.Add(this.label15);
+            this.Controls.Add(this.textBox1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Name = "Form1";
-            this.Text = "Zaloguj się";
+            this.Text = "System logowania";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -485,6 +511,8 @@ namespace KlientLogowania
         private System.Windows.Forms.Label label15;
         private System.Windows.Forms.Label label16;
         private System.Windows.Forms.Button button10;
+        private System.Windows.Forms.Button button11;
+        private System.Windows.Forms.Label label17;
     }
 }
 
