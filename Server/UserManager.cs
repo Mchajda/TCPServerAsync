@@ -11,9 +11,9 @@ namespace Server
     {
         private ArrayList users;
         public bool session_is_logged;
-        public User current_user;
-
         private string usersPath;
+        private User curr_user;
+
         public UserManager()
         {
             this.usersPath = @"users.json";
@@ -23,6 +23,16 @@ namespace Server
             this.users = this.getUsers();
             //flags
             this.session_is_logged = false;
+        }
+
+        public void saveUsers()
+        {
+            File.WriteAllText(usersPath, "");
+            foreach (User user in this.getUsers())
+            {
+                string json = JsonConvert.SerializeObject(user);
+                this.saveUser(json);
+            }
         }
 
         public void saveUser(string user)
@@ -46,6 +56,7 @@ namespace Server
         public void readUsers()
         {
             string line;
+            this.users.Clear();
 
             System.IO.StreamReader file = new System.IO.StreamReader(this.usersPath);
             while ((line = file.ReadLine()) != null)
@@ -55,11 +66,11 @@ namespace Server
                 User resultUser = JsonConvert.DeserializeObject<User>(resultJson);
                 //adding users to users array
                 this.users.Add(resultUser);
-                Console.WriteLine();
+                //Console.WriteLine();
             }
 
             file.Close();
-            System.Console.WriteLine();
+            //System.Console.WriteLine();
         }
 
         public ArrayList getUsers()
@@ -77,6 +88,8 @@ namespace Server
                 {
                     manager.session_is_logged = true;
                     current_user.setLogged();
+                    this.curr_user = current_user;
+                    break;
                 }
                 else
                 {
@@ -97,6 +110,7 @@ namespace Server
                 {
                     Console.WriteLine("jest juz taki uzytkownik o podanym loginie!");
                     is_valid_user = false;
+                    throw new Exception("user exists");
                 }
             }
 
@@ -108,10 +122,40 @@ namespace Server
                     string json = JsonConvert.SerializeObject(newUser);
                     this.saveUser(json);
                     Console.WriteLine("poprawnie zarejestrowano nowego uzytkownika!");
+                    throw new Exception("registration successful");
                 }
                 else Console.WriteLine("podane hasla sie nie zgadzaja");
             }
             else Console.WriteLine("istnieje użytkownik o podanym loginie");
+        }
+
+        public void changePassword(string login, string password, string passwordCheck)
+        {
+            foreach (User user in this.getUsers())
+            {
+                if (user.getLogin() == login)
+                {
+                    if (password == passwordCheck)
+                    {
+                        user.setPassword(password);
+                        saveUsers();
+                    }
+                    else
+                        throw new Exception("podane hasla sie nie zgadzaja");
+                }
+            }
+        }
+
+        public void changeLogin(string curr_login, string new_login)
+        {
+            foreach (User user in this.getUsers())
+            {
+                if (user.getLogin() == curr_login)
+                {
+                    user.setLogin(new_login);
+                    saveUsers();
+                }
+            }
         }
     }
 }

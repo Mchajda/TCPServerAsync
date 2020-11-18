@@ -13,8 +13,6 @@ namespace serverAsync
         static void Main(string[] args)
         {
             ServerEchoAPM server = new ServerEchoAPM(new System.Net.IPAddress(new byte[] { 127, 0, 0, 1 }), 2311);
-            PassGenServer passGenServer = new PassGenServer(new System.Net.IPAddress(new byte[] { 127, 0, 0, 1 }), 8000);
-            //passGenServer.Start();
             server.Start();
         }
     }
