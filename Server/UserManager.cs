@@ -119,6 +119,7 @@ namespace Server
                 if (password == passwordCheck)
                 {
                     User newUser = new User(login, password);
+                    newUser.setRole("ROLE_USER");
                     string json = JsonConvert.SerializeObject(newUser);
                     this.saveUser(json);
                     Console.WriteLine("poprawnie zarejestrowano nowego uzytkownika!");
