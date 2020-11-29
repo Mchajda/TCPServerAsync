@@ -12,7 +12,6 @@ namespace Server
 {
     public class ServerEchoAPM : ServerEcho
     {
-        //string message = "podaj login: ";
         int buffer_size = 1024;
         UserManager manager;
         User current_user;
@@ -34,15 +33,7 @@ namespace Server
                 Stream = tcpClient.GetStream();
                 TransmissionDataDelegate transmissionDelegate = new TransmissionDataDelegate(BeginDataTransmission);
 
-                //callback style
-
                 transmissionDelegate.BeginInvoke(Stream, TransmissionCallback, tcpClient);
-
-                // async result style
-                //IAsyncResult result = transmissionDelegate.BeginInvoke(Stream, null, null);
-                ////operacje......
-                //while (!result.IsCompleted) ;
-                ////sprzątanie
             }
         }
 
@@ -55,8 +46,6 @@ namespace Server
         protected override string ReadString(NetworkStream stream, byte[] buffer)
         {
             int message_size = stream.Read(buffer, 0, buffer_size);
-            //stream.ReadByte();
-            //stream.ReadByte();
             return new ASCIIEncoding().GetString(buffer, 0, message_size);
         }
 
