@@ -16,6 +16,7 @@ namespace Server
         UserManager manager;
         User current_user;
         PasswordGenerator PasswordGenerator;
+        StreamController StreamController;
 
         public delegate void TransmissionDataDelegate(NetworkStream stream);
 
@@ -23,6 +24,7 @@ namespace Server
         {
             manager = new UserManager();
             PasswordGenerator = new PasswordGenerator();
+            StreamController = new StreamController();
         }
 
         protected override void AcceptClient()
@@ -43,17 +45,7 @@ namespace Server
             client.Close();
         }
 
-        protected override string ReadString(NetworkStream stream, byte[] buffer)
-        {
-            int message_size = stream.Read(buffer, 0, buffer_size);
-            return new ASCIIEncoding().GetString(buffer, 0, message_size);
-        }
-
-        protected override void SendString(string str, byte[] buffer, NetworkStream stream)
-        {
-            buffer = Encoding.ASCII.GetBytes(str);
-            stream.Write(buffer, 0, str.Length);
-        }
+        
 
         protected override void BeginDataTransmission(NetworkStream stream)
         {
@@ -66,7 +58,7 @@ namespace Server
                     manager.readUsers();
                     try
                     {
-                        switch (ReadString(stream, buffer))
+                        switch (this.StreamController.ReadString(stream, buffer))
                         {
                             case "register":
                                 //Rejestracja
@@ -78,7 +70,7 @@ namespace Server
                                 break;
                             case "generate":
                                 //Generowanie hasła
-                                SendString(PasswordGenerator.GeneratePassword(8), buffer, stream);
+                                this.StreamController.SendString(PasswordGenerator.GeneratePassword(8), buffer, stream);
                                 break;
                             default:
                                 break;
@@ -90,7 +82,7 @@ namespace Server
                     }
                     catch (Exception exc)
                     {
-                        SendString(exc.Message, buffer, stream);
+                        this.StreamController.SendString(exc.Message, buffer, stream);
                     }
                 }
 
@@ -98,7 +90,7 @@ namespace Server
                 {
                     try
                     {
-                        string str = ReadString(stream, buffer);
+                        string str = this.StreamController.ReadString(stream, buffer);
                         switch (str)
                         {
                             case "logout":
@@ -107,7 +99,7 @@ namespace Server
                                 break;
                             case "generate":
                                 //Generowanie hasła
-                                SendString(PasswordGenerator.GeneratePassword(8), buffer, stream);
+                                this.StreamController.SendString(PasswordGenerator.GeneratePassword(8), buffer, stream);
                                 break;
                             case "change password":
                                 ChangePassword(buffer, stream);
@@ -116,7 +108,7 @@ namespace Server
                                 ChangeUsername(buffer, stream);
                                 break;
                             case "username":
-                                SendString(current_user.getLogin(), buffer, stream);
+                                this.StreamController.SendString(current_user.getLogin(), buffer, stream);
                                 break;
                             default:
                                 break;
@@ -129,7 +121,7 @@ namespace Server
                     }
                     catch (Exception exc)
                     {
-                        SendString(exc.Message, buffer, stream);
+                        this.StreamController.SendString(exc.Message, buffer, stream);
                     }
                 }
             }
@@ -137,10 +129,10 @@ namespace Server
 
         private void ChangeUsername(byte[] buffer, NetworkStream stream)
         {
-            SendString("oldpassword", buffer, stream);
-            string oldpassword = ReadString(stream, buffer);
-            SendString("newlogin", buffer, stream);
-            string login = ReadString(stream, buffer);
+            this.StreamController.SendString("oldpassword", buffer, stream);
+            string oldpassword = this.StreamController.ReadString(stream, buffer);
+            this.StreamController.SendString("newlogin", buffer, stream);
+            string login = this.StreamController.ReadString(stream, buffer);
             string passwordCheck = oldpassword;
 
             if (this.current_user.getPassword() == oldpassword)
@@ -156,12 +148,12 @@ namespace Server
 
         private void ChangePassword(byte[] buffer, NetworkStream stream)
         {
-            SendString("oldpassword", buffer, stream);
-            string oldpassword = ReadString(stream, buffer);
-            SendString("newpassword", buffer, stream);
-            string password = ReadString(stream, buffer);
-            SendString("password confirm", buffer, stream);
-            string passwordCheck = ReadString(stream, buffer);
+            this.StreamController.SendString("oldpassword", buffer, stream);
+            string oldpassword = this.StreamController.ReadString(stream, buffer);
+            this.StreamController.SendString("newpassword", buffer, stream);
+            string password = this.StreamController.ReadString(stream, buffer);
+            this.StreamController.SendString("password confirm", buffer, stream);
+            string passwordCheck = this.StreamController.ReadString(stream, buffer);
 
             if (this.current_user.getPassword() == oldpassword)
             {
@@ -175,22 +167,22 @@ namespace Server
 
         private void Register(byte[] buffer, NetworkStream stream)
         {
-            SendString("login", buffer, stream);
-            string login = ReadString(stream, buffer);
-            SendString("password", buffer, stream);
-            string password = ReadString(stream, buffer);
-            SendString("password confirm", buffer, stream);
-            string passwordCheck = ReadString(stream, buffer);
+            this.StreamController.SendString("login", buffer, stream);
+            string login = this.StreamController.ReadString(stream, buffer);
+            this.StreamController.SendString("password", buffer, stream);
+            string password = this.StreamController.ReadString(stream, buffer);
+            this.StreamController.SendString("password confirm", buffer, stream);
+            string passwordCheck = this.StreamController.ReadString(stream, buffer);
 
             this.manager.register(login, password, passwordCheck);
         }
 
         private void LogIn(byte[] buffer, NetworkStream stream)
         {
-            SendString("podaj login: ", buffer, stream);
-            string login = ReadString(stream, buffer);
-            SendString("podaj haslo: ", buffer, stream);
-            string password = ReadString(stream, buffer);
+            this.StreamController.SendString("podaj login: ", buffer, stream);
+            string login = this.StreamController.ReadString(stream, buffer);
+            this.StreamController.SendString("podaj haslo: ", buffer, stream);
+            string password = this.StreamController.ReadString(stream, buffer);
             //authorization
             this.current_user = this.manager.authorize(login, password, this.manager);
             if (!(manager.session_is_logged))
@@ -206,7 +198,6 @@ namespace Server
         public override void Start()
         {
             StartListening();
-            //transmission starts within the accept function
             AcceptClient();
         }
     }
