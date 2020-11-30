@@ -7,11 +7,9 @@ namespace Server
     class ClientController
     {
         //User current_user;
-        UsersManager UserManager;
         SessionController SessionController;
         public ClientController() 
         {
-            UserManager = new UsersManager();
             SessionController = new SessionController();
         }
 

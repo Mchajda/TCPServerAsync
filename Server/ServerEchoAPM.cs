@@ -53,7 +53,6 @@ namespace Server
             {
                 while (this.SessionController.session_is_logged != true)
                 {
-                    //UserManager.readUsers();
                     try
                     {
                         switch (this.StreamController.ReadString(stream, buffer))

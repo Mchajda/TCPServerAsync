@@ -19,7 +19,6 @@ namespace Server
             this.users = new ArrayList();
             //getting users to program
             this.readUsers();
-            //this.users = this.getUsers();
         }
 
         public void saveUsers()
@@ -61,13 +60,18 @@ namespace Server
                 string resultJson = String.Empty;
                 resultJson = line;
                 User resultUser = JsonConvert.DeserializeObject<User>(resultJson);
+
+                
                 //adding users to users array
                 this.users.Add(resultUser);
-                //Console.WriteLine();
+            }
+
+            foreach (User user in this.getUsers())
+            {
+                System.Console.WriteLine(user.getLogin());
             }
 
             file.Close();
-            //System.Console.WriteLine();
         }
 
         public ArrayList getUsers()
