@@ -46,6 +46,7 @@ namespace Server
                     System.Console.Write("wszedlem");
                     User current_user = new User(login, password);
                     this.setUser(current_user);
+                    this.setStatus(true);
                     break;
                 }
                 else

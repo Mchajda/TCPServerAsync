@@ -78,6 +78,8 @@ namespace Server
                                 string passwordl = this.StreamController.ReadString(stream, buffer);
 
                                 this.ClientController.LogIn(loginl, passwordl);
+
+                                    System.Console.WriteLine(this.ClientController.getSession().getStatus());
                                 break;
                             }
                                 
@@ -114,8 +116,7 @@ namespace Server
                         {
                             case "logout":
                             {
-                                    this.ClientController.getSession().setStatus(false);
-                                //this.SessionController.getUser().unSetLogged();
+                                this.ClientController.getSession().setStatus(false);
                                 break;
                             }
                                 
