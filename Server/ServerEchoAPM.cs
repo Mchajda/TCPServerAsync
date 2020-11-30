@@ -15,7 +15,6 @@ namespace Server
         PasswordGenerator PasswordGenerator;
         StreamController StreamController;
         ClientController ClientController;
-        SessionController SessionController;
 
         public delegate void TransmissionDataDelegate(NetworkStream stream);
 
@@ -24,7 +23,6 @@ namespace Server
             PasswordGenerator = new PasswordGenerator();
             StreamController = new StreamController();
             ClientController = new ClientController();
-            SessionController = new SessionController();
         }
 
         protected override void AcceptClient()
@@ -51,7 +49,7 @@ namespace Server
 
             while (true)
             {
-                while (this.SessionController.session_is_logged != true)
+                while (this.ClientController.getSession().getStatus() != true)
                 {
                     try
                     {
@@ -107,7 +105,7 @@ namespace Server
                     }
                 }
 
-                while (this.SessionController.session_is_logged == true)
+                while (this.ClientController.getSession().getStatus() == true)
                 {
                     try
                     {
@@ -116,7 +114,7 @@ namespace Server
                         {
                             case "logout":
                             {
-                                this.SessionController.session_is_logged = false;
+                                    this.ClientController.getSession().setStatus(false);
                                 //this.SessionController.getUser().unSetLogged();
                                 break;
                             }
@@ -154,7 +152,7 @@ namespace Server
                                 
                             case "username":
                             {
-                                this.StreamController.SendString(this.SessionController.getUser().getLogin(), buffer, stream);
+                                this.StreamController.SendString(this.ClientController.getSession().getUser().getLogin(), buffer, stream);
                                 break;
                             }
 

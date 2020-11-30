@@ -13,6 +13,11 @@ namespace Server
             SessionController = new SessionController();
         }
 
+        public SessionController getSession()
+        {
+            return this.SessionController;
+        }
+
         public void ChangeUsername(String oldpassword, String login)
         {
             System.Console.WriteLine(this.SessionController.getUser().getLogin());
