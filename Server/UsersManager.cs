@@ -61,11 +61,10 @@ namespace Server
                 resultJson = line;
                 User resultUser = JsonConvert.DeserializeObject<User>(resultJson);
 
-                
-                //adding users to users array
                 this.users.Add(resultUser);
             }
 
+            System.Console.WriteLine(this.getUsers().Count);
             foreach (User user in this.getUsers())
             {
                 System.Console.WriteLine(user.getLogin());
