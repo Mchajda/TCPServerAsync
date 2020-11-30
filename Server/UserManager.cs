@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Collections;
+using System.Net.Sockets;
 
 namespace Server
 {
@@ -12,7 +13,7 @@ namespace Server
         private ArrayList users;
         public bool session_is_logged;
         private string usersPath;
-        private User curr_user;
+        public User curr_user;
 
         public UserManager()
         {
@@ -23,6 +24,7 @@ namespace Server
             this.users = this.getUsers();
             //flags
             this.session_is_logged = false;
+
         }
 
         public void saveUsers()
@@ -78,7 +80,7 @@ namespace Server
             return this.users;
         }
 
-        public User authorize(string login, string password, UserManager manager)
+        public User authorize(string login, string password)
         {
             User current_user = new User(login, password);
 
@@ -86,7 +88,7 @@ namespace Server
             {
                 if (user.getLogin() == login && user.getPassword() == password)
                 {
-                    manager.session_is_logged = true;
+                    this.session_is_logged = true;
                     current_user.setLogged();
                     this.curr_user = current_user;
                     break;
@@ -156,6 +158,54 @@ namespace Server
                     user.setLogin(new_login);
                     saveUsers();
                 }
+            }
+        }
+
+        public void ChangeUsername(String oldpassword, String login)
+        {
+            
+            string passwordCheck = oldpassword;
+
+            if (this.curr_user.getPassword() == oldpassword)
+            {
+                this.changeLogin(curr_user.getLogin(), login);
+                throw new Exception("changed username");
+            }
+            else
+            {
+                throw new Exception("wrong password");
+            }
+        }
+
+        public void ChangePassword(String oldpassword, String password, String passwordCheck)
+        {
+            if (this.curr_user.getPassword() == oldpassword)
+            {
+                this.changePassword(curr_user.getLogin(), password, passwordCheck);
+                throw new Exception("changed password");
+            }
+            else
+            {
+                throw new Exception("wrong password");
+            }
+        }
+
+        public void Register(String login, String password, String passwordCheck)
+        {
+            this.register(login, password, passwordCheck);
+        }
+
+        public void LogIn(String login, String password)
+        {
+            //authorization
+            this.curr_user = this.authorize(login, password);
+            if (!(this.session_is_logged))
+            {
+                throw new Exception("login failed");
+            }
+            else
+            {
+                throw new Exception("login success");
             }
         }
     }

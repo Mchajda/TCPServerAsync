@@ -62,11 +62,23 @@ namespace Server
                         {
                             case "register":
                                 //Rejestracja
-                                Register(buffer, stream);
+                                this.StreamController.SendString("login", buffer, stream);
+                                string login = this.StreamController.ReadString(stream, buffer);
+                                this.StreamController.SendString("password", buffer, stream);
+                                string password = this.StreamController.ReadString(stream, buffer);
+                                this.StreamController.SendString("password confirm", buffer, stream);
+                                string passwordCheck = this.StreamController.ReadString(stream, buffer);
+
+                                this.manager.Register(login, password, passwordCheck);
                                 break;
                             case "login":
                                 // LOGOWANIE
-                                LogIn(buffer, stream);
+                                this.StreamController.SendString("podaj login: ", buffer, stream);
+                                string loginl = this.StreamController.ReadString(stream, buffer);
+                                this.StreamController.SendString("podaj haslo: ", buffer, stream);
+                                string passwordl = this.StreamController.ReadString(stream, buffer);
+
+                                this.manager.LogIn(loginl, passwordl);
                                 break;
                             case "generate":
                                 //Generowanie hasła
@@ -102,13 +114,30 @@ namespace Server
                                 this.StreamController.SendString(PasswordGenerator.GeneratePassword(8), buffer, stream);
                                 break;
                             case "change password":
-                                ChangePassword(buffer, stream);
-                                break;
+                                {
+                                    this.StreamController.SendString("oldpassword", buffer, stream);
+                                    string oldpassword = this.StreamController.ReadString(stream, buffer);
+                                    this.StreamController.SendString("newpassword", buffer, stream);
+                                    string password = this.StreamController.ReadString(stream, buffer);
+                                    this.StreamController.SendString("password confirm", buffer, stream);
+                                    string passwordCheck = this.StreamController.ReadString(stream, buffer);
+
+                                    this.manager.ChangePassword(oldpassword, password, passwordCheck);
+                                    break;
+                                }
                             case "change username":
-                                ChangeUsername(buffer, stream);
-                                break;
+                                {
+                                    this.StreamController.SendString("oldpassword", buffer, stream);
+                                    string oldpassword1 = this.StreamController.ReadString(stream, buffer);
+                                    this.StreamController.SendString("newlogin", buffer, stream);
+                                    string login = this.StreamController.ReadString(stream, buffer);
+
+                                    this.manager.ChangeUsername(oldpassword1, login);
+                                    break;
+                                }
+                                
                             case "username":
-                                this.StreamController.SendString(current_user.getLogin(), buffer, stream);
+                                this.StreamController.SendString(this.manager.curr_user.getLogin(), buffer, stream);
                                 break;
                             default:
                                 break;
@@ -124,74 +153,6 @@ namespace Server
                         this.StreamController.SendString(exc.Message, buffer, stream);
                     }
                 }
-            }
-        }
-
-        private void ChangeUsername(byte[] buffer, NetworkStream stream)
-        {
-            this.StreamController.SendString("oldpassword", buffer, stream);
-            string oldpassword = this.StreamController.ReadString(stream, buffer);
-            this.StreamController.SendString("newlogin", buffer, stream);
-            string login = this.StreamController.ReadString(stream, buffer);
-            string passwordCheck = oldpassword;
-
-            if (this.current_user.getPassword() == oldpassword)
-            {
-                this.manager.changeLogin(current_user.getLogin(), login);
-                throw new Exception("changed username");
-            }
-            else
-            {
-                throw new Exception("wrong password");
-            }
-        }
-
-        private void ChangePassword(byte[] buffer, NetworkStream stream)
-        {
-            this.StreamController.SendString("oldpassword", buffer, stream);
-            string oldpassword = this.StreamController.ReadString(stream, buffer);
-            this.StreamController.SendString("newpassword", buffer, stream);
-            string password = this.StreamController.ReadString(stream, buffer);
-            this.StreamController.SendString("password confirm", buffer, stream);
-            string passwordCheck = this.StreamController.ReadString(stream, buffer);
-
-            if (this.current_user.getPassword() == oldpassword)
-            {
-                this.manager.changePassword(current_user.getLogin(), password, passwordCheck);
-                throw new Exception("changed password");
-            }
-            else { 
-                throw new Exception("wrong password");
-            }                      
-        }
-
-        private void Register(byte[] buffer, NetworkStream stream)
-        {
-            this.StreamController.SendString("login", buffer, stream);
-            string login = this.StreamController.ReadString(stream, buffer);
-            this.StreamController.SendString("password", buffer, stream);
-            string password = this.StreamController.ReadString(stream, buffer);
-            this.StreamController.SendString("password confirm", buffer, stream);
-            string passwordCheck = this.StreamController.ReadString(stream, buffer);
-
-            this.manager.register(login, password, passwordCheck);
-        }
-
-        private void LogIn(byte[] buffer, NetworkStream stream)
-        {
-            this.StreamController.SendString("podaj login: ", buffer, stream);
-            string login = this.StreamController.ReadString(stream, buffer);
-            this.StreamController.SendString("podaj haslo: ", buffer, stream);
-            string password = this.StreamController.ReadString(stream, buffer);
-            //authorization
-            this.current_user = this.manager.authorize(login, password, this.manager);
-            if (!(manager.session_is_logged))
-            {
-                throw new Exception("login failed");
-            }
-            else
-            {
-                throw new Exception("login success");
             }
         }
 
