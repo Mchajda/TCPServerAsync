@@ -78,8 +78,6 @@ namespace Server
                                 string passwordl = this.StreamController.ReadString(stream, buffer);
 
                                 this.ClientController.LogIn(loginl, passwordl);
-
-                                    System.Console.WriteLine(this.ClientController.getSession().getStatus());
                                 break;
                             }
                                 

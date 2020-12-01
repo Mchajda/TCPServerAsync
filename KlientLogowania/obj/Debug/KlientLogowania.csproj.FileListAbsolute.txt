@@ -11,3 +11,16 @@ C:\Users\inny\Source\Repos\TCPServerAsync\KlientLogowania\obj\Debug\KlientLogowa
 C:\Users\inny\Source\Repos\TCPServerAsync\KlientLogowania\bin\Debug\Server.dll
 C:\Users\inny\Source\Repos\TCPServerAsync\KlientLogowania\bin\Debug\Server.pdb
 C:\Users\inny\Source\Repos\TCPServerAsync\KlientLogowania\obj\Debug\KlientLogowania.csproj.CopyComplete
+C:\Users\Maciej\source\repos\TCPServerAsync\KlientLogowania\bin\Debug\KlientLogowania.exe.config
+C:\Users\Maciej\source\repos\TCPServerAsync\KlientLogowania\bin\Debug\KlientLogowania.exe
+C:\Users\Maciej\source\repos\TCPServerAsync\KlientLogowania\bin\Debug\KlientLogowania.pdb
+C:\Users\Maciej\source\repos\TCPServerAsync\KlientLogowania\bin\Debug\Server.dll
+C:\Users\Maciej\source\repos\TCPServerAsync\KlientLogowania\bin\Debug\Server.pdb
+C:\Users\Maciej\source\repos\TCPServerAsync\KlientLogowania\obj\Debug\KlientLogowania.csprojAssemblyReference.cache
+C:\Users\Maciej\source\repos\TCPServerAsync\KlientLogowania\obj\Debug\KlientLogowania.Form1.resources
+C:\Users\Maciej\source\repos\TCPServerAsync\KlientLogowania\obj\Debug\KlientLogowania.Properties.Resources.resources
+C:\Users\Maciej\source\repos\TCPServerAsync\KlientLogowania\obj\Debug\KlientLogowania.csproj.GenerateResource.cache
+C:\Users\Maciej\source\repos\TCPServerAsync\KlientLogowania\obj\Debug\KlientLogowania.csproj.CoreCompileInputs.cache
+C:\Users\Maciej\source\repos\TCPServerAsync\KlientLogowania\obj\Debug\KlientLogowania.csproj.CopyComplete
+C:\Users\Maciej\source\repos\TCPServerAsync\KlientLogowania\obj\Debug\KlientLogowania.exe
+C:\Users\Maciej\source\repos\TCPServerAsync\KlientLogowania\obj\Debug\KlientLogowania.pdb

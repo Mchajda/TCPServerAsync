@@ -1,13 +1,2 @@
-{"login":"maciej","password":"chajda"}
-{"login":"robert","password":"maklowicz"}
-{"login":"rl9","password":"lewandowski"}
-{"login":"piotrek","password":"nowy"}
-{"login":"vidu","password":"vidiaquam"}
-{"login":"adam","password":"%sLo7%&y"}
-{"login":"darek","password":"_#UT@sS5"}
-{"login":"maskara","password":"nq;HL6i;"}
-{"login":"barka","password":",'R)FG']"}
-{"login":"papiez","password":"D`0NOuGf"}
-{"login":"pod","password":"MPZ6BzpL"}
-{"login":"exception","password":"i<A\"!]30"}
-{"login":"student","password":"P@ssw0rd"}
+{"login":"maciej","password":"chajda","role":null}
+{"login":"robert","password":"maklowicz","role":null}

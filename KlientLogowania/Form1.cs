@@ -29,7 +29,7 @@ namespace KlientLogowania
                 else if (c >= '0' && c <= '9')
                     strength += 2;
                 else
-                    strength += 4;                
+                    strength += 4;
             }
             return strength;
         }
@@ -170,7 +170,7 @@ namespace KlientLogowania
             textBox4.Text = "";
             textBox5.Text = "";
         }
-
+        
         private void OpenLogin()
         {
             label3.Hide();

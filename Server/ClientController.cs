@@ -63,5 +63,19 @@ namespace Server
                 throw new Exception("login success");
             }
         }
+
+        //admin methods
+        public void ShowUsers()
+        {
+
+        }
+
+        public void DeleteUser(User user)
+        {
+            if(this.SessionController.getAdminStatus() == true)
+            {
+                this.SessionController.deleteUser(user);
+            }
+        }
     }
 }

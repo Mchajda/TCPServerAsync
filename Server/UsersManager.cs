@@ -77,5 +77,11 @@ namespace Server
         {
             return this.users;
         }
+
+        public void setUsers(ArrayList users)
+        {
+            this.users.Clear();
+            this.users = users;
+        }
     }
 }

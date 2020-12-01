@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 
@@ -9,12 +10,13 @@ namespace Server
     {
         User current_user;
         UsersManager UsersManager;
-        public bool session_is_logged;
+        public bool session_is_logged, session_admin;
 
         public SessionController()
         {
             UsersManager = new UsersManager();
             this.session_is_logged = false;
+            this.session_admin = false;
         }
 
         public User getUser()
@@ -31,6 +33,10 @@ namespace Server
         {
             return this.session_is_logged;
         }
+        public bool getAdminStatus()
+        {
+            return this.session_admin;
+        }
 
         public void setStatus(bool var)
         {
@@ -43,10 +49,15 @@ namespace Server
             {
                 if (user.getLogin() == login && user.getPassword() == password)
                 {
-                    System.Console.Write("wszedlem");
                     User current_user = new User(login, password);
                     this.setUser(current_user);
                     this.setStatus(true);
+
+                    if(user.getRole() == "ROLE_ADMIN")
+                    {
+                        this.session_admin = true;
+                    }
+
                     break;
                 }
                 else
@@ -64,7 +75,6 @@ namespace Server
             {
                 if (user.getLogin() == login)
                 {
-                    Console.WriteLine("jest juz taki uzytkownik o podanym loginie!");
                     is_valid_user = false;
                     throw new Exception("user exists");
                 }
@@ -78,12 +88,12 @@ namespace Server
                     newUser.setRole("ROLE_USER");
                     string json = JsonConvert.SerializeObject(newUser);
                     this.UsersManager.saveUser(json);
-                    Console.WriteLine("poprawnie zarejestrowano nowego uzytkownika!");
+
                     throw new Exception("registration successful");
                 }
-                else Console.WriteLine("podane hasla sie nie zgadzaja");
+                else throw new Exception("podane hasla sie nie zgadzaja");
             }
-            else Console.WriteLine("istnieje użytkownik o podanym loginie");
+            else throw new Exception("istnieje użytkownik o podanym loginie");
         }
         public void changePassword(string login, string password, string passwordCheck)
         {
@@ -114,6 +124,23 @@ namespace Server
                     this.UsersManager.saveUsers();
                 }
             }
+        }
+
+        //admin methods
+        public void deleteUser(User u)
+        {
+            ArrayList users = this.UsersManager.getUsers();
+            ArrayList newUsers = new ArrayList();
+
+            foreach (User user in users)
+            {
+                if (!(u.getLogin() == user.getLogin() && u.getPassword() == user.getPassword()))
+                {
+                    newUsers.Add(user);
+                }
+            }
+
+            this.UsersManager.setUsers(newUsers);
         }
     }
 }

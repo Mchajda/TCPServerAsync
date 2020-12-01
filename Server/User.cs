@@ -10,23 +10,12 @@ namespace Server
     {
         [JsonProperty]
         private string login, password, role;
-        private bool isLogged { get; set; }
 
         public User(string login, string password)
         {
             this.login = login;
             this.password = password;
         }        
-
-        public void setLogged()
-        {
-            this.isLogged = true;
-        }
-
-        public void unSetLogged()
-        {
-            this.isLogged = false;
-        }
 
         public string getLogin()
         {
