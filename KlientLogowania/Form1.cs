@@ -14,50 +14,9 @@ namespace KlientLogowania
 {
     public partial class Form1 : Form
     {
-        private TcpClient client;
-        private NetworkStream stream;
-        private List<string> communicate = new List<string>();
-
-        private void sendMessage()
-        {
-            string buffer = "";
-
-            for(int i = 0; i < communicate.Count; i++)
-            {
-                buffer += communicate[i];
-                buffer += ";";
-            }
-
-            stream.Write(Encoding.ASCII.GetBytes(buffer), 0, buffer.Length);
-        }
-
-        private void receiveMessage()
-        {
-            byte[] buffer = new byte[1024];
-            int messageSize = 0;
-
-            int message_size = stream.Read(buffer, 0, buffer.Length);
-            string rawMessage = new ASCIIEncoding().GetString(buffer, 0, message_size);
-
-            for(int i=0; i < rawMessage.Length; i++)
-            {
-                if (rawMessage[i] == ';')
-                    messageSize++;
-            }
-
-            communicate = new List<string>(3);
-
-            for (int i = 0; i < communicate.Capacity; i++)
-            {
-                while(rawMessage.Length != 0)
-                {
-                    if (rawMessage[0] != ';')
-                        communicate[i] += rawMessage.Remove(0, 1);
-                    else
-                        break;
-                }
-            }
-        }
+        TcpClient client;
+        NetworkStream stream;
+        byte[] buffer = new byte[1024];
 
         private int PasswordStrength(string password)
         {
@@ -289,11 +248,9 @@ namespace KlientLogowania
 
         private string getUsername()
         {
-            communicate = new List<string>();
-            communicate.Add("username");
-            sendMessage();
-            receiveMessage();
-            return communicate[0];
+            stream.Write(Encoding.ASCII.GetBytes("username"), 0, "username".Length);
+            int message_size = stream.Read(buffer, 0, buffer.Length);
+            return new ASCIIEncoding().GetString(buffer, 0, message_size);
         }
 
         public Form1()
@@ -362,11 +319,9 @@ namespace KlientLogowania
         {
             label10.Hide();
             //This generates random 8-char password
-            communicate = new List<string>();
-            communicate.Add("generate");
-            sendMessage();
-            receiveMessage();
-            textBox4.Text = communicate[0];
+            stream.Write(Encoding.ASCII.GetBytes("generate"), 0, "generate".Length);
+            int message_size = stream.Read(buffer, 0, buffer.Length);
+            textBox4.Text = new ASCIIEncoding().GetString(buffer, 0, message_size);
             textBox5.Text = textBox4.Text;
         }
 
@@ -377,19 +332,19 @@ namespace KlientLogowania
             if (textBox1.TextLength != 0 && textBox2.TextLength != 0)
             {
                 //Username and password are typed
-                communicate = new List<string>();
-                communicate.Add("login");
-                communicate.Add(textBox1.Text);
-                communicate.Add(textBox2.Text);
-                sendMessage();
+                stream.Write(Encoding.ASCII.GetBytes("login"), 0, "login".Length);
+                stream.Read(buffer, 0, buffer.Length);
+                stream.Write(Encoding.ASCII.GetBytes(textBox1.Text), 0, textBox1.TextLength);
+                stream.Read(buffer, 0, buffer.Length);
+                stream.Write(Encoding.ASCII.GetBytes(textBox2.Text), 0, textBox2.TextLength);
 
-                receiveMessage();
-
-                if (communicate[0] == "login success")
+                int message_size = stream.Read(buffer, 0, buffer.Length);
+                string message = new ASCIIEncoding().GetString(buffer, 0, message_size);
+                if (message == "login success")
                 {
                     OpenLoggedIn();
                 }
-                else if(communicate[0] == "login failed")
+                else if(message == "login failed")
                 {
                     label3.Show();
                     label3.Text = "Incorrect username or password. Try again!";
@@ -414,16 +369,17 @@ namespace KlientLogowania
                     return;
                 }
 
-                communicate = new List<string>();
-                communicate.Add("register");
-                communicate.Add(textBox3.Text);
-                communicate.Add(textBox4.Text);
-                communicate.Add(textBox5.Text);
-                sendMessage();
+                stream.Write(Encoding.ASCII.GetBytes("register"), 0, "regsiter".Length);
+                stream.Read(buffer, 0, buffer.Length);
+                stream.Write(Encoding.ASCII.GetBytes(textBox3.Text), 0, textBox3.TextLength);
+                stream.Read(buffer, 0, buffer.Length);
+                stream.Write(Encoding.ASCII.GetBytes(textBox4.Text), 0, textBox4.TextLength);
+                stream.Read(buffer, 0, buffer.Length);
+                stream.Write(Encoding.ASCII.GetBytes(textBox5.Text), 0, textBox5.TextLength);
 
-                receiveMessage();
-
-                if (communicate[0] == "user exists")
+                int message_size = stream.Read(buffer, 0, buffer.Length);
+                string message = new ASCIIEncoding().GetString(buffer, 0, message_size);
+                if (message == "user exists")
                 {
                     label12.Show();
                     label12.Text = "Username occupied";
@@ -529,9 +485,7 @@ namespace KlientLogowania
         {
             //this logs out
 
-            communicate = new List<string>();
-            communicate.Add("logout");
-            sendMessage();
+            stream.Write(Encoding.ASCII.GetBytes("logout"), 0, "logout".Length);
 
             OpenLogin();
             label10.Show();
@@ -560,23 +514,24 @@ namespace KlientLogowania
                     return;
                 }
 
-                communicate = new List<string>();
-                communicate.Add("change password");
-                communicate.Add(textBox3.Text);
-                communicate.Add(textBox4.Text);
-                communicate.Add(textBox5.Text);
-                sendMessage();
-
-                receiveMessage();
-
-                if (communicate[0] == "changed password")
+                stream.Write(Encoding.ASCII.GetBytes("change password"), 0, "change password".Length);
+                stream.Read(buffer, 0, buffer.Length);
+                stream.Write(Encoding.ASCII.GetBytes(textBox3.Text), 0, textBox3.TextLength);
+                stream.Read(buffer, 0, buffer.Length);
+                stream.Write(Encoding.ASCII.GetBytes(textBox4.Text), 0, textBox4.TextLength);
+                stream.Read(buffer, 0, buffer.Length);
+                stream.Write(Encoding.ASCII.GetBytes(textBox5.Text), 0, textBox5.TextLength);
+                
+                int message_size = stream.Read(buffer, 0, buffer.Length);
+                string message = new ASCIIEncoding().GetString(buffer, 0, message_size);
+                if (message == "changed password")
                 {
                     //label10.Show();
                     OpenLoggedIn();
                     label15.Show();
                     label15.Text = "You have successfully changed password";
                 }
-                else if (communicate[0] == "wrong password")
+                else if (message == "wrong password")
                 {
                     label5.Show();
                     label5.Text = "Wrong current password";
@@ -614,22 +569,22 @@ namespace KlientLogowania
             //This changes username
             if (textBox3.TextLength != 0 && textBox4.TextLength != 0)
             {
-                communicate = new List<string>();
-                communicate.Add("change username");
-                communicate.Add(textBox3.Text);
-                communicate.Add(textBox4.Text);
-                sendMessage();
+                stream.Write(Encoding.ASCII.GetBytes("change username"), 0, "change username".Length);
+                stream.Read(buffer, 0, buffer.Length);
+                stream.Write(Encoding.ASCII.GetBytes(textBox3.Text), 0, textBox3.TextLength);
+                stream.Read(buffer, 0, buffer.Length);
+                stream.Write(Encoding.ASCII.GetBytes(textBox4.Text), 0, textBox4.TextLength);
 
-                receiveMessage();
-
-                if (communicate[0] == "changed username")
+                int message_size = stream.Read(buffer, 0, buffer.Length);
+                string message = new ASCIIEncoding().GetString(buffer, 0, message_size);
+                if (message == "changed username")
                 {
                     //label10.Show();
                     OpenLoggedIn();
                     label15.Show();
                     label15.Text = "You have successfully changed username";
                 }
-                else if (communicate[0] == "wrong password")
+                else if (message == "wrong password")
                 {
                     label5.Show();
                     label5.Text = "Wrong current password";
