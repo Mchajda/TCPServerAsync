@@ -33,7 +33,7 @@ namespace Server
                 Stream = tcpClient.GetStream();
                 TransmissionDataDelegate transmissionDelegate = new TransmissionDataDelegate(BeginDataTransmission);
 
-                transmissionDelegate.BeginInvoke(Stream, TransmissionCallback, tcpClient);
+                transmissionDelegate.BeginInvoke(Stream, TransmissionCallback, tcpClient);                
             }
         }
 
@@ -65,7 +65,7 @@ namespace Server
                                 this.StreamController.SendString("password confirm", buffer, stream);
                                 string passwordCheck = this.StreamController.ReadString(stream, buffer);
 
-                                this.ClientController.Register(login, password, passwordCheck);
+                                this.ClientController.Register(login, password, passwordCheck, "ROLE_USER");
                                 break;
                             }
                                 
@@ -87,6 +87,11 @@ namespace Server
                                 this.StreamController.SendString(PasswordGenerator.GeneratePassword(8), buffer, stream);
                                 break;
                             }
+
+                            case "close":
+                                {
+                                    return;
+                                }
 
                             default:
                             {
@@ -112,9 +117,39 @@ namespace Server
                         string str = this.StreamController.ReadString(stream, buffer);
                         switch (str)
                         {
+                            case "close":
+                                {
+                                    this.ClientController.getSession().LogOut();
+                                    return;
+                                }
+
+                            case "add_user":
+                                {
+                                    this.StreamController.SendString("login", buffer, stream);
+                                    string login = this.StreamController.ReadString(stream, buffer);
+                                    this.StreamController.SendString("password", buffer, stream);
+                                    string password = this.StreamController.ReadString(stream, buffer);
+                                    this.StreamController.SendString("password confirm", buffer, stream);
+                                    string passwordCheck = this.StreamController.ReadString(stream, buffer);
+                                    this.StreamController.SendString("role", buffer, stream);
+                                    string role = this.StreamController.ReadString(stream, buffer);
+
+                                    this.ClientController.Register(login, password, passwordCheck, role);
+                                    break;
+                                }
+
+                            case "is_admin":
+                            {
+                                    if(this.ClientController.getSession().session_admin)
+                                        this.StreamController.SendString("true", buffer, stream);
+                                    else
+                                        this.StreamController.SendString("false", buffer, stream);
+                                    break;
+                            }                                
+
                             case "logout":
                             {
-                                this.ClientController.getSession().setStatus(false);
+                                this.ClientController.getSession().LogOut();
                                 break;
                             }
                                 

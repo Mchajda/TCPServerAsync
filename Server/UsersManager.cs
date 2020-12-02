@@ -24,7 +24,7 @@ namespace Server
         public void saveUsers()
         {
             File.WriteAllText(usersPath, "");
-            foreach (User user in this.getUsers())
+            foreach (User user in users)
             {
                 string json = JsonConvert.SerializeObject(user);
                 this.saveUser(json);
@@ -80,7 +80,6 @@ namespace Server
 
         public void setUsers(ArrayList users)
         {
-            this.users.Clear();
             this.users = users;
         }
     }

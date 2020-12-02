@@ -62,6 +62,13 @@ namespace KlientLogowania
             this.button10 = new System.Windows.Forms.Button();
             this.button11 = new System.Windows.Forms.Button();
             this.label17 = new System.Windows.Forms.Label();
+            this.button12 = new System.Windows.Forms.Button();
+            this.button13 = new System.Windows.Forms.Button();
+            this.button14 = new System.Windows.Forms.Button();
+            this.label18 = new System.Windows.Forms.Label();
+            this.radioButton1 = new System.Windows.Forms.RadioButton();
+            this.radioButton2 = new System.Windows.Forms.RadioButton();
+            this.button15 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // label1
@@ -344,7 +351,7 @@ namespace KlientLogowania
             // button8
             // 
             this.button8.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.button8.Location = new System.Drawing.Point(266, 43);
+            this.button8.Location = new System.Drawing.Point(267, 44);
             this.button8.Name = "button8";
             this.button8.Size = new System.Drawing.Size(105, 36);
             this.button8.TabIndex = 32;
@@ -431,16 +438,99 @@ namespace KlientLogowania
             this.label17.Text = "label17";
             this.label17.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
+            // button12
+            // 
+            this.button12.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.button12.Location = new System.Drawing.Point(14, 89);
+            this.button12.Name = "button12";
+            this.button12.Size = new System.Drawing.Size(105, 36);
+            this.button12.TabIndex = 40;
+            this.button12.Text = "Add new user";
+            this.button12.UseVisualStyleBackColor = true;
+            this.button12.Click += new System.EventHandler(this.button12_Click);
+            // 
+            // button13
+            // 
+            this.button13.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.button13.Location = new System.Drawing.Point(140, 89);
+            this.button13.Name = "button13";
+            this.button13.Size = new System.Drawing.Size(105, 36);
+            this.button13.TabIndex = 41;
+            this.button13.Text = "Edit user data";
+            this.button13.UseVisualStyleBackColor = true;
+            this.button13.Click += new System.EventHandler(this.button13_Click);
+            // 
+            // button14
+            // 
+            this.button14.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.button14.Location = new System.Drawing.Point(267, 89);
+            this.button14.Name = "button14";
+            this.button14.Size = new System.Drawing.Size(105, 36);
+            this.button14.TabIndex = 42;
+            this.button14.Text = "Delete user from database";
+            this.button14.UseVisualStyleBackColor = true;
+            this.button14.Click += new System.EventHandler(this.button14_Click);
+            // 
+            // label18
+            // 
+            this.label18.AutoSize = true;
+            this.label18.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.label18.Location = new System.Drawing.Point(11, 213);
+            this.label18.Name = "label18";
+            this.label18.Size = new System.Drawing.Size(39, 18);
+            this.label18.TabIndex = 43;
+            this.label18.Text = "Role";
+            this.label18.Click += new System.EventHandler(this.label18_Click);
+            // 
+            // radioButton1
+            // 
+            this.radioButton1.AutoSize = true;
+            this.radioButton1.Location = new System.Drawing.Point(57, 213);
+            this.radioButton1.Name = "radioButton1";
+            this.radioButton1.Size = new System.Drawing.Size(54, 17);
+            this.radioButton1.TabIndex = 44;
+            this.radioButton1.TabStop = true;
+            this.radioButton1.Text = "Admin";
+            this.radioButton1.UseVisualStyleBackColor = true;
+            this.radioButton1.CheckedChanged += new System.EventHandler(this.radioButton1_CheckedChanged);
+            // 
+            // radioButton2
+            // 
+            this.radioButton2.AutoSize = true;
+            this.radioButton2.Location = new System.Drawing.Point(118, 213);
+            this.radioButton2.Name = "radioButton2";
+            this.radioButton2.Size = new System.Drawing.Size(47, 17);
+            this.radioButton2.TabIndex = 45;
+            this.radioButton2.TabStop = true;
+            this.radioButton2.Text = "User";
+            this.radioButton2.UseVisualStyleBackColor = true;
+            this.radioButton2.CheckedChanged += new System.EventHandler(this.radioButton2_CheckedChanged);
+            // 
+            // button15
+            // 
+            this.button15.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.button15.Location = new System.Drawing.Point(13, 295);
+            this.button15.Name = "button15";
+            this.button15.Size = new System.Drawing.Size(360, 34);
+            this.button15.TabIndex = 46;
+            this.button15.Text = "Submit";
+            this.button15.UseVisualStyleBackColor = true;
+            this.button15.Click += new System.EventHandler(this.button15_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(384, 341);
+            this.Controls.Add(this.radioButton2);
+            this.Controls.Add(this.radioButton1);
+            this.Controls.Add(this.label18);
+            this.Controls.Add(this.button14);
+            this.Controls.Add(this.button13);
+            this.Controls.Add(this.button12);
             this.Controls.Add(this.label17);
             this.Controls.Add(this.button11);
             this.Controls.Add(this.button6);
-            this.Controls.Add(this.label16);
-            this.Controls.Add(this.label6);
             this.Controls.Add(this.button7);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.textBox5);
@@ -453,8 +543,6 @@ namespace KlientLogowania
             this.Controls.Add(this.textBox2);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.textBox4);
-            this.Controls.Add(this.button2);
-            this.Controls.Add(this.button9);
             this.Controls.Add(this.button4);
             this.Controls.Add(this.label7);
             this.Controls.Add(this.label14);
@@ -469,9 +557,15 @@ namespace KlientLogowania
             this.Controls.Add(this.label10);
             this.Controls.Add(this.label15);
             this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.label6);
+            this.Controls.Add(this.label16);
+            this.Controls.Add(this.button2);
+            this.Controls.Add(this.button9);
+            this.Controls.Add(this.button15);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Name = "Form1";
             this.Text = "System logowania";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
             this.Load += new System.EventHandler(this.Form1_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -513,6 +607,13 @@ namespace KlientLogowania
         private System.Windows.Forms.Button button10;
         private System.Windows.Forms.Button button11;
         private System.Windows.Forms.Label label17;
+        private System.Windows.Forms.Button button12;
+        private System.Windows.Forms.Button button13;
+        private System.Windows.Forms.Button button14;
+        private System.Windows.Forms.Label label18;
+        private System.Windows.Forms.RadioButton radioButton1;
+        private System.Windows.Forms.RadioButton radioButton2;
+        private System.Windows.Forms.Button button15;
     }
 }
 

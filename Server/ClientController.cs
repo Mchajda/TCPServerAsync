@@ -32,9 +32,9 @@ namespace Server
             }
         }
 
-        public void Register(String login, String password, String passwordCheck)
+        public void Register(String login, String password, String passwordCheck, String role)
         {
-            this.SessionController.register(login, password, passwordCheck);
+            this.SessionController.register(login, password, passwordCheck, role);
         }
 
         public void ChangePassword(String oldpassword, String password, String passwordCheck)

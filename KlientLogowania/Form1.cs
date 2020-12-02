@@ -44,12 +44,16 @@ namespace KlientLogowania
             label11.Hide();
             label12.Hide();
             label17.Hide();
+            label18.Hide();
             textBox3.Hide();
             textBox4.Hide();
             textBox5.Hide();
             button3.Hide();
             button4.Hide();
             button5.Hide();
+            button15.Hide();
+            radioButton1.Hide();
+            radioButton2.Hide();
         }
 
         private void HideLogIn()
@@ -71,6 +75,9 @@ namespace KlientLogowania
             button6.Hide();
             button7.Hide();
             button8.Hide();
+            button12.Hide();
+            button13.Hide();
+            button14.Hide();
         }
 
         private void HideChangePassword()
@@ -124,6 +131,13 @@ namespace KlientLogowania
             button6.Show();
             button7.Show();
             button8.Show();
+
+            if (user_is_admin())
+            {
+                button12.Show();
+                button13.Show();
+                button14.Show();
+            }
         }
 
         private void ShowChangePassword()
@@ -253,6 +267,16 @@ namespace KlientLogowania
             return new ASCIIEncoding().GetString(buffer, 0, message_size);
         }
 
+        private bool user_is_admin()
+        {
+            stream.Write(Encoding.ASCII.GetBytes("is_admin"), 0, "is_admin".Length);
+            int message_size = stream.Read(buffer, 0, buffer.Length);
+            if (new ASCIIEncoding().GetString(buffer, 0, message_size) == "true")
+                return true;
+            else
+                return false;
+        }
+
         public Form1()
         {
             InitializeComponent();
@@ -369,7 +393,7 @@ namespace KlientLogowania
                     return;
                 }
 
-                stream.Write(Encoding.ASCII.GetBytes("register"), 0, "regsiter".Length);
+                stream.Write(Encoding.ASCII.GetBytes("register"), 0, "register".Length);
                 stream.Read(buffer, 0, buffer.Length);
                 stream.Write(Encoding.ASCII.GetBytes(textBox3.Text), 0, textBox3.TextLength);
                 stream.Read(buffer, 0, buffer.Length);
@@ -600,6 +624,94 @@ namespace KlientLogowania
         private void button11_Click(object sender, EventArgs e)
         {
             OpenLoggedIn();
+        }
+
+        private void button12_Click(object sender, EventArgs e)
+        {
+            OpenRegister();
+            label18.Show();
+            radioButton1.Show();
+            radioButton2.Show();
+            radioButton1.Checked = false;
+            radioButton2.Checked = false;
+            button4.Hide();
+            button15.Show();
+        }
+
+        private void button13_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button14_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void radioButton1_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void radioButton2_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button15_Click(object sender, EventArgs e)
+        {
+            //this adds new user by admin
+
+            if (textBox3.TextLength != 0 && textBox4.TextLength != 0 && textBox5.TextLength != 0 && (radioButton1.Checked || radioButton2.Checked))
+            {
+                if (textBox4.Text != textBox5.Text)
+                {
+                    label5.Show();
+                    label5.Text = "Passwords do not match. Try again.";
+                    return;
+                }
+
+                stream.Write(Encoding.ASCII.GetBytes("add_user"), 0, "add_user".Length);
+                stream.Read(buffer, 0, buffer.Length);
+                stream.Write(Encoding.ASCII.GetBytes(textBox3.Text), 0, textBox3.TextLength);
+                stream.Read(buffer, 0, buffer.Length);
+                stream.Write(Encoding.ASCII.GetBytes(textBox4.Text), 0, textBox4.TextLength);
+                stream.Read(buffer, 0, buffer.Length);
+                stream.Write(Encoding.ASCII.GetBytes(textBox5.Text), 0, textBox5.TextLength);
+                stream.Read(buffer, 0, buffer.Length);
+                if(radioButton1.Checked)
+                    stream.Write(Encoding.ASCII.GetBytes("ROLE_ADMIN"), 0, "ROLE_ADMIN".Length);
+                else if(radioButton2.Checked)
+                    stream.Write(Encoding.ASCII.GetBytes("ROLE_USER"), 0, "ROLE_ADMIN".Length);
+
+                int message_size = stream.Read(buffer, 0, buffer.Length);
+                string message = new ASCIIEncoding().GetString(buffer, 0, message_size);
+                if (message == "user exists")
+                {
+                    label12.Show();
+                    label12.Text = "Username occupied";
+                    return;
+                }
+
+                label10.Show();
+                label10.Text = "You have successfully registered";
+                OpenLogin();
+            }
+            else
+            {
+                label5.Show();
+                label5.Text = "You didn't fill all fields";
+            }
+        }
+
+        private void label18_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void Form1_FormClosing(Object sender, FormClosingEventArgs e)
+        {
+            stream.Write(Encoding.ASCII.GetBytes("close"), 0, "close".Length);
         }
     }
 }

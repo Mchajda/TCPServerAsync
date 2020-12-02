@@ -67,7 +67,7 @@ namespace Server
             }
         }
 
-        public void register(string login, string password, string passwordCheck)
+        public void register(string login, string password, string passwordCheck, string role)
         {
             bool is_valid_user = true;
 
@@ -85,7 +85,10 @@ namespace Server
                 if (password == passwordCheck)
                 {
                     User newUser = new User(login, password);
-                    newUser.setRole("ROLE_USER");
+                    newUser.setRole(role);
+                    ArrayList users = this.UsersManager.getUsers();
+                    users.Add(newUser);
+                    this.UsersManager.saveUsers();
                     string json = JsonConvert.SerializeObject(newUser);
                     this.UsersManager.saveUser(json);
 
@@ -141,6 +144,12 @@ namespace Server
             }
 
             this.UsersManager.setUsers(newUsers);
+        }
+
+        public void LogOut()
+        {
+            session_admin = false;
+            setStatus(false);
         }
     }
 }
