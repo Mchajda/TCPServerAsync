@@ -9,24 +9,13 @@ namespace Server
     class User
     {
         [JsonProperty]
-        private string login, password;
-        private bool isLogged { get; set; }
+        private string login, password, role;
 
         public User(string login, string password)
         {
             this.login = login;
             this.password = password;
         }        
-
-        public void setLogged()
-        {
-            this.isLogged = true;
-        }
-
-        public void unSetLogged()
-        {
-            this.isLogged = false;
-        }
 
         public string getLogin()
         {
@@ -38,6 +27,11 @@ namespace Server
             return this.password;
         }
 
+        public string getRole()
+        {
+            return this.role;
+        }
+
         public void setPassword(string passwd)
         {
             this.password = passwd;
@@ -46,6 +40,10 @@ namespace Server
         public void setLogin(string login)
         {
             this.login = login;
+        }
+        public void setRole(string role)
+        {
+            this.role = role;
         }
     }
 }

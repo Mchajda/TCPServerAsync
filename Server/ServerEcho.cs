@@ -128,9 +128,9 @@ namespace Server
         /// </summary>
         public abstract void Start();
 
-        protected abstract string ReadString(NetworkStream stream, byte[] buffer);
+        //protected abstract string ReadString(NetworkStream stream, byte[] buffer);
 
-        protected abstract void SendString(string str, byte[] buffer, NetworkStream stream);
+        //protected abstract void SendString(string str, byte[] buffer, NetworkStream stream);
 
         #endregion
 

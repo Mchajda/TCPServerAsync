@@ -12,18 +12,17 @@ namespace Server
 {
     public class ServerEchoAPM : ServerEcho
     {
-        //string message = "podaj login: ";
-        int buffer_size = 1024;
-        UserManager manager;
-        User current_user;
         PasswordGenerator PasswordGenerator;
+        StreamController StreamController;
+        ClientController ClientController;
 
         public delegate void TransmissionDataDelegate(NetworkStream stream);
 
         public ServerEchoAPM(IPAddress IP, int port) : base(IP, port)
         {
-            manager = new UserManager();
             PasswordGenerator = new PasswordGenerator();
+            StreamController = new StreamController();
+            ClientController = new ClientController();
         }
 
         protected override void AcceptClient()
@@ -34,15 +33,7 @@ namespace Server
                 Stream = tcpClient.GetStream();
                 TransmissionDataDelegate transmissionDelegate = new TransmissionDataDelegate(BeginDataTransmission);
 
-                //callback style
-
                 transmissionDelegate.BeginInvoke(Stream, TransmissionCallback, tcpClient);
-
-                // async result style
-                //IAsyncResult result = transmissionDelegate.BeginInvoke(Stream, null, null);
-                ////operacje......
-                //while (!result.IsCompleted) ;
-                ////sprzątanie
             }
         }
 
@@ -52,47 +43,56 @@ namespace Server
             client.Close();
         }
 
-        protected override string ReadString(NetworkStream stream, byte[] buffer)
-        {
-            int message_size = stream.Read(buffer, 0, buffer_size);
-            //stream.ReadByte();
-            //stream.ReadByte();
-            return new ASCIIEncoding().GetString(buffer, 0, message_size);
-        }
-
-        protected override void SendString(string str, byte[] buffer, NetworkStream stream)
-        {
-            buffer = Encoding.ASCII.GetBytes(str);
-            stream.Write(buffer, 0, str.Length);
-        }
-
         protected override void BeginDataTransmission(NetworkStream stream)
         {
             byte[] buffer = new byte[Buffer_size];
 
             while (true)
             {
-                while (this.manager.session_is_logged != true)
+                while (this.ClientController.getSession().getStatus() != true)
                 {
-                    manager.readUsers();
                     try
                     {
-                        switch (ReadString(stream, buffer))
+                        switch (this.StreamController.ReadString(stream, buffer))
                         {
                             case "register":
+                            {
                                 //Rejestracja
-                                Register(buffer, stream);
+                                this.StreamController.SendString("login", buffer, stream);
+                                string login = this.StreamController.ReadString(stream, buffer);
+                                this.StreamController.SendString("password", buffer, stream);
+                                string password = this.StreamController.ReadString(stream, buffer);
+                                this.StreamController.SendString("password confirm", buffer, stream);
+                                string passwordCheck = this.StreamController.ReadString(stream, buffer);
+
+                                this.ClientController.Register(login, password, passwordCheck);
                                 break;
+                            }
+                                
                             case "login":
+                            {
                                 // LOGOWANIE
-                                LogIn(buffer, stream);
+                                this.StreamController.SendString("podaj login: ", buffer, stream);
+                                string loginl = this.StreamController.ReadString(stream, buffer);
+                                this.StreamController.SendString("podaj haslo: ", buffer, stream);
+                                string passwordl = this.StreamController.ReadString(stream, buffer);
+
+                                this.ClientController.LogIn(loginl, passwordl);
                                 break;
+                            }
+                                
                             case "generate":
+                            {
                                 //Generowanie hasła
-                                SendString(PasswordGenerator.GeneratePassword(8), buffer, stream);
+                                this.StreamController.SendString(PasswordGenerator.GeneratePassword(8), buffer, stream);
                                 break;
+                            }
+
                             default:
+                            {
                                 break;
+                            }
+                                
                         }
                     }
                     catch (IOException e)
@@ -101,36 +101,65 @@ namespace Server
                     }
                     catch (Exception exc)
                     {
-                        SendString(exc.Message, buffer, stream);
+                        this.StreamController.SendString(exc.Message, buffer, stream);
                     }
                 }
 
-                while (this.manager.session_is_logged == true)
+                while (this.ClientController.getSession().getStatus() == true)
                 {
                     try
                     {
-                        string str = ReadString(stream, buffer);
+                        string str = this.StreamController.ReadString(stream, buffer);
                         switch (str)
                         {
                             case "logout":
-                                this.manager.session_is_logged = false;
-                                current_user.unSetLogged();
+                            {
+                                this.ClientController.getSession().setStatus(false);
                                 break;
+                            }
+                                
                             case "generate":
+                            {
                                 //Generowanie hasła
-                                SendString(PasswordGenerator.GeneratePassword(8), buffer, stream);
+                                this.StreamController.SendString(PasswordGenerator.GeneratePassword(8), buffer, stream);
                                 break;
+                            }
+                                
                             case "change password":
-                                ChangePassword(buffer, stream);
+                            {
+                                this.StreamController.SendString("oldpassword", buffer, stream);
+                                string oldpassword = this.StreamController.ReadString(stream, buffer);
+                                this.StreamController.SendString("newpassword", buffer, stream);
+                                string password = this.StreamController.ReadString(stream, buffer);
+                                this.StreamController.SendString("password confirm", buffer, stream);
+                                string passwordCheck = this.StreamController.ReadString(stream, buffer);
+
+                                this.ClientController.ChangePassword(oldpassword, password, passwordCheck);
                                 break;
+                            }
+
                             case "change username":
-                                ChangeUsername(buffer, stream);
+                            {
+                                this.StreamController.SendString("oldpassword", buffer, stream);
+                                string oldpassword1 = this.StreamController.ReadString(stream, buffer);
+                                this.StreamController.SendString("newlogin", buffer, stream);
+                                string login = this.StreamController.ReadString(stream, buffer);
+
+                                this.ClientController.ChangeUsername(oldpassword1, login);
                                 break;
+                            }
+                                
                             case "username":
-                                SendString(current_user.getLogin(), buffer, stream);
+                            {
+                                this.StreamController.SendString(this.ClientController.getSession().getUser().getLogin(), buffer, stream);
                                 break;
+                            }
+
                             default:
+                            {
                                 break;
+                            }
+                                
                         }
                     }
                     catch (IOException e)
@@ -140,84 +169,15 @@ namespace Server
                     }
                     catch (Exception exc)
                     {
-                        SendString(exc.Message, buffer, stream);
+                        this.StreamController.SendString(exc.Message, buffer, stream);
                     }
                 }
-            }
-        }
-
-        private void ChangeUsername(byte[] buffer, NetworkStream stream)
-        {
-            SendString("oldpassword", buffer, stream);
-            string oldpassword = ReadString(stream, buffer);
-            SendString("newlogin", buffer, stream);
-            string login = ReadString(stream, buffer);
-            string passwordCheck = oldpassword;
-
-            if (this.current_user.getPassword() == oldpassword)
-            {
-                this.manager.changeLogin(current_user.getLogin(), login);
-                throw new Exception("changed username");
-            }
-            else
-            {
-                throw new Exception("wrong password");
-            }
-        }
-
-        private void ChangePassword(byte[] buffer, NetworkStream stream)
-        {
-            SendString("oldpassword", buffer, stream);
-            string oldpassword = ReadString(stream, buffer);
-            SendString("newpassword", buffer, stream);
-            string password = ReadString(stream, buffer);
-            SendString("password confirm", buffer, stream);
-            string passwordCheck = ReadString(stream, buffer);
-
-            if (this.current_user.getPassword() == oldpassword)
-            {
-                this.manager.changePassword(current_user.getLogin(), password, passwordCheck);
-                throw new Exception("changed password");
-            }
-            else { 
-                throw new Exception("wrong password");
-            }                      
-        }
-
-        private void Register(byte[] buffer, NetworkStream stream)
-        {
-            SendString("login", buffer, stream);
-            string login = ReadString(stream, buffer);
-            SendString("password", buffer, stream);
-            string password = ReadString(stream, buffer);
-            SendString("password confirm", buffer, stream);
-            string passwordCheck = ReadString(stream, buffer);
-
-            this.manager.register(login, password, passwordCheck);
-        }
-
-        private void LogIn(byte[] buffer, NetworkStream stream)
-        {
-            SendString("podaj login: ", buffer, stream);
-            string login = ReadString(stream, buffer);
-            SendString("podaj haslo: ", buffer, stream);
-            string password = ReadString(stream, buffer);
-            //authorization
-            this.current_user = this.manager.authorize(login, password, this.manager);
-            if (!(manager.session_is_logged))
-            {
-                throw new Exception("login failed");
-            }
-            else
-            {
-                throw new Exception("login success");
             }
         }
 
         public override void Start()
         {
             StartListening();
-            //transmission starts within the accept function
             AcceptClient();
         }
     }
