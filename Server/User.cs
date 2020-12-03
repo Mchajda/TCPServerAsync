@@ -15,7 +15,7 @@ namespace Server
         {
             this.login = login;
             this.password = password;
-        }        
+        }
 
         public string getLogin()
         {

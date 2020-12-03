@@ -24,6 +24,11 @@ namespace Server
             return this.current_user;
         }
 
+        public ArrayList getUsers()
+        {
+            return UsersManager.getUsers();
+        }
+
         public void setUser(User user)
         {
             this.current_user = user;
@@ -98,6 +103,23 @@ namespace Server
             }
             else throw new Exception("istnieje użytkownik o podanym loginie");
         }
+
+        public void editUser(string login, string new_login, string password, string role)
+        {
+            foreach (User user in getUsers())
+            {
+                if (user.getLogin() == login)
+                {
+                    user.setLogin(new_login);
+                    user.setPassword(password);
+                    user.setRole(role);
+                    UsersManager.saveUsers();
+                    throw new Exception("success");                   
+                }
+            }
+            throw new Exception("no such user");
+        }
+
         public void changePassword(string login, string password, string passwordCheck)
         {
             foreach (User user in this.UsersManager.getUsers())
@@ -130,20 +152,19 @@ namespace Server
         }
 
         //admin methods
-        public void deleteUser(User u)
+        public void deleteUser(string user)
         {
-            ArrayList users = this.UsersManager.getUsers();
-            ArrayList newUsers = new ArrayList();
-
-            foreach (User user in users)
+            foreach (User u in UsersManager.getUsers())
             {
-                if (!(u.getLogin() == user.getLogin() && u.getPassword() == user.getPassword()))
+                if (u.getLogin() == user)
                 {
-                    newUsers.Add(user);
+                    UsersManager.getUsers().Remove(u);
+                    UsersManager.saveUsers();
+                    throw new Exception("success");
                 }
             }
 
-            this.UsersManager.setUsers(newUsers);
+            throw new Exception("no such user");
         }
 
         public void LogOut()

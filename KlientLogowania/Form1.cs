@@ -34,6 +34,26 @@ namespace KlientLogowania
             return strength;
         }
 
+        private void ClearTextBoxes()
+        {
+            //Clear textboxes
+            textBox1.Text = "";
+            textBox2.Text = "";
+            textBox3.Text = "";
+            textBox4.Text = "";
+            textBox5.Text = "";
+        }
+
+        private void GeneratePassword(TextBox text)
+        {
+            label10.Hide();
+            //This generates random 8-char password
+            stream.Write(Encoding.ASCII.GetBytes("generate"), 0, "generate".Length);
+            int message_size = stream.Read(buffer, 0, buffer.Length);
+            text.Text = new ASCIIEncoding().GetString(buffer, 0, message_size);
+            text.Text = text.Text;
+        }
+
         private void HideRegister()
         {
             label5.Hide();
@@ -95,6 +115,51 @@ namespace KlientLogowania
             label16.Hide();
             button10.Hide();
             button11.Hide();
+        }
+
+        private void HideAddNewUser()
+        {
+            HideRegister();
+            label9.Hide();
+            label18.Hide();
+            label19.Hide();
+            label20.Hide();
+            radioButton1.Hide();
+            radioButton2.Hide();
+
+            button4.Hide();
+            button11.Hide();
+            button15.Hide();
+        }
+
+        private void HideEditUserData()
+        {
+            label6.Hide();
+            label7.Hide();
+            label11.Hide();
+            label18.Hide();
+
+            textBox3.Hide();
+            textBox4.Hide();
+            textBox5.Hide();
+
+            radioButton1.Hide();
+            radioButton2.Hide();
+
+            button11.Hide();
+            button16.Hide();
+            button17.Hide();
+        }
+
+        private void HideDeleteUser()
+        {
+            label7.Hide();
+            label21.Hide();
+
+            textBox3.Hide();
+
+            button11.Hide();
+            button18.Hide();
         }
 
         private void ShowRegister()
@@ -164,6 +229,52 @@ namespace KlientLogowania
             button10.Show();
             button11.Show();
         }
+        private void ShowAddNewUser()
+        {
+            label9.Hide();
+            label18.Show();
+            label19.Show();
+            radioButton1.Show();
+            radioButton2.Show();
+
+            button4.Hide();
+            button5.Hide();
+            button11.Show();
+            button15.Show();
+        }
+
+
+        private void ShowEditUserData()
+        {
+            label6.Show();
+            label7.Show();
+            label11.Show();
+            label17.Show();
+            label18.Show();
+            label20.Show();
+
+            textBox3.Show();
+            textBox4.Show();
+            textBox5.Show();
+
+            radioButton1.Show();
+            radioButton2.Show();
+
+            button11.Show();
+            button16.Show();
+            button17.Show();
+        }
+
+        private void ShowDeleteUser()
+        {
+            label7.Show();
+            label21.Show();
+
+            textBox3.Show();
+
+            button11.Show();
+            button18.Show();
+        }
 
         private void OpenRegister()
         {
@@ -176,15 +287,9 @@ namespace KlientLogowania
             label5.Hide();
             //Show register form
             ShowRegister();
-
-            //Clear textboxes
-            textBox1.Text = "";
-            textBox2.Text = "";
-            textBox3.Text = "";
-            textBox4.Text = "";
-            textBox5.Text = "";
+            ClearTextBoxes();
         }
-        
+
         private void OpenLogin()
         {
             label3.Hide();
@@ -197,12 +302,7 @@ namespace KlientLogowania
             //Hide logged in form
             HideLoggedIn();
 
-            //Clear textboxes
-            textBox1.Text = "";
-            textBox2.Text = "";
-            textBox3.Text = "";
-            textBox4.Text = "";
-            textBox5.Text = "";
+            ClearTextBoxes();
         }
 
         private void OpenLoggedIn()
@@ -219,16 +319,14 @@ namespace KlientLogowania
             //Hide ChangeUsername form
             HideChangeUsername();
 
+            HideAddNewUser();
+            HideEditUserData();
+
             ShowLoggedIn();
 
             label13.Text = "User " + getUsername() + " is now logged in";
 
-            //Clear textboxes
-            textBox1.Text = "";
-            textBox2.Text = "";
-            textBox3.Text = "";
-            textBox4.Text = "";
-            textBox5.Text = "";
+            ClearTextBoxes();
         }
 
         private void OpenChangePassword()
@@ -237,12 +335,7 @@ namespace KlientLogowania
             ShowChangePassword();
             label8.Text = "Change password";
 
-            //Clear textboxes
-            textBox1.Text = "";
-            textBox2.Text = "";
-            textBox3.Text = "";
-            textBox4.Text = "";
-            textBox5.Text = "";
+            ClearTextBoxes();
         }
 
         private void OpenChangeUsername()
@@ -252,13 +345,40 @@ namespace KlientLogowania
 
             label8.Text = "Change username";
 
-            //Clear textboxes
-            textBox1.Text = "";
-            textBox2.Text = "";
-            textBox3.Text = "";
-            textBox4.Text = "";
-            textBox5.Text = "";
+            ClearTextBoxes();
         }
+
+        private void OpenAddNewUser()
+        {
+            OpenRegister();
+            ShowAddNewUser();
+
+            radioButton1.Checked = false;
+            radioButton2.Checked = false;
+        }        
+
+        private void OpenEditUserData()
+        {
+            HideLoggedIn();
+            ShowEditUserData();
+            label7.Text = "User to change";
+            label6.Text = "New username";
+            label11.Text = "New password";
+            label17.Text = "";
+
+            radioButton1.Checked = false;
+            radioButton2.Checked = false;
+        }
+
+        private void OpenDeleteUser()
+        {
+            HideLoggedIn();
+            ShowDeleteUser();
+            ClearTextBoxes();
+
+            label7.Text = "Username";
+        }
+
 
         private string getUsername()
         {
@@ -302,6 +422,10 @@ namespace KlientLogowania
 
             //Hide ChangePassword form
             HideChangeUsername();
+
+            HideAddNewUser();
+
+            HideEditUserData();
         }
         private void Form1_Load(object sender, EventArgs e)
         {
@@ -341,12 +465,8 @@ namespace KlientLogowania
 
         private void button3_Click(object sender, EventArgs e)
         {
-            label10.Hide();
-            //This generates random 8-char password
-            stream.Write(Encoding.ASCII.GetBytes("generate"), 0, "generate".Length);
-            int message_size = stream.Read(buffer, 0, buffer.Length);
-            textBox4.Text = new ASCIIEncoding().GetString(buffer, 0, message_size);
-            textBox5.Text = textBox4.Text;
+            GeneratePassword(textBox5);
+            textBox4.Text = textBox5.Text;
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -423,25 +543,7 @@ namespace KlientLogowania
 
         private void textBox4_TextChanged(object sender, EventArgs e)
         {
-            if(textBox4.Text.Length == 0)
-            {
-                label17.Text = "";
-            }
-            else if (PasswordStrength(textBox4.Text) < textBox4.Text.Length * 3)
-            {
-                label17.Text = "Siła hasła: słabe";
-                label17.ForeColor = Color.Red;
-            }
-            else if (PasswordStrength(textBox4.Text) < textBox4.Text.Length * 4)
-            {
-                label17.Text = "Siła hasła: średnie";
-                label17.ForeColor = Color.Orange;
-            }
-            else
-            {
-                label17.Text = "Siła hasła: mocne";
-                label17.ForeColor = Color.Green;
-            }
+            
         }
 
         private void textBox3_TextChanged(object sender, EventArgs e)
@@ -492,7 +594,25 @@ namespace KlientLogowania
 
         private void textBox5_TextChanged(object sender, EventArgs e)
         {
-
+            if (textBox5.Text.Length == 0)
+            {
+                label17.Text = "";
+            }
+            else if (PasswordStrength(textBox5.Text) < textBox5.Text.Length * 3)
+            {
+                label17.Text = "Password strength: low";
+                label17.ForeColor = Color.Red;
+            }
+            else if (PasswordStrength(textBox5.Text) < textBox5.Text.Length * 4)
+            {
+                label17.Text = "Password strength: medium";
+                label17.ForeColor = Color.Orange;
+            }
+            else
+            {
+                label17.Text = "Password strength: high";
+                label17.ForeColor = Color.Green;
+            }
         }
 
         private void label11_Click(object sender, EventArgs e)
@@ -628,24 +748,17 @@ namespace KlientLogowania
 
         private void button12_Click(object sender, EventArgs e)
         {
-            OpenRegister();
-            label18.Show();
-            radioButton1.Show();
-            radioButton2.Show();
-            radioButton1.Checked = false;
-            radioButton2.Checked = false;
-            button4.Hide();
-            button15.Show();
+            OpenAddNewUser();
         }
 
         private void button13_Click(object sender, EventArgs e)
         {
-
+            OpenEditUserData();
         }
-
+        
         private void button14_Click(object sender, EventArgs e)
         {
-
+            OpenDeleteUser();
         }
 
         private void radioButton1_CheckedChanged(object sender, EventArgs e)
@@ -682,7 +795,7 @@ namespace KlientLogowania
                 if(radioButton1.Checked)
                     stream.Write(Encoding.ASCII.GetBytes("ROLE_ADMIN"), 0, "ROLE_ADMIN".Length);
                 else if(radioButton2.Checked)
-                    stream.Write(Encoding.ASCII.GetBytes("ROLE_USER"), 0, "ROLE_ADMIN".Length);
+                    stream.Write(Encoding.ASCII.GetBytes("ROLE_USER"), 0, "ROLE_USER".Length);
 
                 int message_size = stream.Read(buffer, 0, buffer.Length);
                 string message = new ASCIIEncoding().GetString(buffer, 0, message_size);
@@ -693,9 +806,10 @@ namespace KlientLogowania
                     return;
                 }
 
-                label10.Show();
-                label10.Text = "You have successfully registered";
-                OpenLogin();
+                OpenLoggedIn();
+                label17.Show();
+                label17.Text = "You have successfully add a new user";
+                label17.ForeColor = Color.Green;
             }
             else
             {
@@ -712,6 +826,92 @@ namespace KlientLogowania
         private void Form1_FormClosing(Object sender, FormClosingEventArgs e)
         {
             stream.Write(Encoding.ASCII.GetBytes("close"), 0, "close".Length);
+        }
+
+        private void label17_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button16_Click(object sender, EventArgs e)
+        {
+            //this edits user data
+
+            if (textBox3.TextLength != 0 && textBox4.TextLength != 0 && textBox5.TextLength != 0 && (radioButton1.Checked || radioButton2.Checked))
+            {
+                stream.Write(Encoding.ASCII.GetBytes("edit_user"), 0, "edit_user".Length);
+                stream.Read(buffer, 0, buffer.Length);
+                stream.Write(Encoding.ASCII.GetBytes(textBox3.Text), 0, textBox3.TextLength);
+                stream.Read(buffer, 0, buffer.Length);
+                stream.Write(Encoding.ASCII.GetBytes(textBox4.Text), 0, textBox4.TextLength);
+                stream.Read(buffer, 0, buffer.Length);
+                stream.Write(Encoding.ASCII.GetBytes(textBox5.Text), 0, textBox5.TextLength);
+                stream.Read(buffer, 0, buffer.Length);
+                if (radioButton1.Checked)
+                    stream.Write(Encoding.ASCII.GetBytes("ROLE_ADMIN"), 0, "ROLE_ADMIN".Length);
+                else if (radioButton2.Checked)
+                    stream.Write(Encoding.ASCII.GetBytes("ROLE_USER"), 0, "ROLE_USER".Length);
+
+                int message_size = stream.Read(buffer, 0, buffer.Length);
+                string message = new ASCIIEncoding().GetString(buffer, 0, message_size);
+                if (message == "no such user")
+                {
+                    label12.Show();
+                    label12.Text = "No such user";
+                    return;
+                }
+
+                OpenLoggedIn();
+                label17.Show();
+                label17.Text = "You have successfully edited user data";
+                label17.ForeColor = Color.Green;
+            }
+        }
+
+        private void button17_Click(object sender, EventArgs e)
+        {
+            GeneratePassword(textBox5);
+        }
+
+        private void label19_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label20_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label21_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button18_Click(object sender, EventArgs e)
+        {
+            //this deletes user from database
+
+            if (textBox3.TextLength != 0)
+            {
+                stream.Write(Encoding.ASCII.GetBytes("delete_user"), 0, "delete_user".Length);
+                stream.Read(buffer, 0, buffer.Length);
+                stream.Write(Encoding.ASCII.GetBytes(textBox3.Text), 0, textBox3.TextLength);
+
+                int message_size = stream.Read(buffer, 0, buffer.Length);
+                string message = new ASCIIEncoding().GetString(buffer, 0, message_size);
+                if (message == "no such user")
+                {
+                    label12.Show();
+                    label12.Text = "No such user";
+                    return;
+                }
+
+                OpenLoggedIn();
+                label17.Show();
+                label17.Text = "You have successfully deleted user from database";
+                label17.ForeColor = Color.Green;
+            }
         }
     }
 }

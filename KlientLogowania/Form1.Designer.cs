@@ -69,6 +69,12 @@ namespace KlientLogowania
             this.radioButton1 = new System.Windows.Forms.RadioButton();
             this.radioButton2 = new System.Windows.Forms.RadioButton();
             this.button15 = new System.Windows.Forms.Button();
+            this.button16 = new System.Windows.Forms.Button();
+            this.button17 = new System.Windows.Forms.Button();
+            this.label19 = new System.Windows.Forms.Label();
+            this.label20 = new System.Windows.Forms.Label();
+            this.label21 = new System.Windows.Forms.Label();
+            this.button18 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // label1
@@ -321,7 +327,7 @@ namespace KlientLogowania
             this.label13.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.label13.Location = new System.Drawing.Point(12, 9);
             this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(360, 52);
+            this.label13.Size = new System.Drawing.Size(360, 30);
             this.label13.TabIndex = 29;
             this.label13.Text = "Someone is logged in";
             this.label13.Click += new System.EventHandler(this.label13_Click);
@@ -437,6 +443,7 @@ namespace KlientLogowania
             this.label17.TabIndex = 39;
             this.label17.Text = "label17";
             this.label17.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.label17.Click += new System.EventHandler(this.label17_Click);
             // 
             // button12
             // 
@@ -517,51 +524,123 @@ namespace KlientLogowania
             this.button15.UseVisualStyleBackColor = true;
             this.button15.Click += new System.EventHandler(this.button15_Click);
             // 
+            // button16
+            // 
+            this.button16.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.button16.Location = new System.Drawing.Point(13, 295);
+            this.button16.Name = "button16";
+            this.button16.Size = new System.Drawing.Size(359, 34);
+            this.button16.TabIndex = 47;
+            this.button16.Text = "Submit";
+            this.button16.UseVisualStyleBackColor = true;
+            this.button16.Click += new System.EventHandler(this.button16_Click);
+            // 
+            // button17
+            // 
+            this.button17.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.button17.Location = new System.Drawing.Point(249, 143);
+            this.button17.Name = "button17";
+            this.button17.Size = new System.Drawing.Size(123, 21);
+            this.button17.TabIndex = 48;
+            this.button17.Text = "Generate password";
+            this.button17.UseVisualStyleBackColor = true;
+            this.button17.Click += new System.EventHandler(this.button17_Click);
+            // 
+            // label19
+            // 
+            this.label19.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.label19.Location = new System.Drawing.Point(13, 9);
+            this.label19.Name = "label19";
+            this.label19.Size = new System.Drawing.Size(360, 25);
+            this.label19.TabIndex = 49;
+            this.label19.Text = "ADD A NEW USER";
+            this.label19.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.label19.Click += new System.EventHandler(this.label19_Click);
+            // 
+            // label20
+            // 
+            this.label20.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.label20.Location = new System.Drawing.Point(11, 9);
+            this.label20.Name = "label20";
+            this.label20.Size = new System.Drawing.Size(360, 25);
+            this.label20.TabIndex = 50;
+            this.label20.Text = "EDIT USER DATA";
+            this.label20.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.label20.Click += new System.EventHandler(this.label20_Click);
+            // 
+            // label21
+            // 
+            this.label21.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.label21.Location = new System.Drawing.Point(10, 9);
+            this.label21.Name = "label21";
+            this.label21.Size = new System.Drawing.Size(360, 25);
+            this.label21.TabIndex = 51;
+            this.label21.Text = "DELETE USER FROM DATABASE";
+            this.label21.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.label21.Click += new System.EventHandler(this.label21_Click);
+            // 
+            // button18
+            // 
+            this.button18.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.button18.Location = new System.Drawing.Point(13, 295);
+            this.button18.Name = "button18";
+            this.button18.Size = new System.Drawing.Size(359, 34);
+            this.button18.TabIndex = 52;
+            this.button18.Text = "Delete";
+            this.button18.UseVisualStyleBackColor = true;
+            this.button18.Click += new System.EventHandler(this.button18_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(384, 341);
+            this.Controls.Add(this.button18);
+            this.Controls.Add(this.label21);
+            this.Controls.Add(this.label20);
+            this.Controls.Add(this.label19);
+            this.Controls.Add(this.button17);
+            this.Controls.Add(this.button16);
             this.Controls.Add(this.radioButton2);
             this.Controls.Add(this.radioButton1);
             this.Controls.Add(this.label18);
             this.Controls.Add(this.button14);
             this.Controls.Add(this.button13);
-            this.Controls.Add(this.button12);
             this.Controls.Add(this.label17);
-            this.Controls.Add(this.button11);
-            this.Controls.Add(this.button6);
             this.Controls.Add(this.button7);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.textBox5);
             this.Controls.Add(this.label11);
-            this.Controls.Add(this.button5);
             this.Controls.Add(this.label9);
             this.Controls.Add(this.button3);
             this.Controls.Add(this.label5);
-            this.Controls.Add(this.button1);
             this.Controls.Add(this.textBox2);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.textBox4);
             this.Controls.Add(this.button4);
-            this.Controls.Add(this.label7);
-            this.Controls.Add(this.label14);
             this.Controls.Add(this.button8);
             this.Controls.Add(this.label12);
-            this.Controls.Add(this.textBox3);
-            this.Controls.Add(this.label3);
-            this.Controls.Add(this.label13);
-            this.Controls.Add(this.label8);
-            this.Controls.Add(this.label4);
             this.Controls.Add(this.button10);
-            this.Controls.Add(this.label10);
-            this.Controls.Add(this.label15);
             this.Controls.Add(this.textBox1);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.label16);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.button9);
             this.Controls.Add(this.button15);
+            this.Controls.Add(this.button12);
+            this.Controls.Add(this.label15);
+            this.Controls.Add(this.label7);
+            this.Controls.Add(this.label3);
+            this.Controls.Add(this.textBox3);
+            this.Controls.Add(this.label10);
+            this.Controls.Add(this.button11);
+            this.Controls.Add(this.button5);
+            this.Controls.Add(this.button1);
+            this.Controls.Add(this.label8);
+            this.Controls.Add(this.label4);
+            this.Controls.Add(this.label13);
+            this.Controls.Add(this.button6);
+            this.Controls.Add(this.label14);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Name = "Form1";
             this.Text = "System logowania";
@@ -614,6 +693,12 @@ namespace KlientLogowania
         private System.Windows.Forms.RadioButton radioButton1;
         private System.Windows.Forms.RadioButton radioButton2;
         private System.Windows.Forms.Button button15;
+        private System.Windows.Forms.Button button16;
+        private System.Windows.Forms.Button button17;
+        private System.Windows.Forms.Label label19;
+        private System.Windows.Forms.Label label20;
+        private System.Windows.Forms.Label label21;
+        private System.Windows.Forms.Button button18;
     }
 }
 

@@ -82,5 +82,10 @@ namespace Server
         {
             this.users = users;
         }
+
+        internal void saveUser(User user)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

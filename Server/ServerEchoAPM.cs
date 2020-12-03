@@ -117,6 +117,30 @@ namespace Server
                         string str = this.StreamController.ReadString(stream, buffer);
                         switch (str)
                         {
+                            case "delete_user":
+                                {
+                                    this.StreamController.SendString("login", buffer, stream);
+                                    string login = this.StreamController.ReadString(stream, buffer);
+
+                                    this.ClientController.DeleteUser(login);
+                                    break;
+                                }
+
+                            case "edit_user":
+                                {
+                                    this.StreamController.SendString("login", buffer, stream);
+                                    string login = this.StreamController.ReadString(stream, buffer);
+                                    this.StreamController.SendString("new_login", buffer, stream);
+                                    string new_login = this.StreamController.ReadString(stream, buffer);
+                                    this.StreamController.SendString("new password", buffer, stream);
+                                    string password = this.StreamController.ReadString(stream, buffer);
+                                    this.StreamController.SendString("role", buffer, stream);
+                                    string role = this.StreamController.ReadString(stream, buffer);
+
+                                    this.ClientController.EditUser(login, new_login, password, role);
+                                    break;
+                                }
+
                             case "close":
                                 {
                                     this.ClientController.getSession().LogOut();
