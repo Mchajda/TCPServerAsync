@@ -25,9 +25,7 @@ namespace Server
             PasswordGenerator = new PasswordGenerator();
             StreamController = new StreamController();
             ClientController = new ClientController();
-            DBConnection = new DBConnection("localhost", "3306", "root", "", "imgo");
-            DBConnection.startConnection();
-            DBConnection.fetchData();
+            
         }
 
         protected override void AcceptClient()
@@ -45,7 +43,6 @@ namespace Server
         private void TransmissionCallback(IAsyncResult ar)
         {
             TcpClient client = (TcpClient)ar.AsyncState;
-            DBConnection.closeConnection();
             client.Close();
         }
 

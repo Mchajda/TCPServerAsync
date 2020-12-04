@@ -8,7 +8,7 @@ namespace Server
     class DBConnection
     {
         public string server, port, db_login, db_password, db_name;
-        MySqlConnection connection;
+        public MySqlConnection connection;
 
         public DBConnection(string server, string port, string db_login, string db_password, string db_name)
         {
@@ -39,24 +39,6 @@ namespace Server
         {
             this.connection.Close();
             Console.WriteLine("connection is " + this.connection.State.ToString());
-        }
-
-        public void fetchData()
-        {
-            Console.WriteLine("connection is " + this.connection.State.ToString());
-
-            MySqlCommand comm = this.connection.CreateCommand();
-            comm.CommandType = System.Data.CommandType.Text;
-            comm.CommandText = "SELECT * FROM user";
-            MySqlDataReader reader = comm.ExecuteReader();
-
-            if (reader.HasRows)
-            {
-                while (reader.Read())
-                {
-                    System.Console.WriteLine(reader.GetString(1) + Environment.NewLine);
-                }
-            }
         }
     }
 }

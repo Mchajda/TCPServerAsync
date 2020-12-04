@@ -84,10 +84,9 @@ namespace Server
             {
                 if (password == passwordCheck)
                 {
-                    User newUser = new User(login, password);
-                    newUser.setRole("ROLE_USER");
-                    string json = JsonConvert.SerializeObject(newUser);
-                    this.UsersManager.saveUser(json);
+                    User newUser = new User(login, password, "ROLE_USER");
+                    
+                    this.UsersManager.insertRow(login, password, "ROLE_USER");
 
                     throw new Exception("registration successful");
                 }
@@ -95,6 +94,7 @@ namespace Server
             }
             else throw new Exception("istnieje użytkownik o podanym loginie");
         }
+
         public void changePassword(string login, string password, string passwordCheck)
         {
             foreach (User user in this.UsersManager.getUsers())
