@@ -6,6 +6,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.Security.Cryptography;
 using System.Text;
+using MySql.Data.MySqlClient;
 using Newtonsoft.Json;
 
 namespace Server
@@ -15,6 +16,7 @@ namespace Server
         PasswordGenerator PasswordGenerator;
         StreamController StreamController;
         ClientController ClientController;
+        DBConnection DBConnection;
 
         public delegate void TransmissionDataDelegate(NetworkStream stream);
 
@@ -23,6 +25,9 @@ namespace Server
             PasswordGenerator = new PasswordGenerator();
             StreamController = new StreamController();
             ClientController = new ClientController();
+            DBConnection = new DBConnection("localhost", "3306", "root", "", "imgo");
+            DBConnection.startConnection();
+            DBConnection.fetchData();
         }
 
         protected override void AcceptClient()
@@ -40,6 +45,7 @@ namespace Server
         private void TransmissionCallback(IAsyncResult ar)
         {
             TcpClient client = (TcpClient)ar.AsyncState;
+            DBConnection.closeConnection();
             client.Close();
         }
 
