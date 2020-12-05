@@ -68,7 +68,7 @@ namespace Server
                                 this.StreamController.SendString("password confirm", buffer, stream);
                                 string passwordCheck = this.StreamController.ReadString(stream, buffer);
 
-                                this.ClientController.Register(login, password, passwordCheck, "ROLE_USER");
+                                this.ClientController.Register(login, password, passwordCheck);
                                 break;
                             }
                                 
@@ -146,7 +146,7 @@ namespace Server
 
                             case "close":
                                 {
-                                    this.ClientController.getSession().LogOut();
+                                    //this.ClientController.getSession().LogOut();
                                     return;
                                 }
 
@@ -161,7 +161,7 @@ namespace Server
                                     this.StreamController.SendString("role", buffer, stream);
                                     string role = this.StreamController.ReadString(stream, buffer);
 
-                                    this.ClientController.Register(login, password, passwordCheck, role);
+                                    this.ClientController.Register(login, password, passwordCheck);
                                     break;
                                 }
 
@@ -176,7 +176,7 @@ namespace Server
 
                             case "logout":
                             {
-                                this.ClientController.getSession().LogOut();
+                                //this.ClientController.getSession().LogOut();
                                 break;
                             }
                                 
