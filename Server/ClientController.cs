@@ -8,7 +8,7 @@ namespace Server
     {
         //User current_user;
         SessionController SessionController;
-        public ClientController() 
+        public ClientController()
         {
             SessionController = new SessionController();
         }
@@ -32,9 +32,9 @@ namespace Server
             }
         }
 
-        public void Register(String login, String password, String passwordCheck)
+        public void Register(String login, String password, String passwordCheck, String role)
         {
-            this.SessionController.register(login, password, passwordCheck);
+            this.SessionController.register(login, password, passwordCheck, role);
         }
 
         public void ChangePassword(String oldpassword, String password, String passwordCheck)
@@ -70,11 +70,19 @@ namespace Server
 
         }
 
-        public void DeleteUser(User user)
+        public void DeleteUser(string login)
         {
-            if(this.SessionController.getAdminStatus() == true)
+            if (this.SessionController.getAdminStatus() == true)
             {
-                this.SessionController.deleteUser(user);
+                this.SessionController.deleteUser(login);
+            }
+        }
+
+        public void EditUser(string login, string new_login, string password, string role)
+        {
+            if (this.SessionController.getAdminStatus() == true)
+            {
+                SessionController.editUser(login, new_login, password, role);
             }
         }
     }
