@@ -11,7 +11,7 @@ namespace Server
 {
     class UsersManager
     {
-        DBConnection DBConnection;
+        public DBConnection DBConnection;
         private ArrayList users;
         private string usersPath;
 

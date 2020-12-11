@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using MySql.Data.MySqlClient;
+using Newtonsoft.Json;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -124,6 +125,18 @@ namespace Server
                     this.UsersManager.saveUsers();
                 }
             }
+        }
+
+        public void addToFriends(string username)
+        {
+            this.UsersManager.DBConnection.startConnection();
+
+            MySqlCommand comm = this.UsersManager.DBConnection.connection.CreateCommand();
+            string query = "INSERT INTO friendships(first_user, second_user) VALUES('" + this.current_user.getLogin() + "', '" + username + "')";
+            comm = new MySqlCommand(query, this.UsersManager.DBConnection.connection);
+            comm.ExecuteNonQuery();
+
+            this.UsersManager.DBConnection.closeConnection();
         }
 
         //admin methods
