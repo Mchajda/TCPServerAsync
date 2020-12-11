@@ -32,9 +32,9 @@ namespace Server
             }
         }
 
-        public void Register(String login, String password, String passwordCheck, String role)
+        public void Register(String login, String password, String passwordCheck)
         {
-            this.SessionController.register(login, password, passwordCheck, role);
+            this.SessionController.register(login, password, passwordCheck);
         }
 
         public void ChangePassword(String oldpassword, String password, String passwordCheck)
@@ -74,7 +74,7 @@ namespace Server
         {
             if (this.SessionController.getAdminStatus() == true)
             {
-                this.SessionController.deleteUser(login);
+                //this.SessionController.deleteUser(login);
             }
         }
 
@@ -82,7 +82,7 @@ namespace Server
         {
             if (this.SessionController.getAdminStatus() == true)
             {
-                SessionController.editUser(login, new_login, password, role);
+                //SessionController.editUser(login, new_login, password, role);
             }
         }
     }

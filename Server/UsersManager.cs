@@ -5,11 +5,13 @@ using System.IO;
 using System.Text;
 using System.Collections;
 using System.Net.Sockets;
+using MySql.Data.MySqlClient;
 
 namespace Server
 {
     class UsersManager
     {
+        DBConnection DBConnection;
         private ArrayList users;
         private string usersPath;
 
@@ -18,7 +20,9 @@ namespace Server
             this.usersPath = @"users.json";
             this.users = new ArrayList();
             //getting users to program
-            this.readUsers();
+            DBConnection = new DBConnection("localhost", "3306", "root", "", "io_2020");
+            
+            this.readUsers();   
         }
 
         public void saveUsers()
@@ -49,28 +53,55 @@ namespace Server
             }
         }
 
+        public MySqlDataReader fetchRows(string query)
+        {
+            MySqlCommand comm = this.DBConnection.connection.CreateCommand();
+            comm.CommandType = System.Data.CommandType.Text;
+            comm.CommandText = query;
+            MySqlDataReader reader = comm.ExecuteReader();
+            return reader;
+        }
+
+        public void insertRow(string login, string password, string role)
+        {
+            DBConnection.startConnection();
+
+            MySqlCommand comm = this.DBConnection.connection.CreateCommand();
+            string query = "INSERT INTO users(username, password, role) VALUES('"+login+ "', '" + password + "', '" + role + "')"; 
+            comm = new MySqlCommand(query, DBConnection.connection);
+            comm.ExecuteNonQuery();
+
+            DBConnection.closeConnection();
+        }
+        
+        public void deleteRow(string login, string password, string role)
+        {
+            DBConnection.startConnection();
+
+            MySqlCommand comm = this.DBConnection.connection.CreateCommand();
+            string query = "DELETE FROM users WHERE username='" + login + "' ";
+            comm = new MySqlCommand(query, DBConnection.connection);
+            comm.ExecuteNonQuery();
+
+            DBConnection.closeConnection();
+        }
         public void readUsers()
         {
-            string line;
+            DBConnection.startConnection();
+            MySqlDataReader reader = fetchRows("SELECT * FROM users");
+            System.Console.WriteLine("Users read");
             this.users.Clear();
 
-            System.IO.StreamReader file = new System.IO.StreamReader(this.usersPath);
-            while ((line = file.ReadLine()) != null)
+            if (reader.HasRows)
             {
-                string resultJson = String.Empty;
-                resultJson = line;
-                User resultUser = JsonConvert.DeserializeObject<User>(resultJson);
-
-                this.users.Add(resultUser);
+                while (reader.Read())
+                {
+                    User newUser = new User(reader.GetString(1), reader.GetString(2), reader.GetString(3));
+                    this.users.Add(newUser);
+                }
             }
 
-            System.Console.WriteLine(this.getUsers().Count);
-            foreach (User user in this.getUsers())
-            {
-                System.Console.WriteLine(user.getLogin());
-            }
-
-            file.Close();
+            DBConnection.closeConnection();
         }
 
         public ArrayList getUsers()

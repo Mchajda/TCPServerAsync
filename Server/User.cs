@@ -17,6 +17,13 @@ namespace Server
             this.password = password;
         }
 
+        public User(string login, string password, string role)
+        {
+            this.login = login;
+            this.password = password;
+            this.role = role;
+        }        
+
         public string getLogin()
         {
             return this.login;

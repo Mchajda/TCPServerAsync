@@ -24,11 +24,6 @@ namespace Server
             return this.current_user;
         }
 
-        public ArrayList getUsers()
-        {
-            return UsersManager.getUsers();
-        }
-
         public void setUser(User user)
         {
             this.current_user = user;
@@ -72,7 +67,7 @@ namespace Server
             }
         }
 
-        public void register(string login, string password, string passwordCheck, string role)
+        public void register(string login, string password, string passwordCheck)
         {
             bool is_valid_user = true;
 
@@ -89,35 +84,15 @@ namespace Server
             {
                 if (password == passwordCheck)
                 {
-                    User newUser = new User(login, password);
-                    newUser.setRole(role);
-                    ArrayList users = this.UsersManager.getUsers();
-                    users.Add(newUser);
-                    this.UsersManager.saveUsers();
-                    string json = JsonConvert.SerializeObject(newUser);
-                    this.UsersManager.saveUser(json);
+                    User newUser = new User(login, password, "ROLE_USER");
+                    
+                    this.UsersManager.insertRow(login, password, "ROLE_USER");
 
                     throw new Exception("registration successful");
                 }
                 else throw new Exception("podane hasla sie nie zgadzaja");
             }
             else throw new Exception("istnieje użytkownik o podanym loginie");
-        }
-
-        public void editUser(string login, string new_login, string password, string role)
-        {
-            foreach (User user in getUsers())
-            {
-                if (user.getLogin() == login)
-                {
-                    user.setLogin(new_login);
-                    user.setPassword(password);
-                    user.setRole(role);
-                    UsersManager.saveUsers();
-                    throw new Exception("success");                   
-                }
-            }
-            throw new Exception("no such user");
         }
 
         public void changePassword(string login, string password, string passwordCheck)
@@ -152,25 +127,20 @@ namespace Server
         }
 
         //admin methods
-        public void deleteUser(string user)
+        public void deleteUser(User u)
         {
-            foreach (User u in UsersManager.getUsers())
+            ArrayList users = this.UsersManager.getUsers();
+            ArrayList newUsers = new ArrayList();
+
+            foreach (User user in users)
             {
-                if (u.getLogin() == user)
+                if (!(u.getLogin() == user.getLogin() && u.getPassword() == user.getPassword()))
                 {
-                    UsersManager.getUsers().Remove(u);
-                    UsersManager.saveUsers();
-                    throw new Exception("success");
+                    newUsers.Add(user);
                 }
             }
 
-            throw new Exception("no such user");
-        }
-
-        public void LogOut()
-        {
-            session_admin = false;
-            setStatus(false);
+            this.UsersManager.setUsers(newUsers);
         }
     }
 }

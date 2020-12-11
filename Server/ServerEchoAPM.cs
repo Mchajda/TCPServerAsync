@@ -6,6 +6,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.Security.Cryptography;
 using System.Text;
+using MySql.Data.MySqlClient;
 using Newtonsoft.Json;
 
 namespace Server
@@ -15,6 +16,7 @@ namespace Server
         PasswordGenerator PasswordGenerator;
         StreamController StreamController;
         ClientController ClientController;
+        DBConnection DBConnection;
 
         public delegate void TransmissionDataDelegate(NetworkStream stream);
 
@@ -23,6 +25,7 @@ namespace Server
             PasswordGenerator = new PasswordGenerator();
             StreamController = new StreamController();
             ClientController = new ClientController();
+            
         }
 
         protected override void AcceptClient()
@@ -65,7 +68,7 @@ namespace Server
                                 this.StreamController.SendString("password confirm", buffer, stream);
                                 string passwordCheck = this.StreamController.ReadString(stream, buffer);
 
-                                this.ClientController.Register(login, password, passwordCheck, "ROLE_USER");
+                                this.ClientController.Register(login, password, passwordCheck);
                                 break;
                             }
                                 
@@ -143,7 +146,7 @@ namespace Server
 
                             case "close":
                                 {
-                                    this.ClientController.getSession().LogOut();
+                                    //this.ClientController.getSession().LogOut();
                                     return;
                                 }
 
@@ -158,7 +161,7 @@ namespace Server
                                     this.StreamController.SendString("role", buffer, stream);
                                     string role = this.StreamController.ReadString(stream, buffer);
 
-                                    this.ClientController.Register(login, password, passwordCheck, role);
+                                    this.ClientController.Register(login, password, passwordCheck);
                                     break;
                                 }
 
@@ -173,7 +176,7 @@ namespace Server
 
                             case "logout":
                             {
-                                this.ClientController.getSession().LogOut();
+                                //this.ClientController.getSession().LogOut();
                                 break;
                             }
                                 
