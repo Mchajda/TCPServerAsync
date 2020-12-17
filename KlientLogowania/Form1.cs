@@ -18,7 +18,18 @@ namespace KlientLogowania
         NetworkStream stream;
         byte[] buffer = new byte[1024];
 
-        private int PasswordStrength(string password)
+        private void Send(string message)
+        {
+            stream.Write(Encoding.ASCII.GetBytes(message), 0, message.Length);
+        }
+
+        private string Receive()
+        {
+            int message_size = stream.Read(buffer, 0, buffer.Length);
+            return new ASCIIEncoding().GetString(buffer, 0, message_size);
+        }
+
+        public int PasswordStrength(string password)
         {
             int strength = 0;
             strength += password.Length;
@@ -34,6 +45,25 @@ namespace KlientLogowania
             return strength;
         }
 
+        public string DeleteUser(string username)
+        {
+            //this deletes user form database
+            Send("delete_user");
+            string message = Receive();
+            Send(username);
+
+            message = Receive();
+
+            return message;
+        }
+
+        public void DeleteSuccess()
+        {
+            label17.Show();
+            label17.Text = "You have successfully deleted user from database";
+            label17.ForeColor = Color.Green;
+        }
+
         private void ClearTextBoxes()
         {
             //Clear textboxes
@@ -44,14 +74,120 @@ namespace KlientLogowania
             textBox5.Text = "";
         }
 
-        private void GeneratePassword(TextBox text)
+        public string GeneratePassword()
         {
             label10.Hide();
             //This generates random 8-char password
-            stream.Write(Encoding.ASCII.GetBytes("generate"), 0, "generate".Length);
-            int message_size = stream.Read(buffer, 0, buffer.Length);
-            text.Text = new ASCIIEncoding().GetString(buffer, 0, message_size);
-            text.Text = text.Text;
+            Send("generate");
+            return Receive();
+        }
+
+        private void LogIn()
+        {
+            //This logs in the user
+            if (textBox1.TextLength != 0 && textBox2.TextLength != 0)
+            {
+                //Username and password are typed
+                Send("login");
+                string message = Receive();
+                Send(textBox1.Text);
+                message = Receive();
+                Send(textBox2.Text);
+
+                message = Receive();
+                if (message == "login success")
+                {
+                    OpenLoggedIn();
+                }
+                else if(message == "login failed")
+                {
+                    label3.Show();
+                    label3.Text = "Incorrect username or password. Try again!";
+                }
+            }
+            else
+            {
+                label3.Show();
+                label3.Text = "Type an username and a password.";
+            }
+        }
+
+        public string Register(string login, string password)
+        {
+            Send("register");
+            string message = Receive();
+            Send(login);
+            message = Receive();
+            Send(password);
+            message = Receive();
+            Send(password);
+
+            message = Receive();
+            return message;
+        }
+
+        public void SuccessfulRegister()
+        {
+            label10.Show();
+            label10.Text = "You have successfully registered";
+            OpenLogin();
+        }
+
+        public bool CheckPassword(string password)
+        {
+            Send("check password");
+            string message = Receive();
+
+            if (message == password)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        private void ChangePassword()
+        {
+            //This changes password
+            if (textBox3.TextLength != 0 && textBox4.TextLength != 0 && textBox5.TextLength != 0)
+            {
+                if (textBox4.Text != textBox5.Text)
+                {
+                    label5.Show();
+                    label5.Text = "Passwords do not match. Try again.";
+                    return;
+                }
+
+                Send("change password");
+                string message = Receive();
+                Send(textBox3.Text);
+                message = Receive();
+                Send(textBox4.Text);
+                message = Receive();
+                Send(textBox5.Text);
+
+                message = Receive();
+
+                if (message == "changed password")
+                {
+                    //label10.Show();
+                    OpenLoggedIn();
+                    label15.Show();
+                    label15.Text = "You have successfully changed password";
+                }
+                else if (message == "wrong password")
+                {
+                    label5.Show();
+                    label5.Text = "Wrong current password";
+                }
+            }
+            else
+            {
+                label5.Show();
+                label5.Text = "Don't leave any field empty";
+            }
         }
 
         private void HideRegister()
@@ -59,8 +195,6 @@ namespace KlientLogowania
             label5.Hide();
             label6.Hide();
             label7.Hide();
-            label8.Hide();
-            label9.Hide();
             label11.Hide();
             label12.Hide();
             label17.Hide();
@@ -69,8 +203,6 @@ namespace KlientLogowania
             textBox4.Hide();
             textBox5.Hide();
             button3.Hide();
-            button4.Hide();
-            button5.Hide();
             button15.Hide();
             radioButton1.Hide();
             radioButton2.Hide();
@@ -105,7 +237,6 @@ namespace KlientLogowania
             label14.Hide();
             label17.Hide();
             button9.Hide();
-            button11.Hide();
         }
 
         private void HideChangeUsername()
@@ -114,21 +245,17 @@ namespace KlientLogowania
             label14.Hide();
             label16.Hide();
             button10.Hide();
-            button11.Hide();
         }
 
         private void HideAddNewUser()
         {
             HideRegister();
-            label9.Hide();
             label18.Hide();
             label19.Hide();
             label20.Hide();
             radioButton1.Hide();
             radioButton2.Hide();
 
-            button4.Hide();
-            button11.Hide();
             button15.Hide();
         }
 
@@ -146,7 +273,6 @@ namespace KlientLogowania
             radioButton1.Hide();
             radioButton2.Hide();
 
-            button11.Hide();
             button16.Hide();
             button17.Hide();
         }
@@ -154,20 +280,13 @@ namespace KlientLogowania
         private void HideDeleteUser()
         {
             label7.Hide();
-            label21.Hide();
-
             textBox3.Hide();
-
-            button11.Hide();
-            button18.Hide();
         }
 
         private void ShowRegister()
         {
             label6.Show();
             label7.Show();
-            label8.Show();
-            label9.Show();
             label11.Show();
             label17.Show();
             label17.Text = "";
@@ -175,8 +294,6 @@ namespace KlientLogowania
             textBox4.Show();
             textBox5.Show();
             button3.Show();
-            button4.Show();
-            button5.Show();
         }
 
         private void ShowLogIn()
@@ -209,37 +326,27 @@ namespace KlientLogowania
         {
             ShowRegister();
             label7.Hide();
-            label9.Hide();
             label14.Show();
             label17.Show();
             label17.Text = "";
-            button5.Hide();
-            button4.Hide();
             button9.Show();
-            button11.Show();
         }
         private void ShowChangeUsername()
         {
-            label8.Show();
             label12.Show();
             label14.Show();
             label16.Show();
             textBox3.Show();
             textBox4.Show();
             button10.Show();
-            button11.Show();
         }
         private void ShowAddNewUser()
         {
-            label9.Hide();
             label18.Show();
             label19.Show();
             radioButton1.Show();
             radioButton2.Show();
 
-            button4.Hide();
-            button5.Hide();
-            button11.Show();
             button15.Show();
         }
 
@@ -260,34 +367,8 @@ namespace KlientLogowania
             radioButton1.Show();
             radioButton2.Show();
 
-            button11.Show();
             button16.Show();
             button17.Show();
-        }
-
-        private void ShowDeleteUser()
-        {
-            label7.Show();
-            label21.Show();
-
-            textBox3.Show();
-
-            button11.Show();
-            button18.Show();
-        }
-
-        private void OpenRegister()
-        {
-            //Hide log in form
-            HideLogIn();
-
-            //Hide logged in form
-            HideLoggedIn();
-
-            label5.Hide();
-            //Show register form
-            ShowRegister();
-            ClearTextBoxes();
         }
 
         private void OpenLogin()
@@ -333,7 +414,6 @@ namespace KlientLogowania
         {
             HideLoggedIn();
             ShowChangePassword();
-            label8.Text = "Change password";
 
             ClearTextBoxes();
         }
@@ -343,14 +423,11 @@ namespace KlientLogowania
             HideLoggedIn();
             ShowChangeUsername();
 
-            label8.Text = "Change username";
-
             ClearTextBoxes();
         }
 
         private void OpenAddNewUser()
         {
-            OpenRegister();
             ShowAddNewUser();
 
             radioButton1.Checked = false;
@@ -370,28 +447,16 @@ namespace KlientLogowania
             radioButton2.Checked = false;
         }
 
-        private void OpenDeleteUser()
+        protected string getUsername()
         {
-            HideLoggedIn();
-            ShowDeleteUser();
-            ClearTextBoxes();
-
-            label7.Text = "Username";
+            Send("username");
+            return Receive();
         }
 
-
-        private string getUsername()
+        protected bool user_is_admin()
         {
-            stream.Write(Encoding.ASCII.GetBytes("username"), 0, "username".Length);
-            int message_size = stream.Read(buffer, 0, buffer.Length);
-            return new ASCIIEncoding().GetString(buffer, 0, message_size);
-        }
-
-        private bool user_is_admin()
-        {
-            stream.Write(Encoding.ASCII.GetBytes("is_admin"), 0, "is_admin".Length);
-            int message_size = stream.Read(buffer, 0, buffer.Length);
-            if (new ASCIIEncoding().GetString(buffer, 0, message_size) == "true")
+            Send("is_admin");
+            if (Receive() == "true")
                 return true;
             else
                 return false;
@@ -403,12 +468,21 @@ namespace KlientLogowania
             
             label3.Text = "";
             label5.Text = "";
-            label12.Text = "";            
-            
-            client = new TcpClient("localhost", 2311);
-            client.SendBufferSize = 1024;
-            client.ReceiveBufferSize = 1024;
-            stream = client.GetStream();
+            label12.Text = "";
+
+            try
+            {
+                client = new TcpClient("localhost", 2311);
+                client.SendBufferSize = 1024;
+                client.ReceiveBufferSize = 1024;
+                stream = client.GetStream();
+            }
+            catch (SocketException)
+            {
+                MessageBox.Show("Cannot connect to the server! Try again!", "Connection Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                this.Close();
+                return;
+            }
 
             //Hide register form
             HideRegister();
@@ -434,8 +508,8 @@ namespace KlientLogowania
 
         private void button2_Click(object sender, EventArgs e)
         {
-            label10.Hide();
-            OpenRegister();
+            Form2 registerForm = new Form2(this);
+            registerForm.ShowDialog();
         }
 
         private void label4_Click(object sender, EventArgs e)
@@ -465,80 +539,19 @@ namespace KlientLogowania
 
         private void button3_Click(object sender, EventArgs e)
         {
-            GeneratePassword(textBox5);
+            textBox5.Text = GeneratePassword();
             textBox4.Text = textBox5.Text;
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
             label10.Hide();
-            //This logs in the user
-            if (textBox1.TextLength != 0 && textBox2.TextLength != 0)
-            {
-                //Username and password are typed
-                stream.Write(Encoding.ASCII.GetBytes("login"), 0, "login".Length);
-                stream.Read(buffer, 0, buffer.Length);
-                stream.Write(Encoding.ASCII.GetBytes(textBox1.Text), 0, textBox1.TextLength);
-                stream.Read(buffer, 0, buffer.Length);
-                stream.Write(Encoding.ASCII.GetBytes(textBox2.Text), 0, textBox2.TextLength);
-
-                int message_size = stream.Read(buffer, 0, buffer.Length);
-                string message = new ASCIIEncoding().GetString(buffer, 0, message_size);
-                if (message == "login success")
-                {
-                    OpenLoggedIn();
-                }
-                else if(message == "login failed")
-                {
-                    label3.Show();
-                    label3.Text = "Incorrect username or password. Try again!";
-                }
-            }
-            else
-            {
-                label3.Show();
-                label3.Text = "Type an username and a password.";
-            }
+            LogIn();
         }
 
         private void button4_Click(object sender, EventArgs e)
         {
-            //This submits the register form - must check if any field is empty
-            if (textBox3.TextLength != 0 && textBox4.TextLength != 0 && textBox5.TextLength != 0)
-            {
-                if(textBox4.Text != textBox5.Text)
-                {
-                    label5.Show();
-                    label5.Text = "Passwords do not match. Try again.";
-                    return;
-                }
 
-                stream.Write(Encoding.ASCII.GetBytes("register"), 0, "register".Length);
-                stream.Read(buffer, 0, buffer.Length);
-                stream.Write(Encoding.ASCII.GetBytes(textBox3.Text), 0, textBox3.TextLength);
-                stream.Read(buffer, 0, buffer.Length);
-                stream.Write(Encoding.ASCII.GetBytes(textBox4.Text), 0, textBox4.TextLength);
-                stream.Read(buffer, 0, buffer.Length);
-                stream.Write(Encoding.ASCII.GetBytes(textBox5.Text), 0, textBox5.TextLength);
-
-                int message_size = stream.Read(buffer, 0, buffer.Length);
-                string message = new ASCIIEncoding().GetString(buffer, 0, message_size);
-                if (message == "user exists")
-                {
-                    label12.Show();
-                    label12.Text = "Username occupied";
-                    return;
-                }
-
-                label10.Show();
-                label10.Text = "You have successfully registered";
-                OpenLogin();
-            }
-            else
-            {
-                label5.Show();
-                label5.Text = "Type an username and a password.";
-            }
         }
 
         private void textBox4_TextChanged(object sender, EventArgs e)
@@ -594,25 +607,7 @@ namespace KlientLogowania
 
         private void textBox5_TextChanged(object sender, EventArgs e)
         {
-            if (textBox5.Text.Length == 0)
-            {
-                label17.Text = "";
-            }
-            else if (PasswordStrength(textBox5.Text) < textBox5.Text.Length * 3)
-            {
-                label17.Text = "Password strength: low";
-                label17.ForeColor = Color.Red;
-            }
-            else if (PasswordStrength(textBox5.Text) < textBox5.Text.Length * 4)
-            {
-                label17.Text = "Password strength: medium";
-                label17.ForeColor = Color.Orange;
-            }
-            else
-            {
-                label17.Text = "Password strength: high";
-                label17.ForeColor = Color.Green;
-            }
+            
         }
 
         private void label11_Click(object sender, EventArgs e)
@@ -629,7 +624,7 @@ namespace KlientLogowania
         {
             //this logs out
 
-            stream.Write(Encoding.ASCII.GetBytes("logout"), 0, "logout".Length);
+            Send("logout");
 
             OpenLogin();
             label10.Show();
@@ -648,44 +643,7 @@ namespace KlientLogowania
 
         private void button9_Click(object sender, EventArgs e)
         {
-            //This changes password
-            if (textBox3.TextLength != 0 && textBox4.TextLength != 0 && textBox5.TextLength != 0)
-            {
-                if (textBox4.Text != textBox5.Text)
-                {
-                    label5.Show();
-                    label5.Text = "Passwords do not match. Try again.";
-                    return;
-                }
-
-                stream.Write(Encoding.ASCII.GetBytes("change password"), 0, "change password".Length);
-                stream.Read(buffer, 0, buffer.Length);
-                stream.Write(Encoding.ASCII.GetBytes(textBox3.Text), 0, textBox3.TextLength);
-                stream.Read(buffer, 0, buffer.Length);
-                stream.Write(Encoding.ASCII.GetBytes(textBox4.Text), 0, textBox4.TextLength);
-                stream.Read(buffer, 0, buffer.Length);
-                stream.Write(Encoding.ASCII.GetBytes(textBox5.Text), 0, textBox5.TextLength);
-                
-                int message_size = stream.Read(buffer, 0, buffer.Length);
-                string message = new ASCIIEncoding().GetString(buffer, 0, message_size);
-                if (message == "changed password")
-                {
-                    //label10.Show();
-                    OpenLoggedIn();
-                    label15.Show();
-                    label15.Text = "You have successfully changed password";
-                }
-                else if (message == "wrong password")
-                {
-                    label5.Show();
-                    label5.Text = "Wrong current password";
-                }
-            }
-            else
-            {
-                label5.Show();
-                label5.Text = "Don't leave any field empty";
-            }
+            ChangePassword();
         }
 
         private void label14_Click(object sender, EventArgs e)
@@ -741,11 +699,6 @@ namespace KlientLogowania
             }
         }
 
-        private void button11_Click(object sender, EventArgs e)
-        {
-            OpenLoggedIn();
-        }
-
         private void button12_Click(object sender, EventArgs e)
         {
             OpenAddNewUser();
@@ -758,7 +711,8 @@ namespace KlientLogowania
         
         private void button14_Click(object sender, EventArgs e)
         {
-            OpenDeleteUser();
+            Form3 DeleteUserForm = new Form3(this);
+            DeleteUserForm.ShowDialog();
         }
 
         private void radioButton1_CheckedChanged(object sender, EventArgs e)
@@ -870,7 +824,7 @@ namespace KlientLogowania
 
         private void button17_Click(object sender, EventArgs e)
         {
-            GeneratePassword(textBox5);
+            textBox5.Text = GeneratePassword();
         }
 
         private void label19_Click(object sender, EventArgs e)
@@ -890,28 +844,7 @@ namespace KlientLogowania
 
         private void button18_Click(object sender, EventArgs e)
         {
-            //this deletes user from database
-
-            if (textBox3.TextLength != 0)
-            {
-                stream.Write(Encoding.ASCII.GetBytes("delete_user"), 0, "delete_user".Length);
-                stream.Read(buffer, 0, buffer.Length);
-                stream.Write(Encoding.ASCII.GetBytes(textBox3.Text), 0, textBox3.TextLength);
-
-                int message_size = stream.Read(buffer, 0, buffer.Length);
-                string message = new ASCIIEncoding().GetString(buffer, 0, message_size);
-                if (message == "no such user")
-                {
-                    label12.Show();
-                    label12.Text = "No such user";
-                    return;
-                }
-
-                OpenLoggedIn();
-                label17.Show();
-                label17.Text = "You have successfully deleted user from database";
-                label17.ForeColor = Color.Green;
-            }
+            
         }
     }
 }

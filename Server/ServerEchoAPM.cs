@@ -217,6 +217,12 @@ namespace Server
                                 break;
                             }
 
+                            case "check password":
+                            {
+                                this.StreamController.SendString(this.ClientController.getSession().getUser().getPassword(), buffer, stream);
+                                break;
+                            }
+
                             default:
                             {
                                 break;
