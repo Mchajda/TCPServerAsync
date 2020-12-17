@@ -74,17 +74,6 @@ namespace Server
             DBConnection.closeConnection();
         }
         
-        public void deleteRow(string login, string password, string role)
-        {
-            DBConnection.startConnection();
-
-            MySqlCommand comm = this.DBConnection.connection.CreateCommand();
-            string query = "DELETE FROM users WHERE username='" + login + "' ";
-            comm = new MySqlCommand(query, DBConnection.connection);
-            comm.ExecuteNonQuery();
-
-            DBConnection.closeConnection();
-        }
         public void readUsers()
         {
             DBConnection.startConnection();

@@ -140,20 +140,31 @@ namespace Server
         }
 
         //admin methods
-        public void deleteUser(User u)
+        public void deleteUser(string login)
         {
-            ArrayList users = this.UsersManager.getUsers();
-            ArrayList newUsers = new ArrayList();
+            this.UsersManager.DBConnection.startConnection();
 
-            foreach (User user in users)
+            MySqlCommand comm = this.UsersManager.DBConnection.connection.CreateCommand();
+            string query = "DELETE FROM users WHERE username='"+login+"' ";
+            comm = new MySqlCommand(query, this.UsersManager.DBConnection.connection);
+            comm.ExecuteNonQuery();
+
+            this.UsersManager.DBConnection.closeConnection();
+        }
+
+        public void editUser(string newlogin, string login, string password)
+        {
+            if(password == current_user.getPassword())
             {
-                if (!(u.getLogin() == user.getLogin() && u.getPassword() == user.getPassword()))
-                {
-                    newUsers.Add(user);
-                }
-            }
+                this.UsersManager.DBConnection.startConnection();
 
-            this.UsersManager.setUsers(newUsers);
+                MySqlCommand comm = this.UsersManager.DBConnection.connection.CreateCommand();
+                string query = "UPDATE users SET username='" + newlogin + "' WHERE username='" + login + "' ";
+                comm = new MySqlCommand(query, this.UsersManager.DBConnection.connection);
+                comm.ExecuteNonQuery();
+
+                this.UsersManager.DBConnection.closeConnection();
+            }
         }
     }
 }

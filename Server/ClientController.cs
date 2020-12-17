@@ -74,15 +74,15 @@ namespace Server
         {
             if (this.SessionController.getAdminStatus() == true)
             {
-                //this.SessionController.deleteUser(login);
+                this.SessionController.deleteUser(login);
             }
         }
 
-        public void EditUser(string login, string new_login, string password, string role)
+        public void EditUser(string login, string new_login, string password)
         {
             if (this.SessionController.getAdminStatus() == true)
             {
-                //SessionController.editUser(login, new_login, password, role);
+                SessionController.editUser(login, new_login, password);
             }
         }
     }
