@@ -112,7 +112,7 @@ namespace KlientLogowania
             }
         }
 
-        public string Register(string login, string password)
+        public string Register(string login, string password, string role)
         {
             Send("register");
             string message = Receive();
@@ -121,6 +121,8 @@ namespace KlientLogowania
             Send(password);
             message = Receive();
             Send(password);
+            message = Receive();
+            Send(role);
 
             message = Receive();
             return message;
@@ -129,7 +131,7 @@ namespace KlientLogowania
         public void SuccessfulRegister()
         {
             label10.Show();
-            label10.Text = "You have successfully registered";
+            label10.Text = "You have successfully add a new user";
             OpenLogin();
         }
 
@@ -453,7 +455,7 @@ namespace KlientLogowania
             return Receive();
         }
 
-        protected bool user_is_admin()
+        public bool user_is_admin()
         {
             Send("is_admin");
             if (Receive() == "true")

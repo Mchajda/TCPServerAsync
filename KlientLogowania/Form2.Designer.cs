@@ -112,6 +112,7 @@ namespace KlientLogowania
             this.label9.TabIndex = 41;
             this.label9.Text = "Already have an account?";
             this.label9.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.label9.Click += new System.EventHandler(this.label9_Click);
             // 
             // button5
             // 

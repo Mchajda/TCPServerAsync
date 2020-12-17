@@ -13,6 +13,7 @@ namespace KlientLogowania
     public partial class Form2 : Form //Formularz rejestracji użytkownika
     {
         private Form1 mainForm;
+        private bool admin;
 
         public Form2()
         {
@@ -26,8 +27,17 @@ namespace KlientLogowania
             label5.Hide();
             label17.Hide();
             label18.Hide();
-            radioButton1.Hide();
-            radioButton2.Hide();
+            admin = mainForm.user_is_admin();
+            if (!admin)
+            {
+                radioButton1.Hide();
+                radioButton2.Hide();
+            }
+            else
+            {
+                label9.Hide();
+                button5.Hide();
+            }
         }
 
         private void PasswordStrengthChange()
@@ -69,13 +79,36 @@ namespace KlientLogowania
         {
             if (textBox3.TextLength != 0 && textBox4.TextLength != 0 && textBox5.TextLength != 0)
             {
+                string message = "";
                 if (textBox4.Text != textBox5.Text)
                 {
                     label5.Show();
                     label5.Text = "Passwords do not match. Try again.";
                     return;
                 }
-                string message = mainForm.Register(textBox3.Text, textBox4.Text);
+
+                if (admin)
+                {
+                    if(radioButton1.Checked)
+                    {
+                        message = mainForm.Register(textBox3.Text, textBox4.Text, "ROLE_ADMIN");
+                    }
+                    else if (radioButton2.Checked)
+                    {
+                        message = mainForm.Register(textBox3.Text, textBox4.Text, "ROLE_USER");
+                    }
+                    else
+                    {
+                        label5.Show();
+                        label5.Text = "Pick a role for new user";
+                        return;
+                    }
+                }
+                else
+                {
+                    message = mainForm.Register(textBox3.Text, textBox4.Text, "ROLE_USER");
+                }
+
                 if (message == "user exists")
                 {
                     label5.Show();
@@ -129,6 +162,11 @@ namespace KlientLogowania
         }
 
         private void radioButton2_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label9_Click(object sender, EventArgs e)
         {
 
         }

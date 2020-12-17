@@ -67,8 +67,10 @@ namespace Server
                                 string password = this.StreamController.ReadString(stream, buffer);
                                 this.StreamController.SendString("password confirm", buffer, stream);
                                 string passwordCheck = this.StreamController.ReadString(stream, buffer);
+                                this.StreamController.SendString("role", buffer, stream);
+                                string role = this.StreamController.ReadString(stream, buffer);
 
-                                this.ClientController.Register(login, password, passwordCheck);
+                                this.ClientController.Register(login, password, passwordCheck, role);
                                 break;
                             }
                                 
@@ -150,7 +152,7 @@ namespace Server
                                     return;
                                 }
 
-                            case "add_user":
+                            case "register":
                                 {
                                     this.StreamController.SendString("login", buffer, stream);
                                     string login = this.StreamController.ReadString(stream, buffer);
@@ -161,7 +163,7 @@ namespace Server
                                     this.StreamController.SendString("role", buffer, stream);
                                     string role = this.StreamController.ReadString(stream, buffer);
 
-                                    this.ClientController.Register(login, password, passwordCheck);
+                                    this.ClientController.Register(login, password, passwordCheck, role);
                                     break;
                                 }
 

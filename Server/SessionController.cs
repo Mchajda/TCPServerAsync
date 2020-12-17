@@ -68,7 +68,7 @@ namespace Server
             }
         }
 
-        public void register(string login, string password, string passwordCheck)
+        public void register(string login, string password, string passwordCheck, string role)
         {
             bool is_valid_user = true;
 
@@ -85,9 +85,9 @@ namespace Server
             {
                 if (password == passwordCheck)
                 {
-                    User newUser = new User(login, password, "ROLE_USER");
+                    User newUser = new User(login, password, role);
                     
-                    this.UsersManager.insertRow(login, password, "ROLE_USER");
+                    this.UsersManager.insertRow(login, password, role);
 
                     throw new Exception("registration successful");
                 }
