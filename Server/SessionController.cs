@@ -7,7 +7,7 @@ using System.Text;
 
 namespace Server
 {
-    class SessionController
+    public class SessionController
     {
         User current_user;
         UsersManager UsersManager;
@@ -68,7 +68,7 @@ namespace Server
             }
         }
 
-        public void register(string login, string password, string passwordCheck)
+        public bool register(string login, string password, string passwordCheck)
         {
             bool is_valid_user = true;
 
@@ -85,9 +85,9 @@ namespace Server
             {
                 if (password == passwordCheck)
                 {
-                    User newUser = new User(login, password, "ROLE_USER");
-                    
-                    this.UsersManager.insertRow(login, password, "ROLE_USER");
+                    if (this.UsersManager.insertRow(login, password, "ROLE_USER"))
+                        return true;
+                    else return false;
 
                     throw new Exception("registration successful");
                 }
@@ -111,18 +111,6 @@ namespace Server
                     {
                         throw new Exception("podane hasla sie nie zgadzaja");
                     }
-                }
-            }
-        }
-
-        public void changeLogin(string curr_login, string new_login)
-        {
-            foreach (User user in this.UsersManager.getUsers())
-            {
-                if (user.getLogin() == curr_login)
-                {
-                    user.setLogin(new_login);
-                    this.UsersManager.saveUsers();
                 }
             }
         }
@@ -152,7 +140,7 @@ namespace Server
             this.UsersManager.DBConnection.closeConnection();
         }
 
-        public void editUser(string newlogin, string login, string password)
+        public void changeLogin(string newlogin, string login, string password)
         {
             if(password == current_user.getPassword())
             {

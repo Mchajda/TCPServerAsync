@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Server
 {
-    class ClientController
+    public class ClientController
     {
         //User current_user;
         SessionController SessionController;
@@ -18,13 +18,13 @@ namespace Server
             return this.SessionController;
         }
 
-        public void ChangeUsername(String oldpassword, String login)
+        public void ChangeUsername(String password, String new_login)
         {
             System.Console.WriteLine(this.SessionController.getUser().getLogin());
-            if (this.SessionController.getUser().getPassword() == oldpassword)
+            if (this.SessionController.getUser().getPassword() == password)
             {
-                this.SessionController.changeLogin(SessionController.getUser().getLogin(), login);
-                throw new Exception("changed username");
+                this.SessionController.changeLogin(SessionController.getUser().getLogin(), new_login, password);
+                //throw new Exception("changed username");
             }
             else
             {
@@ -32,9 +32,11 @@ namespace Server
             }
         }
 
-        public void Register(String login, String password, String passwordCheck)
+        public bool Register(String login, String password, String passwordCheck)
         {
-            this.SessionController.register(login, password, passwordCheck);
+            if (this.SessionController.register(login, password, passwordCheck))
+                return true;
+            else return false;
         }
 
         public void ChangePassword(String oldpassword, String password, String passwordCheck)
@@ -78,11 +80,11 @@ namespace Server
             }
         }
 
-        public void EditUser(string login, string new_login, string password)
+        public void ChangeLogin(string login, string new_login, string password)
         {
             if (this.SessionController.getAdminStatus() == true)
             {
-                SessionController.editUser(login, new_login, password);
+                SessionController.changeLogin(login, new_login, password);
             }
         }
     }

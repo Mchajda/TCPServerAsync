@@ -16,7 +16,6 @@ namespace Server
         PasswordGenerator PasswordGenerator;
         StreamController StreamController;
         ClientController ClientController;
-        DBConnection DBConnection;
 
         public delegate void TransmissionDataDelegate(NetworkStream stream);
 
@@ -121,49 +120,49 @@ namespace Server
                         switch (str)
                         {
                             case "delete_user":
-                                {
-                                    this.StreamController.SendString("login", buffer, stream);
-                                    string login = this.StreamController.ReadString(stream, buffer);
+                            {
+                                this.StreamController.SendString("login", buffer, stream);
+                                string login = this.StreamController.ReadString(stream, buffer);
 
-                                    this.ClientController.DeleteUser(login);
-                                    break;
-                                }
+                                this.ClientController.DeleteUser(login);
+                                break;
+                            }
 
                             case "edit_user":
-                                {
-                                    this.StreamController.SendString("login", buffer, stream);
-                                    string login = this.StreamController.ReadString(stream, buffer);
-                                    this.StreamController.SendString("new_login", buffer, stream);
-                                    string new_login = this.StreamController.ReadString(stream, buffer);
-                                    this.StreamController.SendString("new password", buffer, stream);
-                                    string password = this.StreamController.ReadString(stream, buffer);
-                                    this.StreamController.SendString("role", buffer, stream);
-                                    string role = this.StreamController.ReadString(stream, buffer);
+                            {
+                                this.StreamController.SendString("login", buffer, stream);
+                                string login = this.StreamController.ReadString(stream, buffer);
+                                this.StreamController.SendString("new_login", buffer, stream);
+                                string new_login = this.StreamController.ReadString(stream, buffer);
+                                this.StreamController.SendString("new password", buffer, stream);
+                                string password = this.StreamController.ReadString(stream, buffer);
+                                this.StreamController.SendString("role", buffer, stream);
+                                string role = this.StreamController.ReadString(stream, buffer);
 
-                                    this.ClientController.EditUser(login, new_login, password, role);
-                                    break;
-                                }
+                                this.ClientController.ChangeLogin(login, new_login, password);
+                                break;
+                            }
 
                             case "close":
-                                {
-                                    //this.ClientController.getSession().LogOut();
-                                    return;
-                                }
+                            {
+                                //this.ClientController.getSession().LogOut();
+                                return;
+                            }
 
                             case "add_user":
-                                {
-                                    this.StreamController.SendString("login", buffer, stream);
-                                    string login = this.StreamController.ReadString(stream, buffer);
-                                    this.StreamController.SendString("password", buffer, stream);
-                                    string password = this.StreamController.ReadString(stream, buffer);
-                                    this.StreamController.SendString("password confirm", buffer, stream);
-                                    string passwordCheck = this.StreamController.ReadString(stream, buffer);
-                                    this.StreamController.SendString("role", buffer, stream);
-                                    string role = this.StreamController.ReadString(stream, buffer);
+                            {
+                                this.StreamController.SendString("login", buffer, stream);
+                                string login = this.StreamController.ReadString(stream, buffer);
+                                this.StreamController.SendString("password", buffer, stream);
+                                string password = this.StreamController.ReadString(stream, buffer);
+                                this.StreamController.SendString("password confirm", buffer, stream);
+                                string passwordCheck = this.StreamController.ReadString(stream, buffer);
+                                this.StreamController.SendString("role", buffer, stream);
+                                string role = this.StreamController.ReadString(stream, buffer);
 
-                                    this.ClientController.Register(login, password, passwordCheck);
-                                    break;
-                                }
+                                this.ClientController.Register(login, password, passwordCheck);
+                                break;
+                            }
 
                             case "is_admin":
                             {

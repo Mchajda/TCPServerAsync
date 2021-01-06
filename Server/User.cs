@@ -6,7 +6,7 @@ using System.Text;
 
 namespace Server
 {
-    class User
+    public class User
     {
         [JsonProperty]
         private string login, password, role;
