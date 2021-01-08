@@ -51,7 +51,7 @@ namespace Server
 
             while (true)
             {
-                while (this.ClientController.getSession().getStatus() != true)
+                while (this.ClientController.getSession().getLoginStatus() != true)
                 {
                     try
                     {
@@ -112,7 +112,7 @@ namespace Server
                     }
                 }
 
-                while (this.ClientController.getSession().getStatus() == true)
+                while (this.ClientController.getSession().getLoginStatus() == true)
                 {
                     try
                     {

@@ -62,25 +62,40 @@ namespace Server
             return reader;
         }
 
+        public bool checkIfExists(string login)
+        {
+            foreach (User u in this.getUsers())
+            {
+                if (u.getLogin() == login)
+                    return false;
+            }
+            return true;
+        }
+
         public bool insertRow(string login, string password, string role)
         {
             DBConnection.startConnection();
 
             MySqlCommand comm = this.DBConnection.connection.CreateCommand();
             string query = "INSERT INTO users(username, password, role) VALUES('"+login+ "', '" + password + "', '" + role + "')"; 
-            comm = new MySqlCommand(query, DBConnection.connection);
-            comm.ExecuteNonQuery();
-            
-            if (comm.ExecuteNonQuery() > 0)
+
+            if(this.checkIfExists(login))
             {
-                DBConnection.closeConnection();
-                return true;  
+                comm = new MySqlCommand(query, DBConnection.connection);
+                comm.ExecuteNonQuery();
+
+                if (comm.ExecuteNonQuery() > 0)
+                {
+                    DBConnection.closeConnection();
+                    return true;
+                }
+                else
+                {
+                    DBConnection.closeConnection();
+                    return false;
+                }
             }
-            else 
-            {
-                DBConnection.closeConnection();
-                return false;
-            }
+            else return false;
         }
         
         public void readUsers()

@@ -7,31 +7,32 @@ namespace UnitTestProject
     [TestClass]
     public class ClientTests
     {
-        //to properly run test it's required to have connection with database
+        //to properly run test it's required to have connection with db
+        //to pass this test there have to be user with name maciej and password 123 in db
         [TestMethod]
         public void ChangeUsernameTest()
         {
-            User u = new User("maciej", "123");
             ClientController controller = new ClientController();
-            controller.getSession().setUser(u);
-            controller.ChangeLogin(u.getLogin(), "gerwant", u.getPassword());
+            controller.getSession().setUser(new User("maciej", "123"));
+            controller.ChangeUsername(controller.getSession().getUser().getPassword(), "gerwant");
 
             Assert.AreEqual("gerwant", controller.getSession().getUser().getLogin());
         }
 
         [TestMethod]
-        public void InsertRowTest()
+        [ExpectedException(typeof(Exception), "user exists")]
+        public void RegisterUserTest()
         {
-            UsersManager manager = new UsersManager();
-
-            Assert.IsTrue(manager.insertRow("maciej", "123", "ROLE_USER"));
+            //Don't know if it's as it should be but this test creates a row in db
+            ClientController controller = new ClientController();
+            controller.Register("JohnSnow", "KingoftheNorth", "KingoftheNorth");
         }
 
         [TestMethod]
-        public void RegisterUserTest()
+        public void LoginTest()
         {
             ClientController controller = new ClientController();
-            Assert.IsTrue(controller.Register("JohnSnow", "KingoftheNorth", "KingoftheNorth"));
+            Assert.IsTrue(controller.LogIn("mchajda", "maciek1"));
         }
     }
 }

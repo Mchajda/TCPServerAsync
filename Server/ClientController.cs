@@ -52,18 +52,13 @@ namespace Server
             }
         }
 
-        public void LogIn(String login, String password)
+        public bool LogIn(String login, String password)
         {
             this.SessionController.authorize(login, password);
 
-            if (!(this.SessionController.getStatus()))
-            {
-                throw new Exception("login failed");
-            }
-            else
-            {
-                throw new Exception("login success");
-            }
+            if (!(this.SessionController.getLoginStatus()))
+                return false;
+            else return true;
         }
 
         //admin methods

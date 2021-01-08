@@ -30,7 +30,7 @@ namespace Server
             this.current_user = user;
         }
 
-        public bool getStatus()
+        public bool getLoginStatus()
         {
             return this.session_is_logged;
         }
@@ -44,28 +44,29 @@ namespace Server
             this.session_is_logged = var;
         }
 
-        public void authorize(string login, string password)
+        public void setAdminStatus(bool var)
+        {
+            this.session_admin = var;
+        }
+
+        public bool authorize(string login, string password)
         {
             foreach (User user in this.UsersManager.getUsers())
             {
                 if (user.getLogin() == login && user.getPassword() == password)
                 {
-                    User current_user = new User(login, password);
-                    this.setUser(current_user);
+
+                    this.setUser(new User(login, password));
                     this.setStatus(true);
 
                     if(user.getRole() == "ROLE_ADMIN")
-                    {
                         this.session_admin = true;
-                    }
 
-                    break;
-                }
-                else
-                {
-                    this.setStatus(false);
+                    return true;
                 }
             }
+            this.setStatus(false);
+            return false;
         }
 
         public bool register(string login, string password, string passwordCheck)
@@ -140,7 +141,7 @@ namespace Server
             this.UsersManager.DBConnection.closeConnection();
         }
 
-        public void changeLogin(string newlogin, string login, string password)
+        public void changeLogin(string login, string newlogin, string password)
         {
             if(password == current_user.getPassword())
             {
@@ -152,6 +153,8 @@ namespace Server
                 comm.ExecuteNonQuery();
 
                 this.UsersManager.DBConnection.closeConnection();
+
+                this.getUser().setLogin(newlogin);
             }
         }
     }
