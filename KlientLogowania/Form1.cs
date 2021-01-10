@@ -69,9 +69,6 @@ namespace KlientLogowania
             //Clear textboxes
             textBox1.Text = "";
             textBox2.Text = "";
-            textBox3.Text = "";
-            textBox4.Text = "";
-            textBox5.Text = "";
         }
 
         public string GeneratePassword()
@@ -150,64 +147,25 @@ namespace KlientLogowania
             }
         }
 
-        private void ChangePassword()
+        public string ChangePassword(string password, string newpassword)
         {
             //This changes password
-            if (textBox3.TextLength != 0 && textBox4.TextLength != 0 && textBox5.TextLength != 0)
-            {
-                if (textBox4.Text != textBox5.Text)
-                {
-                    label5.Show();
-                    label5.Text = "Passwords do not match. Try again.";
-                    return;
-                }
+            Send("change password");
+            string message = Receive();
+            Send(password);
+            message = Receive();
+            Send(newpassword);
+            message = Receive();
+            Send(newpassword);
 
-                Send("change password");
-                string message = Receive();
-                Send(textBox3.Text);
-                message = Receive();
-                Send(textBox4.Text);
-                message = Receive();
-                Send(textBox5.Text);
-
-                message = Receive();
-
-                if (message == "changed password")
-                {
-                    //label10.Show();
-                    OpenLoggedIn();
-                    label15.Show();
-                    label15.Text = "You have successfully changed password";
-                }
-                else if (message == "wrong password")
-                {
-                    label5.Show();
-                    label5.Text = "Wrong current password";
-                }
-            }
-            else
-            {
-                label5.Show();
-                label5.Text = "Don't leave any field empty";
-            }
+            return Receive();
         }
 
-        private void HideRegister()
+        public void ChangePasswordSuccess()
         {
-            label5.Hide();
-            label6.Hide();
-            label7.Hide();
-            label11.Hide();
-            label12.Hide();
-            label17.Hide();
-            label18.Hide();
-            textBox3.Hide();
-            textBox4.Hide();
-            textBox5.Hide();
-            button3.Hide();
-            button15.Hide();
-            radioButton1.Hide();
-            radioButton2.Hide();
+            OpenLoggedIn();
+            label15.Show();
+            label15.Text = "You have successfully changed password";
         }
 
         private void HideLogIn()
@@ -232,70 +190,6 @@ namespace KlientLogowania
             button12.Hide();
             button13.Hide();
             button14.Hide();
-        }
-
-        private void HideChangePassword()
-        {
-            label14.Hide();
-            label17.Hide();
-            button9.Hide();
-        }
-
-        private void HideChangeUsername()
-        {
-            label12.Hide();
-            label14.Hide();
-            label16.Hide();
-            button10.Hide();
-        }
-
-        private void HideAddNewUser()
-        {
-            HideRegister();
-            label18.Hide();
-            label19.Hide();
-            label20.Hide();
-            radioButton1.Hide();
-            radioButton2.Hide();
-
-            button15.Hide();
-        }
-
-        private void HideEditUserData()
-        {
-            label6.Hide();
-            label7.Hide();
-            label11.Hide();
-            label18.Hide();
-
-            textBox3.Hide();
-            textBox4.Hide();
-            textBox5.Hide();
-
-            radioButton1.Hide();
-            radioButton2.Hide();
-
-            button16.Hide();
-            button17.Hide();
-        }
-
-        private void HideDeleteUser()
-        {
-            label7.Hide();
-            textBox3.Hide();
-        }
-
-        private void ShowRegister()
-        {
-            label6.Show();
-            label7.Show();
-            label11.Show();
-            label17.Show();
-            label17.Text = "";
-            textBox3.Show();
-            textBox4.Show();
-            textBox5.Show();
-            button3.Show();
         }
 
         private void ShowLogIn()
@@ -324,63 +218,11 @@ namespace KlientLogowania
             }
         }
 
-        private void ShowChangePassword()
-        {
-            ShowRegister();
-            label7.Hide();
-            label14.Show();
-            label17.Show();
-            label17.Text = "";
-            button9.Show();
-        }
-        private void ShowChangeUsername()
-        {
-            label12.Show();
-            label14.Show();
-            label16.Show();
-            textBox3.Show();
-            textBox4.Show();
-            button10.Show();
-        }
-        private void ShowAddNewUser()
-        {
-            label18.Show();
-            label19.Show();
-            radioButton1.Show();
-            radioButton2.Show();
-
-            button15.Show();
-        }
-
-
-        private void ShowEditUserData()
-        {
-            label6.Show();
-            label7.Show();
-            label11.Show();
-            label17.Show();
-            label18.Show();
-            label20.Show();
-
-            textBox3.Show();
-            textBox4.Show();
-            textBox5.Show();
-
-            radioButton1.Show();
-            radioButton2.Show();
-
-            button16.Show();
-            button17.Show();
-        }
-
         private void OpenLogin()
         {
             label3.Hide();
             //Show log in form
             ShowLogIn();
-
-            //Hide register form
-            HideRegister();
 
             //Hide logged in form
             HideLoggedIn();
@@ -390,20 +232,8 @@ namespace KlientLogowania
 
         private void OpenLoggedIn()
         {
-            //Hide register form
-            HideRegister();
-
             //Hide log in form
             HideLogIn();
-
-            //Hide ChangePassword form
-            HideChangePassword();
-
-            //Hide ChangeUsername form
-            HideChangeUsername();
-
-            HideAddNewUser();
-            HideEditUserData();
 
             ShowLoggedIn();
 
@@ -415,7 +245,6 @@ namespace KlientLogowania
         private void OpenChangePassword()
         {
             HideLoggedIn();
-            ShowChangePassword();
 
             ClearTextBoxes();
         }
@@ -423,30 +252,8 @@ namespace KlientLogowania
         private void OpenChangeUsername()
         {
             HideLoggedIn();
-            ShowChangeUsername();
 
             ClearTextBoxes();
-        }
-
-        private void OpenAddNewUser()
-        {
-            ShowAddNewUser();
-
-            radioButton1.Checked = false;
-            radioButton2.Checked = false;
-        }        
-
-        private void OpenEditUserData()
-        {
-            HideLoggedIn();
-            ShowEditUserData();
-            label7.Text = "User to change";
-            label6.Text = "New username";
-            label11.Text = "New password";
-            label17.Text = "";
-
-            radioButton1.Checked = false;
-            radioButton2.Checked = false;
         }
 
         protected string getUsername()
@@ -469,8 +276,7 @@ namespace KlientLogowania
             InitializeComponent();
             
             label3.Text = "";
-            label5.Text = "";
-            label12.Text = "";
+            label17.Text = "";
 
             try
             {
@@ -486,22 +292,10 @@ namespace KlientLogowania
                 return;
             }
 
-            //Hide register form
-            HideRegister();
             label10.Hide();
 
             //Hide logged in form
             HideLoggedIn();
-
-            //Hide ChangePassword form
-            HideChangePassword();
-
-            //Hide ChangePassword form
-            HideChangeUsername();
-
-            HideAddNewUser();
-
-            HideEditUserData();
         }
         private void Form1_Load(object sender, EventArgs e)
         {
@@ -541,8 +335,7 @@ namespace KlientLogowania
 
         private void button3_Click(object sender, EventArgs e)
         {
-            textBox5.Text = GeneratePassword();
-            textBox4.Text = textBox5.Text;
+
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -635,7 +428,8 @@ namespace KlientLogowania
 
         private void button6_Click(object sender, EventArgs e)
         {
-            OpenChangePassword();
+            Form4 changePassword = new Form4(this);
+            changePassword.Show();
         }
 
         private void button7_Click(object sender, EventArgs e)
@@ -645,7 +439,7 @@ namespace KlientLogowania
 
         private void button9_Click(object sender, EventArgs e)
         {
-            ChangePassword();
+
         }
 
         private void label14_Click(object sender, EventArgs e)
@@ -671,7 +465,7 @@ namespace KlientLogowania
         private void button10_Click(object sender, EventArgs e)
         {
             //This changes username
-            if (textBox3.TextLength != 0 && textBox4.TextLength != 0)
+            /*if (textBox3.TextLength != 0 && textBox4.TextLength != 0)
             {
                 stream.Write(Encoding.ASCII.GetBytes("change username"), 0, "change username".Length);
                 stream.Read(buffer, 0, buffer.Length);
@@ -698,17 +492,18 @@ namespace KlientLogowania
             {
                 label5.Show();
                 label5.Text = "Don't leave any field empty";
-            }
+            }*/
         }
 
         private void button12_Click(object sender, EventArgs e)
         {
-            OpenAddNewUser();
+            Form2 registerForm = new Form2(this);
+            registerForm.ShowDialog();
         }
 
         private void button13_Click(object sender, EventArgs e)
         {
-            OpenEditUserData();
+            
         }
         
         private void button14_Click(object sender, EventArgs e)
@@ -731,7 +526,7 @@ namespace KlientLogowania
         {
             //this adds new user by admin
 
-            if (textBox3.TextLength != 0 && textBox4.TextLength != 0 && textBox5.TextLength != 0 && (radioButton1.Checked || radioButton2.Checked))
+            /*if (textBox3.TextLength != 0 && textBox4.TextLength != 0 && textBox5.TextLength != 0 && (radioButton1.Checked || radioButton2.Checked))
             {
                 if (textBox4.Text != textBox5.Text)
                 {
@@ -771,7 +566,7 @@ namespace KlientLogowania
             {
                 label5.Show();
                 label5.Text = "You didn't fill all fields";
-            }
+            }*/
         }
 
         private void label18_Click(object sender, EventArgs e)
@@ -793,7 +588,7 @@ namespace KlientLogowania
         {
             //this edits user data
 
-            if (textBox3.TextLength != 0 && textBox4.TextLength != 0 && textBox5.TextLength != 0 && (radioButton1.Checked || radioButton2.Checked))
+            /*if (textBox3.TextLength != 0 && textBox4.TextLength != 0 && textBox5.TextLength != 0 && (radioButton1.Checked || radioButton2.Checked))
             {
                 stream.Write(Encoding.ASCII.GetBytes("edit_user"), 0, "edit_user".Length);
                 stream.Read(buffer, 0, buffer.Length);
@@ -821,12 +616,12 @@ namespace KlientLogowania
                 label17.Show();
                 label17.Text = "You have successfully edited user data";
                 label17.ForeColor = Color.Green;
-            }
+            }*/
         }
 
         private void button17_Click(object sender, EventArgs e)
         {
-            textBox5.Text = GeneratePassword();
+
         }
 
         private void label19_Click(object sender, EventArgs e)
@@ -847,6 +642,11 @@ namespace KlientLogowania
         private void button18_Click(object sender, EventArgs e)
         {
             
+        }
+
+        private void label17_Click_1(object sender, EventArgs e)
+        {
+
         }
     }
 }

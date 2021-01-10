@@ -51,6 +51,8 @@ namespace Server
 
         public bool authorize(string login, string password)
         {
+            UsersManager.readUsers();
+
             foreach (User user in this.UsersManager.getUsers())
             {
                 if (user.getLogin() == login && user.getPassword() == password)
@@ -92,9 +94,9 @@ namespace Server
 
                     throw new Exception("registration successful");
                 }
-                else throw new Exception("podane hasla sie nie zgadzaja");
+                else throw new Exception("passwords do not match");
             }
-            else throw new Exception("istnieje użytkownik o podanym loginie");
+            else throw new Exception("user exists");
         }
 
         public void changePassword(string login, string password, string passwordCheck)
@@ -110,7 +112,7 @@ namespace Server
                     }
                     else
                     {
-                        throw new Exception("podane hasla sie nie zgadzaja");
+                        throw new Exception("passwords do not match");
                     }
                 }
             }

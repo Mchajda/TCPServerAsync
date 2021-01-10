@@ -24,7 +24,6 @@ namespace Server
             PasswordGenerator = new PasswordGenerator();
             StreamController = new StreamController();
             ClientController = new ClientController();
-            
         }
 
         protected override void AcceptClient()
@@ -87,6 +86,12 @@ namespace Server
                             {
                                 //Generowanie hasła
                                 this.StreamController.SendString(PasswordGenerator.GeneratePassword(8), buffer, stream);
+                                break;
+                            }
+
+                            case "is_admin":
+                            {
+                                this.StreamController.SendString("false", buffer, stream);
                                 break;
                             }
 
