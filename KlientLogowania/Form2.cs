@@ -116,8 +116,11 @@ namespace KlientLogowania
                     return;
                 }
 
-                mainForm.SuccessfulRegister();
-                this.Close();
+                if (message == "registration successful")
+                {
+                    mainForm.SuccessfulRegister();
+                    this.Close();
+                }
             }
             else
             {
