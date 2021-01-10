@@ -7,7 +7,7 @@ using System.Text;
 
 namespace Server
 {
-    class SessionController
+    public class SessionController
     {
         User current_user;
         UsersManager UsersManager;
@@ -30,7 +30,7 @@ namespace Server
             this.current_user = user;
         }
 
-        public bool getStatus()
+        public bool getLoginStatus()
         {
             return this.session_is_logged;
         }
@@ -44,31 +44,32 @@ namespace Server
             this.session_is_logged = var;
         }
 
-        public void authorize(string login, string password)
+        public void setAdminStatus(bool var)
+        {
+            this.session_admin = var;
+        }
+
+        public bool authorize(string login, string password)
         {
             foreach (User user in this.UsersManager.getUsers())
             {
                 if (user.getLogin() == login && user.getPassword() == password)
                 {
-                    User current_user = new User(login, password);
-                    this.setUser(current_user);
+
+                    this.setUser(new User(login, password));
                     this.setStatus(true);
 
                     if(user.getRole() == "ROLE_ADMIN")
-                    {
                         this.session_admin = true;
-                    }
 
-                    break;
-                }
-                else
-                {
-                    this.setStatus(false);
+                    return true;
                 }
             }
+            this.setStatus(false);
+            return false;
         }
 
-        public void register(string login, string password, string passwordCheck, string role)
+        public bool register(string login, string password, string passwordCheck)
         {
             bool is_valid_user = true;
 
@@ -85,9 +86,9 @@ namespace Server
             {
                 if (password == passwordCheck)
                 {
-                    User newUser = new User(login, password, role);
-                    
-                    this.UsersManager.insertRow(login, password, role);
+                    if (this.UsersManager.insertRow(login, password, "ROLE_USER"))
+                        return true;
+                    else return false;
 
                     throw new Exception("registration successful");
                 }
@@ -115,18 +116,6 @@ namespace Server
             }
         }
 
-        public void changeLogin(string curr_login, string new_login)
-        {
-            foreach (User user in this.UsersManager.getUsers())
-            {
-                if (user.getLogin() == curr_login)
-                {
-                    user.setLogin(new_login);
-                    this.UsersManager.saveUsers();
-                }
-            }
-        }
-
         public void addToFriends(string username)
         {
             this.UsersManager.DBConnection.startConnection();
@@ -140,20 +129,33 @@ namespace Server
         }
 
         //admin methods
-        public void deleteUser(User u)
+        public void deleteUser(string login)
         {
-            ArrayList users = this.UsersManager.getUsers();
-            ArrayList newUsers = new ArrayList();
+            this.UsersManager.DBConnection.startConnection();
 
-            foreach (User user in users)
+            MySqlCommand comm = this.UsersManager.DBConnection.connection.CreateCommand();
+            string query = "DELETE FROM users WHERE username='"+login+"' ";
+            comm = new MySqlCommand(query, this.UsersManager.DBConnection.connection);
+            comm.ExecuteNonQuery();
+
+            this.UsersManager.DBConnection.closeConnection();
+        }
+
+        public void changeLogin(string login, string newlogin, string password)
+        {
+            if(password == current_user.getPassword())
             {
-                if (!(u.getLogin() == user.getLogin() && u.getPassword() == user.getPassword()))
-                {
-                    newUsers.Add(user);
-                }
-            }
+                this.UsersManager.DBConnection.startConnection();
 
-            this.UsersManager.setUsers(newUsers);
+                MySqlCommand comm = this.UsersManager.DBConnection.connection.CreateCommand();
+                string query = "UPDATE users SET username='" + newlogin + "' WHERE username='" + login + "' ";
+                comm = new MySqlCommand(query, this.UsersManager.DBConnection.connection);
+                comm.ExecuteNonQuery();
+
+                this.UsersManager.DBConnection.closeConnection();
+
+                this.getUser().setLogin(newlogin);
+            }
         }
     }
 }

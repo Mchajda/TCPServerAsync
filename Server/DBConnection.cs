@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Server
 {
-    class DBConnection
+    public class DBConnection
     {
         public string server, port, db_login, db_password, db_name;
         public MySqlConnection connection;

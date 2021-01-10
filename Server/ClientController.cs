@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Server
 {
-    class ClientController
+    public class ClientController
     {
         //User current_user;
         SessionController SessionController;
@@ -18,13 +18,13 @@ namespace Server
             return this.SessionController;
         }
 
-        public void ChangeUsername(String oldpassword, String login)
+        public void ChangeUsername(String password, String new_login)
         {
             System.Console.WriteLine(this.SessionController.getUser().getLogin());
-            if (this.SessionController.getUser().getPassword() == oldpassword)
+            if (this.SessionController.getUser().getPassword() == password)
             {
-                this.SessionController.changeLogin(SessionController.getUser().getLogin(), login);
-                throw new Exception("changed username");
+                this.SessionController.changeLogin(SessionController.getUser().getLogin(), new_login, password);
+                //throw new Exception("changed username");
             }
             else
             {
@@ -32,9 +32,11 @@ namespace Server
             }
         }
 
-        public void Register(String login, String password, String passwordCheck, String role)
+        public bool Register(String login, String password, String passwordCheck)
         {
-            this.SessionController.register(login, password, passwordCheck, role);
+            if (this.SessionController.register(login, password, passwordCheck))
+                return true;
+            else return false;
         }
 
         public void ChangePassword(String oldpassword, String password, String passwordCheck)
@@ -50,18 +52,13 @@ namespace Server
             }
         }
 
-        public void LogIn(String login, String password)
+        public bool LogIn(String login, String password)
         {
             this.SessionController.authorize(login, password);
 
-            if (!(this.SessionController.getStatus()))
-            {
-                throw new Exception("login failed");
-            }
-            else
-            {
-                throw new Exception("login success");
-            }
+            if (!(this.SessionController.getLoginStatus()))
+                return false;
+            else return true;
         }
 
         //admin methods
@@ -74,15 +71,15 @@ namespace Server
         {
             if (this.SessionController.getAdminStatus() == true)
             {
-                //this.SessionController.deleteUser(login);
+                this.SessionController.deleteUser(login);
             }
         }
 
-        public void EditUser(string login, string new_login, string password, string role)
+        public void ChangeLogin(string login, string new_login, string password)
         {
             if (this.SessionController.getAdminStatus() == true)
             {
-                //SessionController.editUser(login, new_login, password, role);
+                SessionController.changeLogin(login, new_login, password);
             }
         }
     }

@@ -9,7 +9,7 @@ using MySql.Data.MySqlClient;
 
 namespace Server
 {
-    class UsersManager
+    public class UsersManager
     {
         public DBConnection DBConnection;
         private ArrayList users;
@@ -62,29 +62,42 @@ namespace Server
             return reader;
         }
 
-        public void insertRow(string login, string password, string role)
+        public bool checkIfExists(string login)
+        {
+            foreach (User u in this.getUsers())
+            {
+                if (u.getLogin() == login)
+                    return false;
+            }
+            return true;
+        }
+
+        public bool insertRow(string login, string password, string role)
         {
             DBConnection.startConnection();
 
             MySqlCommand comm = this.DBConnection.connection.CreateCommand();
             string query = "INSERT INTO users(username, password, role) VALUES('"+login+ "', '" + password + "', '" + role + "')"; 
-            comm = new MySqlCommand(query, DBConnection.connection);
-            comm.ExecuteNonQuery();
 
-            DBConnection.closeConnection();
+            if(this.checkIfExists(login))
+            {
+                comm = new MySqlCommand(query, DBConnection.connection);
+                comm.ExecuteNonQuery();
+
+                if (comm.ExecuteNonQuery() > 0)
+                {
+                    DBConnection.closeConnection();
+                    return true;
+                }
+                else
+                {
+                    DBConnection.closeConnection();
+                    return false;
+                }
+            }
+            else return false;
         }
         
-        public void deleteRow(string login, string password, string role)
-        {
-            DBConnection.startConnection();
-
-            MySqlCommand comm = this.DBConnection.connection.CreateCommand();
-            string query = "DELETE FROM users WHERE username='" + login + "' ";
-            comm = new MySqlCommand(query, DBConnection.connection);
-            comm.ExecuteNonQuery();
-
-            DBConnection.closeConnection();
-        }
         public void readUsers()
         {
             DBConnection.startConnection();
@@ -107,16 +120,6 @@ namespace Server
         public ArrayList getUsers()
         {
             return this.users;
-        }
-
-        public void setUsers(ArrayList users)
-        {
-            this.users = users;
-        }
-
-        internal void saveUser(User user)
-        {
-            throw new NotImplementedException();
         }
     }
 }
