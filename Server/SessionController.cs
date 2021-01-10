@@ -99,20 +99,18 @@ namespace Server
 
         public void changePassword(string login, string password, string passwordCheck)
         {
-            foreach (User user in this.UsersManager.getUsers())
+            if (password == current_user.getPassword())
             {
-                if (user.getLogin() == login)
-                {
-                    if (password == passwordCheck)
-                    {
-                        user.setPassword(password);
-                        this.UsersManager.saveUsers();
-                    }
-                    else
-                    {
-                        throw new Exception("podane hasla sie nie zgadzaja");
-                    }
-                }
+                this.UsersManager.DBConnection.startConnection();
+
+                MySqlCommand comm = this.UsersManager.DBConnection.connection.CreateCommand();
+                string query = "UPDATE users SET password='" + password + "' WHERE username='" + login + "' ";
+                comm = new MySqlCommand(query, this.UsersManager.DBConnection.connection);
+                comm.ExecuteNonQuery();
+
+                this.UsersManager.DBConnection.closeConnection();
+
+                this.getUser().setPassword(password);
             }
         }
 
@@ -156,6 +154,32 @@ namespace Server
 
                 this.getUser().setLogin(newlogin);
             }
+        }
+
+        public void editUser(string login, string new_login, string new_password)
+        {
+            string query = "";
+            if (new_login != "" && new_password != "")
+            {
+                query = "UPDATE users SET username='" + new_login + "', password='"+ new_password +"' WHERE username='" + login + "' ";
+            }
+            else if (new_login != "" && new_password == "")
+            {
+                query = "UPDATE users SET username='" + new_login + "' WHERE username='" + login + "' ";
+            }
+            else if (new_login == "" && new_password != "")
+            {
+                query = "UPDATE users SET password='" + new_password + "' WHERE username='" + login + "' ";
+            }
+
+            this.UsersManager.DBConnection.startConnection();
+
+            MySqlCommand comm = this.UsersManager.DBConnection.connection.CreateCommand();
+            
+            comm = new MySqlCommand(query, this.UsersManager.DBConnection.connection);
+            comm.ExecuteNonQuery();
+
+            this.UsersManager.DBConnection.closeConnection();
         }
     }
 }

@@ -82,5 +82,10 @@ namespace Server
                 SessionController.changeLogin(login, new_login, password);
             }
         }
+
+        public void EditUser(string login, string new_login, string new_password)
+        {
+            this.SessionController.editUser(login, new_login, new_password);
+        }
     }
 }
