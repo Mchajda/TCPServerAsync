@@ -34,3 +34,12 @@ C:\Users\Vidugavia\source\repos\TCPServerAsync\Server\obj\Debug\netstandard2.0\S
 C:\Users\Vidugavia\source\repos\TCPServerAsync\Server\obj\Debug\netstandard2.0\Server.csproj.CoreCompileInputs.cache
 C:\Users\Vidugavia\source\repos\TCPServerAsync\Server\obj\Debug\netstandard2.0\Server.dll
 C:\Users\Vidugavia\source\repos\TCPServerAsync\Server\obj\Debug\netstandard2.0\Server.pdb
+C:\Users\Vidugavia\Source\Repos\Mchajda\TCPServerAsync\Server\bin\Debug\netstandard2.0\Server.deps.json
+C:\Users\Vidugavia\Source\Repos\Mchajda\TCPServerAsync\Server\bin\Debug\netstandard2.0\Server.dll
+C:\Users\Vidugavia\Source\Repos\Mchajda\TCPServerAsync\Server\bin\Debug\netstandard2.0\Server.pdb
+C:\Users\Vidugavia\Source\Repos\Mchajda\TCPServerAsync\Server\obj\Debug\netstandard2.0\Server.csprojAssemblyReference.cache
+C:\Users\Vidugavia\Source\Repos\Mchajda\TCPServerAsync\Server\obj\Debug\netstandard2.0\Server.AssemblyInfoInputs.cache
+C:\Users\Vidugavia\Source\Repos\Mchajda\TCPServerAsync\Server\obj\Debug\netstandard2.0\Server.AssemblyInfo.cs
+C:\Users\Vidugavia\Source\Repos\Mchajda\TCPServerAsync\Server\obj\Debug\netstandard2.0\Server.csproj.CoreCompileInputs.cache
+C:\Users\Vidugavia\Source\Repos\Mchajda\TCPServerAsync\Server\obj\Debug\netstandard2.0\Server.dll
+C:\Users\Vidugavia\Source\Repos\Mchajda\TCPServerAsync\Server\obj\Debug\netstandard2.0\Server.pdb

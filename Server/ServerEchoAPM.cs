@@ -144,7 +144,7 @@ namespace Server
                                 this.StreamController.SendString("role", buffer, stream);
                                 string role = this.StreamController.ReadString(stream, buffer);
 
-                                this.ClientController.ChangeLogin(login, new_login, password);
+                                this.ClientController.EditUser(login, new_login, password);
                                 break;
                             }
 

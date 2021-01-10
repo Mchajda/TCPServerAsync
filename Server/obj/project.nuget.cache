@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "6Tye3mOOuxxY3C3f9zOtoo183heJDxAaZ0UgWDhvwhidz+Z34fIc/nEiYBCa/yXEdY7pJVPz8Bocaq8RHo39yg==",
+  "dgSpecHash": "BuMZRddZ3B/H2FPJJ/SC4e6gl+h0WaEvzycRTiVivbNr2wvsDGv1o4yK43DrDiOXV5kWqy/bRngVeb9S5QpyRQ==",
   "success": true,
-  "projectFilePath": "C:\\Users\\Vidugavia\\source\\repos\\TCPServerAsync\\Server\\Server.csproj",
+  "projectFilePath": "C:\\Users\\Vidugavia\\Source\\Repos\\Mchajda\\TCPServerAsync\\Server\\Server.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Vidugavia\\.nuget\\packages\\bouncycastle.netcore\\1.8.3\\bouncycastle.netcore.1.8.3.nupkg.sha512",
     "C:\\Users\\Vidugavia\\.nuget\\packages\\google.protobuf\\3.11.4\\google.protobuf.3.11.4.nupkg.sha512",

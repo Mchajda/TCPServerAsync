@@ -57,12 +57,13 @@ namespace KlientLogowania
             this.textBox3.Name = "textBox3";
             this.textBox3.Size = new System.Drawing.Size(360, 25);
             this.textBox3.TabIndex = 76;
+            this.textBox3.TextChanged += new System.EventHandler(this.textBox3_TextChanged);
             // 
             // label7
             // 
             this.label7.AutoSize = true;
             this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.label7.Location = new System.Drawing.Point(11, 49);
+            this.label7.Location = new System.Drawing.Point(11, 150);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(108, 18);
             this.label7.TabIndex = 75;
@@ -100,6 +101,7 @@ namespace KlientLogowania
             this.button4.TabIndex = 72;
             this.button4.Text = "Submit";
             this.button4.UseVisualStyleBackColor = true;
+            this.button4.Click += new System.EventHandler(this.button4_Click);
             // 
             // textBox5
             // 
@@ -109,12 +111,13 @@ namespace KlientLogowania
             this.textBox5.Name = "textBox5";
             this.textBox5.Size = new System.Drawing.Size(360, 25);
             this.textBox5.TabIndex = 67;
+            this.textBox5.TextChanged += new System.EventHandler(this.textBox5_TextChanged);
             // 
             // label11
             // 
             this.label11.AutoSize = true;
             this.label11.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.label11.Location = new System.Drawing.Point(11, 150);
+            this.label11.Location = new System.Drawing.Point(11, 49);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(108, 18);
             this.label11.TabIndex = 66;

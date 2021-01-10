@@ -45,6 +45,25 @@ namespace KlientLogowania
             return strength;
         }
 
+        public string ChangeUsername(string password, string newusername)
+        {
+            //This changes password
+            Send("change username");
+            string message = Receive();
+            Send(password);
+            message = Receive();
+            Send(newusername);
+
+            return Receive();
+        }
+
+        public void ChangeUsernameSuccess()
+        {
+            OpenLoggedIn();
+            label15.Show();
+            label15.Text = "You have successfully changed username";
+        }
+
         public string DeleteUser(string username)
         {
             //this deletes user form database
@@ -71,12 +90,34 @@ namespace KlientLogowania
             textBox2.Text = "";
         }
 
+        public string EditUserData(string username, string newusername, string newpassword, string role)
+        {
+            Send("edit user");
+            string message = Receive();
+            Send(username);
+            message = Receive();
+            Send(newusername);
+            message = Receive();
+            Send(newpassword);
+            message = Receive();
+            Send(role);
+
+            return Receive();
+        }
+
         public string GeneratePassword()
         {
             label10.Hide();
             //This generates random 8-char password
             Send("generate");
             return Receive();
+        }
+
+        public void EditUserDataSuccess()
+        {
+            label17.Show();
+            label17.Text = "You have successfully edited user data";
+            label17.ForeColor = Color.Green;
         }
 
         private void LogIn()
@@ -434,7 +475,8 @@ namespace KlientLogowania
 
         private void button7_Click(object sender, EventArgs e)
         {
-            OpenChangeUsername();
+            Form5 changeUsername = new Form5(this);
+            changeUsername.Show();
         }
 
         private void button9_Click(object sender, EventArgs e)

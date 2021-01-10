@@ -4584,11 +4584,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Vidugavia\\source\\repos\\TCPServerAsync\\Server\\Server.csproj",
+      "projectUniqueName": "C:\\Users\\Vidugavia\\Source\\Repos\\Mchajda\\TCPServerAsync\\Server\\Server.csproj",
       "projectName": "Server",
-      "projectPath": "C:\\Users\\Vidugavia\\source\\repos\\TCPServerAsync\\Server\\Server.csproj",
+      "projectPath": "C:\\Users\\Vidugavia\\Source\\Repos\\Mchajda\\TCPServerAsync\\Server\\Server.csproj",
       "packagesPath": "C:\\Users\\Vidugavia\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Vidugavia\\source\\repos\\TCPServerAsync\\Server\\obj\\",
+      "outputPath": "C:\\Users\\Vidugavia\\Source\\Repos\\Mchajda\\TCPServerAsync\\Server\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "F:\\Microsoft\\Xamarin\\NuGet\\"

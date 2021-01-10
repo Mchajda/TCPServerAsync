@@ -24,7 +24,7 @@ namespace Server
             if (this.SessionController.getUser().getPassword() == password)
             {
                 this.SessionController.changeLogin(SessionController.getUser().getLogin(), new_login, password);
-                //throw new Exception("changed username");
+                throw new Exception("changed username");
             }
             else
             {
@@ -57,8 +57,8 @@ namespace Server
             this.SessionController.authorize(login, password);
 
             if (!(this.SessionController.getLoginStatus()))
-                return false;
-            else return true;
+                throw new Exception("login failed");
+            else throw new Exception("login success");
         }
 
         //admin methods
@@ -75,12 +75,9 @@ namespace Server
             }
         }
 
-        public void ChangeLogin(string login, string new_login, string password)
+        public void EditUser(string login, string new_login, string password)
         {
-            if (this.SessionController.getAdminStatus() == true)
-            {
-                SessionController.changeLogin(login, new_login, password);
-            }
+            throw new NotImplementedException();
         }
     }
 }

@@ -218,7 +218,7 @@ namespace KlientLogowania
             // 
             this.label18.AutoSize = true;
             this.label18.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.label18.Location = new System.Drawing.Point(9, 225);
+            this.label18.Location = new System.Drawing.Point(9, 223);
             this.label18.Name = "label18";
             this.label18.Size = new System.Drawing.Size(39, 18);
             this.label18.TabIndex = 51;
