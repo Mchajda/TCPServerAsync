@@ -50,7 +50,7 @@ namespace Server
 
             while (true)
             {
-                while (this.ClientController.getSession().getLoginStatus() != true)
+                while (!this.ClientController.getSession().getLoginStatus())
                 {
                     try
                     {
