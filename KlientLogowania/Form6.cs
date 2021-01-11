@@ -84,11 +84,11 @@ namespace KlientLogowania
                 else
                 {
                     label5.Show();
-                    label5.Text = "Pick a role for new user";
+                    label5.Text = "Pick a role for a user";
                     return;
                 }
 
-                if (message == "user exists")
+                if (message == "username occupied")
                 {
                     label5.Show();
                     label5.Text = "Username occupied";

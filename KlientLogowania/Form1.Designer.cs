@@ -47,6 +47,8 @@ namespace KlientLogowania
             this.button14 = new System.Windows.Forms.Button();
             this.label13 = new System.Windows.Forms.Label();
             this.label17 = new System.Windows.Forms.Label();
+            this.button3 = new System.Windows.Forms.Button();
+            this.button4 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // label1
@@ -129,7 +131,7 @@ namespace KlientLogowania
             // label4
             // 
             this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.label4.Location = new System.Drawing.Point(7, 9);
+            this.label4.Location = new System.Drawing.Point(12, 9);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(360, 25);
             this.label4.TabIndex = 7;
@@ -152,9 +154,9 @@ namespace KlientLogowania
             // button6
             // 
             this.button6.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.button6.Location = new System.Drawing.Point(14, 43);
+            this.button6.Location = new System.Drawing.Point(12, 37);
             this.button6.Name = "button6";
-            this.button6.Size = new System.Drawing.Size(105, 36);
+            this.button6.Size = new System.Drawing.Size(110, 35);
             this.button6.TabIndex = 30;
             this.button6.Text = "Change password";
             this.button6.UseVisualStyleBackColor = true;
@@ -163,9 +165,9 @@ namespace KlientLogowania
             // button7
             // 
             this.button7.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.button7.Location = new System.Drawing.Point(140, 43);
+            this.button7.Location = new System.Drawing.Point(136, 37);
             this.button7.Name = "button7";
-            this.button7.Size = new System.Drawing.Size(105, 36);
+            this.button7.Size = new System.Drawing.Size(110, 35);
             this.button7.TabIndex = 31;
             this.button7.Text = "Change username";
             this.button7.UseVisualStyleBackColor = true;
@@ -174,9 +176,9 @@ namespace KlientLogowania
             // button8
             // 
             this.button8.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.button8.Location = new System.Drawing.Point(267, 44);
+            this.button8.Location = new System.Drawing.Point(262, 37);
             this.button8.Name = "button8";
-            this.button8.Size = new System.Drawing.Size(105, 36);
+            this.button8.Size = new System.Drawing.Size(110, 35);
             this.button8.TabIndex = 32;
             this.button8.Text = "Log out";
             this.button8.UseVisualStyleBackColor = true;
@@ -197,9 +199,9 @@ namespace KlientLogowania
             // button12
             // 
             this.button12.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.button12.Location = new System.Drawing.Point(15, 89);
+            this.button12.Location = new System.Drawing.Point(12, 119);
             this.button12.Name = "button12";
-            this.button12.Size = new System.Drawing.Size(105, 36);
+            this.button12.Size = new System.Drawing.Size(110, 35);
             this.button12.TabIndex = 40;
             this.button12.Text = "Add new user";
             this.button12.UseVisualStyleBackColor = true;
@@ -208,9 +210,9 @@ namespace KlientLogowania
             // button13
             // 
             this.button13.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.button13.Location = new System.Drawing.Point(140, 89);
+            this.button13.Location = new System.Drawing.Point(136, 119);
             this.button13.Name = "button13";
-            this.button13.Size = new System.Drawing.Size(105, 36);
+            this.button13.Size = new System.Drawing.Size(110, 35);
             this.button13.TabIndex = 41;
             this.button13.Text = "Edit user data";
             this.button13.UseVisualStyleBackColor = true;
@@ -219,9 +221,9 @@ namespace KlientLogowania
             // button14
             // 
             this.button14.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.button14.Location = new System.Drawing.Point(267, 89);
+            this.button14.Location = new System.Drawing.Point(262, 119);
             this.button14.Name = "button14";
-            this.button14.Size = new System.Drawing.Size(105, 36);
+            this.button14.Size = new System.Drawing.Size(110, 35);
             this.button14.TabIndex = 42;
             this.button14.Text = "Delete user from database";
             this.button14.UseVisualStyleBackColor = true;
@@ -232,7 +234,7 @@ namespace KlientLogowania
             this.label13.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.label13.Location = new System.Drawing.Point(12, 9);
             this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(360, 30);
+            this.label13.Size = new System.Drawing.Size(360, 25);
             this.label13.TabIndex = 29;
             this.label13.Text = "Someone is logged in";
             this.label13.Click += new System.EventHandler(this.label13_Click);
@@ -248,29 +250,53 @@ namespace KlientLogowania
             this.label17.Text = "label17";
             this.label17.Click += new System.EventHandler(this.label17_Click_1);
             // 
+            // button3
+            // 
+            this.button3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.button3.Location = new System.Drawing.Point(12, 78);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(110, 35);
+            this.button3.TabIndex = 52;
+            this.button3.Text = "Friend list";
+            this.button3.UseVisualStyleBackColor = true;
+            this.button3.Click += new System.EventHandler(this.button3_Click);
+            // 
+            // button4
+            // 
+            this.button4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.button4.Location = new System.Drawing.Point(136, 78);
+            this.button4.Name = "button4";
+            this.button4.Size = new System.Drawing.Size(110, 35);
+            this.button4.TabIndex = 53;
+            this.button4.Text = "Add a friend";
+            this.button4.UseVisualStyleBackColor = true;
+            this.button4.Click += new System.EventHandler(this.button4_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(384, 341);
+            this.Controls.Add(this.button13);
+            this.Controls.Add(this.button4);
+            this.Controls.Add(this.button3);
             this.Controls.Add(this.button12);
             this.Controls.Add(this.label17);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.button8);
-            this.Controls.Add(this.button13);
             this.Controls.Add(this.button14);
             this.Controls.Add(this.textBox2);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.button7);
-            this.Controls.Add(this.label4);
-            this.Controls.Add(this.label13);
             this.Controls.Add(this.button6);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label10);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.textBox1);
             this.Controls.Add(this.label15);
+            this.Controls.Add(this.label13);
+            this.Controls.Add(this.label4);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Name = "Form1";
             this.Text = "System logowania";
@@ -301,6 +327,8 @@ namespace KlientLogowania
         private System.Windows.Forms.Button button14;
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.Label label17;
+        private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.Button button4;
     }
 }
 

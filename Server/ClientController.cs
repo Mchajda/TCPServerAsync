@@ -75,14 +75,10 @@ namespace Server
             }
         }
 
-        public void EditUser(string login, string new_login, string password)
-        {
-            throw new NotImplementedException();
-        }
-
         public void EditUser(string login, string new_login, string new_password)
         {
             this.SessionController.editUser(login, new_login, new_password);
+            throw new Exception("user data edited");
         }
     }
 }

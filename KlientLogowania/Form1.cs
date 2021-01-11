@@ -150,6 +150,13 @@ namespace KlientLogowania
             }
         }
 
+        public void SuccessfullyAddedUser()
+        {
+            label10.Show();
+            label10.Text = "You have successfully added a new user.";
+            OpenLogin();
+        }
+
         public string Register(string login, string password, string role)
         {
             Send("register");
@@ -169,7 +176,7 @@ namespace KlientLogowania
         public void SuccessfulRegister()
         {
             label10.Show();
-            label10.Text = "You have successfully add a new user";
+            label10.Text = "You have successfully registered.";
             OpenLogin();
         }
 
@@ -225,6 +232,8 @@ namespace KlientLogowania
         {
             label13.Hide();
             label15.Hide();
+            button3.Hide();
+            button4.Hide();
             button6.Hide();
             button7.Hide();
             button8.Hide();
@@ -247,6 +256,8 @@ namespace KlientLogowania
         private void ShowLoggedIn()
         {
             label13.Show();
+            button3.Show();
+            button4.Show();
             button6.Show();
             button7.Show();
             button8.Show();
@@ -374,20 +385,10 @@ namespace KlientLogowania
 
         }
 
-        private void button3_Click(object sender, EventArgs e)
-        {
-
-        }
-
         private void button1_Click(object sender, EventArgs e)
         {
             label10.Hide();
             LogIn();
-        }
-
-        private void button4_Click(object sender, EventArgs e)
-        {
-
         }
 
         private void textBox4_TextChanged(object sender, EventArgs e)
@@ -506,35 +507,7 @@ namespace KlientLogowania
 
         private void button10_Click(object sender, EventArgs e)
         {
-            //This changes username
-            /*if (textBox3.TextLength != 0 && textBox4.TextLength != 0)
-            {
-                stream.Write(Encoding.ASCII.GetBytes("change username"), 0, "change username".Length);
-                stream.Read(buffer, 0, buffer.Length);
-                stream.Write(Encoding.ASCII.GetBytes(textBox3.Text), 0, textBox3.TextLength);
-                stream.Read(buffer, 0, buffer.Length);
-                stream.Write(Encoding.ASCII.GetBytes(textBox4.Text), 0, textBox4.TextLength);
 
-                int message_size = stream.Read(buffer, 0, buffer.Length);
-                string message = new ASCIIEncoding().GetString(buffer, 0, message_size);
-                if (message == "changed username")
-                {
-                    //label10.Show();
-                    OpenLoggedIn();
-                    label15.Show();
-                    label15.Text = "You have successfully changed username";
-                }
-                else if (message == "wrong password")
-                {
-                    label5.Show();
-                    label5.Text = "Wrong current password";
-                }
-            }
-            else
-            {
-                label5.Show();
-                label5.Text = "Don't leave any field empty";
-            }*/
         }
 
         private void button12_Click(object sender, EventArgs e)
@@ -545,7 +518,8 @@ namespace KlientLogowania
 
         private void button13_Click(object sender, EventArgs e)
         {
-            
+            Form6 editUserData = new Form6(this);
+            editUserData.Show();
         }
         
         private void button14_Click(object sender, EventArgs e)
@@ -566,49 +540,7 @@ namespace KlientLogowania
 
         private void button15_Click(object sender, EventArgs e)
         {
-            //this adds new user by admin
 
-            /*if (textBox3.TextLength != 0 && textBox4.TextLength != 0 && textBox5.TextLength != 0 && (radioButton1.Checked || radioButton2.Checked))
-            {
-                if (textBox4.Text != textBox5.Text)
-                {
-                    label5.Show();
-                    label5.Text = "Passwords do not match. Try again.";
-                    return;
-                }
-
-                stream.Write(Encoding.ASCII.GetBytes("add_user"), 0, "add_user".Length);
-                stream.Read(buffer, 0, buffer.Length);
-                stream.Write(Encoding.ASCII.GetBytes(textBox3.Text), 0, textBox3.TextLength);
-                stream.Read(buffer, 0, buffer.Length);
-                stream.Write(Encoding.ASCII.GetBytes(textBox4.Text), 0, textBox4.TextLength);
-                stream.Read(buffer, 0, buffer.Length);
-                stream.Write(Encoding.ASCII.GetBytes(textBox5.Text), 0, textBox5.TextLength);
-                stream.Read(buffer, 0, buffer.Length);
-                if(radioButton1.Checked)
-                    stream.Write(Encoding.ASCII.GetBytes("ROLE_ADMIN"), 0, "ROLE_ADMIN".Length);
-                else if(radioButton2.Checked)
-                    stream.Write(Encoding.ASCII.GetBytes("ROLE_USER"), 0, "ROLE_USER".Length);
-
-                int message_size = stream.Read(buffer, 0, buffer.Length);
-                string message = new ASCIIEncoding().GetString(buffer, 0, message_size);
-                if (message == "user exists")
-                {
-                    label12.Show();
-                    label12.Text = "Username occupied";
-                    return;
-                }
-
-                OpenLoggedIn();
-                label17.Show();
-                label17.Text = "You have successfully add a new user";
-                label17.ForeColor = Color.Green;
-            }
-            else
-            {
-                label5.Show();
-                label5.Text = "You didn't fill all fields";
-            }*/
         }
 
         private void label18_Click(object sender, EventArgs e)
@@ -618,7 +550,7 @@ namespace KlientLogowania
 
         private void Form1_FormClosing(Object sender, FormClosingEventArgs e)
         {
-            stream.Write(Encoding.ASCII.GetBytes("close"), 0, "close".Length);
+            Send("logout");
         }
 
         private void label17_Click(object sender, EventArgs e)
@@ -628,37 +560,7 @@ namespace KlientLogowania
 
         private void button16_Click(object sender, EventArgs e)
         {
-            //this edits user data
-
-            /*if (textBox3.TextLength != 0 && textBox4.TextLength != 0 && textBox5.TextLength != 0 && (radioButton1.Checked || radioButton2.Checked))
-            {
-                stream.Write(Encoding.ASCII.GetBytes("edit_user"), 0, "edit_user".Length);
-                stream.Read(buffer, 0, buffer.Length);
-                stream.Write(Encoding.ASCII.GetBytes(textBox3.Text), 0, textBox3.TextLength);
-                stream.Read(buffer, 0, buffer.Length);
-                stream.Write(Encoding.ASCII.GetBytes(textBox4.Text), 0, textBox4.TextLength);
-                stream.Read(buffer, 0, buffer.Length);
-                stream.Write(Encoding.ASCII.GetBytes(textBox5.Text), 0, textBox5.TextLength);
-                stream.Read(buffer, 0, buffer.Length);
-                if (radioButton1.Checked)
-                    stream.Write(Encoding.ASCII.GetBytes("ROLE_ADMIN"), 0, "ROLE_ADMIN".Length);
-                else if (radioButton2.Checked)
-                    stream.Write(Encoding.ASCII.GetBytes("ROLE_USER"), 0, "ROLE_USER".Length);
-
-                int message_size = stream.Read(buffer, 0, buffer.Length);
-                string message = new ASCIIEncoding().GetString(buffer, 0, message_size);
-                if (message == "no such user")
-                {
-                    label12.Show();
-                    label12.Text = "No such user";
-                    return;
-                }
-
-                OpenLoggedIn();
-                label17.Show();
-                label17.Text = "You have successfully edited user data";
-                label17.ForeColor = Color.Green;
-            }*/
+            
         }
 
         private void button17_Click(object sender, EventArgs e)
@@ -689,6 +591,16 @@ namespace KlientLogowania
         private void label17_Click_1(object sender, EventArgs e)
         {
 
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            // displays Friend List
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            // adds a new Friend
         }
     }
 }

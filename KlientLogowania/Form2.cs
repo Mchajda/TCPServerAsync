@@ -32,11 +32,16 @@ namespace KlientLogowania
             {
                 radioButton1.Hide();
                 radioButton2.Hide();
+                label8.Text = "REGISTER";
+                this.Text = "Register form";
             }
             else
             {
                 label9.Hide();
                 button5.Hide();
+                label18.Show();
+                label8.Text = "CREATE A NEW USER";
+                this.Text = "Add a user to the database";
             }
         }
 
@@ -115,10 +120,12 @@ namespace KlientLogowania
                     label5.Text = "Username occupied";
                     return;
                 }
-
-                if (message == "registration successful")
+                else if (message == "registration successful")
                 {
-                    mainForm.SuccessfulRegister();
+                    if (admin)
+                        mainForm.SuccessfullyAddedUser();
+                    else
+                        mainForm.SuccessfulRegister();
                     this.Close();
                 }
             }
@@ -170,6 +177,11 @@ namespace KlientLogowania
         }
 
         private void label9_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label8_Click(object sender, EventArgs e)
         {
 
         }

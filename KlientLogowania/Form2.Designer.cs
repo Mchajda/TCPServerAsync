@@ -56,6 +56,7 @@ namespace KlientLogowania
             this.label8.TabIndex = 23;
             this.label8.Text = "CREATE A NEW USER";
             this.label8.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.label8.Click += new System.EventHandler(this.label8_Click);
             // 
             // button4
             // 
@@ -118,7 +119,7 @@ namespace KlientLogowania
             // button5
             // 
             this.button5.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.button5.Location = new System.Drawing.Point(294, 271);
+            this.button5.Location = new System.Drawing.Point(294, 274);
             this.button5.Name = "button5";
             this.button5.Size = new System.Drawing.Size(78, 21);
             this.button5.TabIndex = 42;
@@ -247,7 +248,7 @@ namespace KlientLogowania
             this.Controls.Add(this.label8);
             this.Controls.Add(this.label9);
             this.Name = "Form2";
-            this.Text = "Form2";
+            this.Text = "Register form";
             this.ResumeLayout(false);
             this.PerformLayout();
 

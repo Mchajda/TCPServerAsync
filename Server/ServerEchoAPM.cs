@@ -148,12 +148,6 @@ namespace Server
                                 break;
                             }
 
-                            case "close":
-                            {
-                                //this.ClientController.getSession().LogOut();
-                                return;
-                            }
-
                             case "add_user":
                             {
                                 this.StreamController.SendString("login", buffer, stream);
@@ -171,24 +165,22 @@ namespace Server
 
                             case "is_admin":
                             {
-                                    if(this.ClientController.getSession().session_admin)
-                                        this.StreamController.SendString("true", buffer, stream);
-                                    else
-                                        this.StreamController.SendString("false", buffer, stream);
-                                    break;
+                                if(this.ClientController.getSession().session_admin)
+                                    throw new Exception("true");
+                                else
+                                    throw new Exception("false");
                             }                                
 
                             case "logout":
                             {
-                                //this.ClientController.getSession().LogOut();
+                                this.ClientController.getSession().session_is_logged = false;
                                 break;
                             }
                                 
                             case "generate":
                             {
                                 //Generowanie hasła
-                                this.StreamController.SendString(PasswordGenerator.GeneratePassword(8), buffer, stream);
-                                break;
+                                throw new Exception(PasswordGenerator.GeneratePassword(8));
                             }
                                 
                             case "change password":
@@ -217,14 +209,12 @@ namespace Server
                                 
                             case "username":
                             {
-                                this.StreamController.SendString(this.ClientController.getSession().getUser().getLogin(), buffer, stream);
-                                break;
+                                throw new Exception(this.ClientController.getSession().getUser().getLogin());
                             }
 
                             case "check password":
                             {
-                                this.StreamController.SendString(this.ClientController.getSession().getUser().getPassword(), buffer, stream);
-                                break;
+                                throw new Exception(this.ClientController.getSession().getUser().getPassword());
                             }
 
                             default:
