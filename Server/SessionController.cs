@@ -101,57 +101,31 @@ namespace Server
         {
             if (password == current_user.getPassword())
             {
-                this.UsersManager.DBConnection.startConnection();
-
-                MySqlCommand comm = this.UsersManager.DBConnection.connection.CreateCommand();
                 string query = "UPDATE users SET password='" + password + "' WHERE username='" + login + "' ";
-                comm = new MySqlCommand(query, this.UsersManager.DBConnection.connection);
-                comm.ExecuteNonQuery();
-
-                this.UsersManager.DBConnection.closeConnection();
-
+                this.UsersManager.DBConnection.processQuery(query);
                 this.getUser().setPassword(password);
             }
         }
 
         public void addToFriends(string username)
         {
-            this.UsersManager.DBConnection.startConnection();
-
-            MySqlCommand comm = this.UsersManager.DBConnection.connection.CreateCommand();
             string query = "INSERT INTO friendships(first_user, second_user) VALUES('" + this.current_user.getLogin() + "', '" + username + "')";
-            comm = new MySqlCommand(query, this.UsersManager.DBConnection.connection);
-            comm.ExecuteNonQuery();
-
-            this.UsersManager.DBConnection.closeConnection();
+            this.UsersManager.DBConnection.processQuery(query);
         }
 
         //admin methods
         public void deleteUser(string login)
         {
-            this.UsersManager.DBConnection.startConnection();
-
-            MySqlCommand comm = this.UsersManager.DBConnection.connection.CreateCommand();
-            string query = "DELETE FROM users WHERE username='"+login+"' ";
-            comm = new MySqlCommand(query, this.UsersManager.DBConnection.connection);
-            comm.ExecuteNonQuery();
-
-            this.UsersManager.DBConnection.closeConnection();
+            string query = "DELETE FROM users WHERE username='" + login + "' ";
+            this.UsersManager.DBConnection.processQuery(query);
         }
 
         public void changeLogin(string login, string newlogin, string password)
         {
             if(password == current_user.getPassword())
             {
-                this.UsersManager.DBConnection.startConnection();
-
-                MySqlCommand comm = this.UsersManager.DBConnection.connection.CreateCommand();
                 string query = "UPDATE users SET username='" + newlogin + "' WHERE username='" + login + "' ";
-                comm = new MySqlCommand(query, this.UsersManager.DBConnection.connection);
-                comm.ExecuteNonQuery();
-
-                this.UsersManager.DBConnection.closeConnection();
-
+                this.UsersManager.DBConnection.processQuery(query);
                 this.getUser().setLogin(newlogin);
             }
         }
@@ -174,14 +148,7 @@ namespace Server
                     query = "UPDATE users SET password='" + new_password + "' WHERE username='" + login + "' ";
                 }
 
-                this.UsersManager.DBConnection.startConnection();
-
-                MySqlCommand comm = this.UsersManager.DBConnection.connection.CreateCommand();
-
-                comm = new MySqlCommand(query, this.UsersManager.DBConnection.connection);
-                comm.ExecuteNonQuery();
-
-                this.UsersManager.DBConnection.closeConnection();
+                this.UsersManager.DBConnection.processQuery(query);
             }
             else throw new Exception("user already exists");
         }

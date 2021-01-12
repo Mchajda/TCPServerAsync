@@ -40,5 +40,25 @@ namespace Server
             this.connection.Close();
             Console.WriteLine("connection is " + this.connection.State.ToString());
         }
+
+        public bool processQuery(string query)
+        {
+            this.startConnection();
+
+            MySqlCommand comm = this.connection.CreateCommand();
+
+            comm = new MySqlCommand(query, this.connection);
+
+            if (comm.ExecuteNonQuery() > 0)
+            {
+                this.closeConnection();
+                return true;
+            }
+            else
+            {
+                this.closeConnection();
+                return false;
+            }
+        }
     }
 }
