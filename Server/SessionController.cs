@@ -158,28 +158,32 @@ namespace Server
 
         public void editUser(string login, string new_login, string new_password)
         {
-            string query = "";
-            if (new_login != "" && new_password != "")
+            if (!this.UsersManager.checkIfExists(new_login))
             {
-                query = "UPDATE users SET username='" + new_login + "', password='"+ new_password +"' WHERE username='" + login + "' ";
-            }
-            else if (new_login != "" && new_password == "")
-            {
-                query = "UPDATE users SET username='" + new_login + "' WHERE username='" + login + "' ";
-            }
-            else if (new_login == "" && new_password != "")
-            {
-                query = "UPDATE users SET password='" + new_password + "' WHERE username='" + login + "' ";
-            }
+                string query = "";
+                if (new_login != "" && new_password != "")
+                {
+                    query = "UPDATE users SET username='" + new_login + "', password='" + new_password + "' WHERE username='" + login + "' ";
+                }
+                else if (new_login != "" && new_password == "")
+                {
+                    query = "UPDATE users SET username='" + new_login + "' WHERE username='" + login + "' ";
+                }
+                else if (new_login == "" && new_password != "")
+                {
+                    query = "UPDATE users SET password='" + new_password + "' WHERE username='" + login + "' ";
+                }
 
-            this.UsersManager.DBConnection.startConnection();
+                this.UsersManager.DBConnection.startConnection();
 
-            MySqlCommand comm = this.UsersManager.DBConnection.connection.CreateCommand();
-            
-            comm = new MySqlCommand(query, this.UsersManager.DBConnection.connection);
-            comm.ExecuteNonQuery();
+                MySqlCommand comm = this.UsersManager.DBConnection.connection.CreateCommand();
 
-            this.UsersManager.DBConnection.closeConnection();
+                comm = new MySqlCommand(query, this.UsersManager.DBConnection.connection);
+                comm.ExecuteNonQuery();
+
+                this.UsersManager.DBConnection.closeConnection();
+            }
+            else throw new Exception("user already exists");
         }
     }
 }
