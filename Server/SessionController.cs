@@ -97,14 +97,14 @@ namespace Server
             else throw new Exception("istnieje użytkownik o podanym loginie");
         }
 
-        public void changePassword(string login, string password, string passwordCheck)
+        public void changePassword(string login, string password, string newpassword)
         {
             if (password == current_user.getPassword())
             {
                 this.UsersManager.DBConnection.startConnection();
 
                 MySqlCommand comm = this.UsersManager.DBConnection.connection.CreateCommand();
-                string query = "UPDATE users SET password='" + password + "' WHERE username='" + login + "' ";
+                string query = "UPDATE users SET password='" + newpassword + "' WHERE username='" + login + "' ";
                 comm = new MySqlCommand(query, this.UsersManager.DBConnection.connection);
                 comm.ExecuteNonQuery();
 

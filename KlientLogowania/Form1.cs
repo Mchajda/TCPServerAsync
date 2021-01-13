@@ -60,8 +60,9 @@ namespace KlientLogowania
         public void ChangeUsernameSuccess()
         {
             OpenLoggedIn();
-            label15.Show();
-            label15.Text = "You have successfully changed username";
+            label5.Show();
+            label5.Text = "You have successfully changed username";
+            label5.ForeColor = Color.Green;
         }
 
         public string DeleteUser(string username)
@@ -78,9 +79,9 @@ namespace KlientLogowania
 
         public void DeleteSuccess()
         {
-            label17.Show();
-            label17.Text = "You have successfully deleted user from database";
-            label17.ForeColor = Color.Green;
+            label5.Show();
+            label5.Text = "You have successfully deleted user from database";
+            label5.ForeColor = Color.Green;
         }
 
         private void ClearTextBoxes()
@@ -115,9 +116,9 @@ namespace KlientLogowania
 
         public void EditUserDataSuccess()
         {
-            label17.Show();
-            label17.Text = "You have successfully edited user data";
-            label17.ForeColor = Color.Green;
+            label5.Show();
+            label5.Text = "You have successfully edited user data";
+            label5.ForeColor = Color.Green;
         }
 
         private void LogIn()
@@ -152,9 +153,10 @@ namespace KlientLogowania
 
         public void SuccessfullyAddedUser()
         {
-            label10.Show();
-            label10.Text = "You have successfully added a new user.";
-            OpenLogin();
+            label5.Show();
+            label5.Text = "You have successfully added a new user.";
+            label5.ForeColor = Color.Green;
+            OpenLoggedIn();
         }
 
         public string Register(string login, string password, string role)
@@ -177,6 +179,7 @@ namespace KlientLogowania
         {
             label10.Show();
             label10.Text = "You have successfully registered.";
+            label10.ForeColor = Color.Green;
             OpenLogin();
         }
 
@@ -212,8 +215,9 @@ namespace KlientLogowania
         public void ChangePasswordSuccess()
         {
             OpenLoggedIn();
-            label15.Show();
-            label15.Text = "You have successfully changed password";
+            label5.Show();
+            label5.Text = "You have successfully changed password";
+            label5.ForeColor = Color.Green;
         }
 
         private void HideLogIn()
@@ -231,7 +235,7 @@ namespace KlientLogowania
         private void HideLoggedIn()
         {
             label13.Hide();
-            label15.Hide();
+            label5.Hide();
             button3.Hide();
             button4.Hide();
             button6.Hide();
@@ -328,7 +332,7 @@ namespace KlientLogowania
             InitializeComponent();
             
             label3.Text = "";
-            label17.Text = "";
+            label5.Text = "";
 
             try
             {
@@ -490,11 +494,6 @@ namespace KlientLogowania
 
         }
 
-        private void label15_Click(object sender, EventArgs e)
-        {
-
-        }
-
         private void label16_Click(object sender, EventArgs e)
         {
 
@@ -551,11 +550,7 @@ namespace KlientLogowania
         private void Form1_FormClosing(Object sender, FormClosingEventArgs e)
         {
             Send("logout");
-        }
-
-        private void label17_Click(object sender, EventArgs e)
-        {
-
+            client.Close();
         }
 
         private void button16_Click(object sender, EventArgs e)
@@ -588,14 +583,12 @@ namespace KlientLogowania
             
         }
 
-        private void label17_Click_1(object sender, EventArgs e)
-        {
-
-        }
-
         private void button3_Click(object sender, EventArgs e)
         {
             // displays Friend List
+
+            Form7 FriendList = new Form7(this);
+            FriendList.Show();
         }
 
         private void button4_Click(object sender, EventArgs e)

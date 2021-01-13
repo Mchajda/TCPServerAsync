@@ -43,7 +43,7 @@ namespace Server
         {
             if (this.SessionController.getUser().getPassword() == oldpassword)
             {
-                this.SessionController.changePassword(this.SessionController.getUser().getLogin(), password, passwordCheck);
+                this.SessionController.changePassword(this.SessionController.getUser().getLogin(), oldpassword, password);
                 throw new Exception("changed password");
             }
             else
