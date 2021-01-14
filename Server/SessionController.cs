@@ -152,5 +152,10 @@ namespace Server
             }
             else throw new Exception("user already exists");
         }
+
+        public ArrayList getFriends(string username)
+        {
+            return UsersManager.readFriends(username);
+        }
     }
 }

@@ -102,6 +102,24 @@ namespace Server
             DBConnection.closeConnection();
         }
 
+        public ArrayList readFriends(string username)
+        {
+            DBConnection.startConnection();
+            MySqlDataReader reader = fetchRows("SELECT second_user FROM friendships WHERE first_user = '" + username + "'");
+            System.Console.WriteLine("Friends read");
+            ArrayList friends = new ArrayList();
+
+            if (reader.HasRows)
+            {
+                while (reader.Read())
+                {
+                    friends.Add(reader.GetString(1));
+                }
+            }
+            DBConnection.closeConnection();
+            return friends;
+        }
+
         public ArrayList getUsers()
         {
             return this.users;

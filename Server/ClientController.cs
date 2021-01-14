@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 
@@ -83,7 +84,13 @@ namespace Server
 
         public void AddFriend(string login)
         {
-            throw new NotImplementedException();
+            SessionController.addToFriends(login);
+            throw new Exception("");
+        }
+
+        public ArrayList getFriends(string username)
+        {
+            return SessionController.getFriends(username);
         }
     }
 }

@@ -30,6 +30,7 @@ namespace KlientLogowania
         private void InitializeControls()
         {
             //Dodawanie kontrolek, czyli wypisywanie listy znajomych obok są dwa przyciski - jeden "Rozpocznij czat", drugi "Usuń znajomego"
+            string username;
 
             for (int i = 0; i < 9; i++)
             {
@@ -110,6 +111,12 @@ namespace KlientLogowania
         private void button1_Click_1(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            flowLayoutPanel1.Controls.Clear();
+            InitializeControls();
         }
     }
 }

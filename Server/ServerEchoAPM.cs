@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -125,11 +126,29 @@ namespace Server
                         switch (str)
                         {
                             case "add a friend":
+                            {
                                 this.StreamController.SendString("login", buffer, stream);
                                 string login = this.StreamController.ReadString(stream, buffer);
 
                                 this.ClientController.AddFriend(login);
                                 break;
+                            }
+
+                            case "friends":
+                                {
+                                    this.StreamController.SendString("login", buffer, stream);
+                                    string login = this.StreamController.ReadString(stream, buffer);
+
+                                    ArrayList friends = ClientController.getFriends(login);
+
+                                    for(int i = 0; i < friends.Count; i++)
+                                    {
+                                        this.StreamController.SendString(friends[i].ToString(), buffer, stream);
+                                        this.StreamController.ReadString(stream, buffer);
+                                    }
+
+                                    break;
+                                }
 
                             case "delete_user":
                             {
@@ -183,7 +202,7 @@ namespace Server
                                 this.ClientController.getSession().session_is_logged = false;
                                 break;
                             }
-                                
+
                             case "generate":
                             {
                                 //Generowanie hasła
@@ -226,6 +245,7 @@ namespace Server
 
                             default:
                             {
+                                //throw new Exception("Nowy klient sie nie udal");
                                 break;
                             }
                                 

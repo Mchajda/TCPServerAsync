@@ -45,6 +45,13 @@ namespace KlientLogowania
             return strength;
         }
 
+        public void AddFriendSuccess()
+        {
+            label5.Show();
+            label5.Text = "You have successfully added a friend";
+            label5.ForeColor = Color.Green;
+        }
+
         public string addNewFriend(string username)
         {
             Send("add a friend");
@@ -68,7 +75,6 @@ namespace KlientLogowania
 
         public void ChangeUsernameSuccess()
         {
-            OpenLoggedIn();
             label5.Show();
             label5.Text = "You have successfully changed username";
             label5.ForeColor = Color.Green;

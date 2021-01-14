@@ -44,6 +44,16 @@ namespace KlientLogowania
             }
 
             string result = mainForm.addNewFriend(textBox3.Text);
+
+            if (result == "added friend")
+            {
+                this.Close();
+                mainForm.AddFriendSuccess();
+            }
+            else if(result == "")
+            {
+
+            }
         }
 
         private void textBox3_TextChanged(object sender, EventArgs e)
