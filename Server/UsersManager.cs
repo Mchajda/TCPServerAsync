@@ -13,44 +13,14 @@ namespace Server
     {
         public DBConnection DBConnection;
         private ArrayList users;
-        private string usersPath;
 
         public UsersManager()
         {
-            this.usersPath = @"users.json";
             this.users = new ArrayList();
             //getting users to program
             DBConnection = new DBConnection("localhost", "3306", "root", "", "io_2020");
             
             this.readUsers();   
-        }
-
-        public void saveUsers()
-        {
-            File.WriteAllText(usersPath, "");
-            foreach (User user in users)
-            {
-                string json = JsonConvert.SerializeObject(user);
-                this.saveUser(json);
-            }
-        }
-
-        public void saveUser(string user)
-        {
-            if (!File.Exists(this.usersPath))
-            {
-                using (StreamWriter sw = File.CreateText(this.usersPath))
-                {
-                    sw.WriteLine(user);
-                    Console.WriteLine("saved!");
-                }
-            }
-
-            using (StreamWriter sw = File.AppendText(this.usersPath))
-            {
-                sw.WriteLine(user);
-                Console.WriteLine("saved!");
-            }
         }
 
         public MySqlDataReader fetchRows(string query)
@@ -105,6 +75,51 @@ namespace Server
         public ArrayList getUsers()
         {
             return this.users;
+        }
+
+        public ArrayList getFriends(string login)
+        {
+            ArrayList friends = new ArrayList();
+            DBConnection.startConnection();
+            MySqlDataReader reader = fetchRows("SELECT * FROM friendships WHERE first_user='"+login+"' OR second_user='"+login+"';");
+            System.Console.WriteLine("Users read");
+
+            //szukamy znajomych uzytkownika o loginie podanym w parametrze funckji
+            if (reader.HasRows)
+            {
+                while (reader.Read())
+                {
+                    string friend_one = reader.GetString(1);
+                    string friend_two = reader.GetString(2);
+
+                    //jezeli znajdziemy login uzytkownika w pierwszej kolumnie to znaczy ze uzytkownik z drugiej kolumny jest jego znajomym
+                    if (friend_one == login)
+                        friends.Add(friend_two);
+                    else if (friend_two == login)
+                        friends.Add(friend_one);
+                }
+            }
+
+            DBConnection.closeConnection();
+            return friends;
+        }
+
+        public bool deleteFriend(string user_login, string friend_to_delete)
+        {
+            ArrayList friends = new ArrayList();
+            friends = this.getFriends(user_login);
+
+            foreach(string friend in friends)
+            {
+                if(friend_to_delete == friend)
+                {
+                    string query = "DELETE FROM friendships WHERE (first_user='" + user_login + "' AND second_user='"+friend_to_delete+ "') OR (first_user='" + friend_to_delete + "' AND second_user='" + user_login + "');";
+                    if (this.DBConnection.processQuery(query))
+                        return true;
+                    else return false;
+                }
+            }
+            return false;
         }
     }
 }
