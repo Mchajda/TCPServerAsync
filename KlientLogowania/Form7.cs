@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -13,6 +14,7 @@ namespace KlientLogowania
     public partial class Form7 : Form
     {
         Form1 mainForm;
+        ArrayList friends = new ArrayList();
 
         public Form7()
         {
@@ -30,9 +32,12 @@ namespace KlientLogowania
         private void InitializeControls()
         {
             //Dodawanie kontrolek, czyli wypisywanie listy znajomych obok są dwa przyciski - jeden "Rozpocznij czat", drugi "Usuń znajomego"
-            string username;
+            string username = "";
+            mainForm.Send("friends");
+            username = mainForm.Receive();
+            int i = 0;
 
-            for (int i = 0; i < 9; i++)
+            while(username != "_")
             {
                 Label nameLabel = new Label();
                 nameLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
@@ -41,7 +46,8 @@ namespace KlientLogowania
                 nameLabel.Name = "label" + i;
                 nameLabel.Size = new System.Drawing.Size(240, 40);
                 nameLabel.TabIndex = 3*i;
-                nameLabel.Text = "label" + i;
+                nameLabel.Text = username;
+                friends.Add(username);
                 nameLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
                 flowLayoutPanel1.Controls.Add(nameLabel);
 
@@ -72,12 +78,30 @@ namespace KlientLogowania
                 deleteButton.Show();
                 deleteButton.Click += new System.EventHandler(this.DeleteFriend);
                 flowLayoutPanel1.Controls.Add(deleteButton);
+
+                mainForm.Send("OK");
+                username = mainForm.Receive();
+                i++;
             }
         }
 
         private void DeleteFriend(object sender, EventArgs e)
         {
-            
+            var trigger = sender as Button;
+            mainForm.Send("delete friend");
+            string message = mainForm.Receive();
+
+            string number = trigger.Name.Substring(12);
+
+            mainForm.Send(friends[Int32.Parse(number)].ToString());
+
+            message = mainForm.Receive();
+
+            if(message == "friend deleted")
+            {
+                flowLayoutPanel1.Controls.Clear();
+                InitializeControls();
+            }
         }
 
         private void OpenChat(object sender, EventArgs e)
@@ -86,8 +110,6 @@ namespace KlientLogowania
 
             var trigger = sender as Button;
             MessageBox.Show("Chat is currently unavailable.",trigger.Name,MessageBoxButtons.OK,MessageBoxIcon.Information);
-
-
         }
 
         private void label1_Click(object sender, EventArgs e)

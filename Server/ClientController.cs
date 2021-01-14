@@ -85,12 +85,18 @@ namespace Server
         public void AddFriend(string login)
         {
             SessionController.addToFriends(login);
-            throw new Exception("");
+            throw new Exception("added friend");
         }
 
         public ArrayList getFriends(string username)
         {
             return SessionController.getFriends(username);
+        }
+
+        public void deleteFriend(string username, string friend)
+        {
+            SessionController.deleteFriend(username, friend);
+            throw new Exception("friend deleted");
         }
     }
 }

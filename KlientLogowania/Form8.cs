@@ -50,9 +50,10 @@ namespace KlientLogowania
                 this.Close();
                 mainForm.AddFriendSuccess();
             }
-            else if(result == "")
+            else
             {
-
+                label1.Text = "There is no such user";
+                label1.Show();
             }
         }
 

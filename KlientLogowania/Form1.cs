@@ -18,12 +18,12 @@ namespace KlientLogowania
         NetworkStream stream;
         byte[] buffer = new byte[1024];
 
-        private void Send(string message)
+        public void Send(string message)
         {
             stream.Write(Encoding.ASCII.GetBytes(message), 0, message.Length);
         }
 
-        private string Receive()
+        public string Receive()
         {
             int message_size = stream.Read(buffer, 0, buffer.Length);
             return new ASCIIEncoding().GetString(buffer, 0, message_size);

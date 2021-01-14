@@ -136,10 +136,7 @@ namespace Server
 
                             case "friends":
                                 {
-                                    this.StreamController.SendString("login", buffer, stream);
-                                    string login = this.StreamController.ReadString(stream, buffer);
-
-                                    ArrayList friends = ClientController.getFriends(login);
+                                    ArrayList friends = ClientController.getFriends(ClientController.getSession().getUser().getLogin());
 
                                     for(int i = 0; i < friends.Count; i++)
                                     {
@@ -147,6 +144,15 @@ namespace Server
                                         this.StreamController.ReadString(stream, buffer);
                                     }
 
+                                    throw new Exception("_");
+                                }
+
+                            case "delete friend":
+                                {
+                                    this.StreamController.SendString("friend", buffer, stream);
+                                    string friend = this.StreamController.ReadString(stream, buffer);
+
+                                    this.ClientController.deleteFriend(ClientController.getSession().getUser().getLogin(), friend);
                                     break;
                                 }
 

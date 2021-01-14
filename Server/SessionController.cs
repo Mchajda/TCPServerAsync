@@ -113,6 +113,12 @@ namespace Server
             this.UsersManager.DBConnection.processQuery(query);
         }
 
+        public void deleteFriend(string username, string friend)
+        {
+            string query = "DELETE FROM friendships WHERE first_user='" + username + "' AND second_user='" + friend + "'";
+            this.UsersManager.DBConnection.processQuery(query);
+        }
+
         //admin methods
         public void deleteUser(string login)
         {
@@ -155,7 +161,7 @@ namespace Server
 
         public ArrayList getFriends(string username)
         {
-            return UsersManager.readFriends(username);
+            return UsersManager.getFriends(username);
         }
     }
 }

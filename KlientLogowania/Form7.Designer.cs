@@ -88,8 +88,9 @@ namespace KlientLogowania
             this.Controls.Add(this.button1);
             this.Controls.Add(this.button4);
             this.Controls.Add(this.flowLayoutPanel1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Name = "Form7";
-            this.Text = "Form7";
+            this.Text = "Friends list";
             this.ResumeLayout(false);
 
         }
