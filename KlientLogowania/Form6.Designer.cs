@@ -222,7 +222,7 @@ namespace KlientLogowania
             this.Controls.Add(this.button4);
             this.Controls.Add(this.label8);
             this.Name = "Form6";
-            this.Text = "Form6";
+            this.Text = "User data editing form";
             this.Load += new System.EventHandler(this.Form6_Load);
             this.ResumeLayout(false);
             this.PerformLayout();

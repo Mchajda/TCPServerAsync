@@ -64,3 +64,4 @@ C:\Users\Vidugavia\Source\Repos\Mchajda\TCPServerAsync\KlientLogowania\obj\Debug
 C:\Users\Vidugavia\Source\Repos\Mchajda\TCPServerAsync\KlientLogowania\obj\Debug\KlientLogowania.Form6.resources
 C:\Users\Vidugavia\Source\Repos\TCPServerAsync\KlientLogowania\obj\Debug\KlientLogowania.Form6.resources
 C:\Users\Vidugavia\Source\Repos\TCPServerAsync\KlientLogowania\obj\Debug\KlientLogowania.Form7.resources
+C:\Users\Vidugavia\source\repos\TCPServerAsync\KlientLogowania\obj\Debug\KlientLogowania.Form8.resources

@@ -189,7 +189,7 @@ namespace KlientLogowania
             this.Controls.Add(this.label11);
             this.Controls.Add(this.label20);
             this.Name = "Form4";
-            this.Text = "Form4";
+            this.Text = "Password changing form";
             this.Load += new System.EventHandler(this.Form4_Load);
             this.ResumeLayout(false);
             this.PerformLayout();

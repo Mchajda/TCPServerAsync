@@ -137,7 +137,7 @@ namespace KlientLogowania
             this.Controls.Add(this.label11);
             this.Controls.Add(this.label20);
             this.Name = "Form5";
-            this.Text = "Form5";
+            this.Text = "Username changing form";
             this.ResumeLayout(false);
             this.PerformLayout();
 

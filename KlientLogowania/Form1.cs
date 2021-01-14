@@ -45,6 +45,15 @@ namespace KlientLogowania
             return strength;
         }
 
+        public string addNewFriend(string username)
+        {
+            Send("add a friend");
+            string message = Receive();
+            Send(username);
+
+            return Receive();
+        }
+
         public string ChangeUsername(string password, string newusername)
         {
             //This changes password
@@ -594,6 +603,9 @@ namespace KlientLogowania
         private void button4_Click(object sender, EventArgs e)
         {
             // adds a new Friend
+
+            Form8 addFriend = new Form8(this);
+            addFriend.Show();
         }
     }
 }

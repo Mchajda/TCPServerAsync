@@ -74,12 +74,17 @@ namespace KlientLogowania
             }
         }
 
+        private void DeleteFriend(object sender, EventArgs e)
+        {
+            
+        }
+
         private void OpenChat(object sender, EventArgs e)
         {
             //this opens chat
 
             var trigger = sender as Button;
-            MessageBox.Show(trigger.Name);
+            MessageBox.Show("Chat is currently unavailable.",trigger.Name,MessageBoxButtons.OK,MessageBoxIcon.Information);
 
 
         }
@@ -97,6 +102,9 @@ namespace KlientLogowania
         private void button4_Click(object sender, EventArgs e)
         {
             // opens add a friend form
+
+            Form8 addFriend = new Form8(mainForm);
+            addFriend.Show();
         }
 
         private void button1_Click_1(object sender, EventArgs e)

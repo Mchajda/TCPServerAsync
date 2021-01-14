@@ -80,5 +80,10 @@ namespace Server
             this.SessionController.editUser(login, new_login, new_password);
             throw new Exception("user data edited");
         }
+
+        public void AddFriend(string login)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

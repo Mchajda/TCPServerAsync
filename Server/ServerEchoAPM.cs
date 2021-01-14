@@ -124,6 +124,13 @@ namespace Server
                         string str = this.StreamController.ReadString(stream, buffer);
                         switch (str)
                         {
+                            case "add a friend":
+                                this.StreamController.SendString("login", buffer, stream);
+                                string login = this.StreamController.ReadString(stream, buffer);
+
+                                this.ClientController.AddFriend(login);
+                                break;
+
                             case "delete_user":
                             {
                                 this.StreamController.SendString("login", buffer, stream);

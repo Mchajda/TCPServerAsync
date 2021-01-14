@@ -137,7 +137,7 @@ namespace KlientLogowania
             this.Controls.Add(this.button18);
             this.Controls.Add(this.label21);
             this.Name = "Form3";
-            this.Text = "Form3";
+            this.Text = "User delete form";
             this.ResumeLayout(false);
             this.PerformLayout();
 
