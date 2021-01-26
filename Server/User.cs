@@ -26,17 +26,17 @@ namespace Server
 
         public string getLogin()
         {
-            return this.login;
+            return login;
         }
 
         public string getPassword()
         {
-            return this.password;
+            return password;
         }
 
         public string getRole()
         {
-            return this.role;
+            return role;
         }
 
         public void setPassword(string passwd)

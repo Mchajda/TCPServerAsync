@@ -16,16 +16,16 @@ namespace Server
 
         public UsersManager()
         {
-            this.users = new ArrayList();
+            users = new ArrayList();
             //getting users to program
             DBConnection = new DBConnection("localhost", "3306", "root", "", "io_2020");
             
-            this.readUsers();   
+            readUsers();   
         }
 
         public MySqlDataReader fetchRows(string query)
         {
-            MySqlCommand comm = this.DBConnection.connection.CreateCommand();
+            MySqlCommand comm = DBConnection.connection.CreateCommand();
             comm.CommandType = System.Data.CommandType.Text;
             comm.CommandText = query;
             MySqlDataReader reader = comm.ExecuteReader();
@@ -34,7 +34,7 @@ namespace Server
 
         public bool checkIfExists(string login)
         {
-            foreach (User u in this.getUsers())
+            foreach (User u in users)
             {
                 if (u.getLogin() == login)
                     return true;
@@ -44,11 +44,11 @@ namespace Server
 
         public bool insertRow(string login, string password, string role)
         {
-            string query = "INSERT INTO users(username, password, role) VALUES('"+login+ "', '" + password + "', '" + role + "')"; 
+            string query = "INSERT INTO users(username, password, role) VALUES('" + login + "', '" + password + "', '" + role + "')";
 
-            if(!this.checkIfExists(login))
+            if(!checkIfExists(login))
             {
-                return this.DBConnection.processQuery(query);
+                return DBConnection.processQuery(query);
             }
             else return false;
         }
@@ -58,14 +58,14 @@ namespace Server
             DBConnection.startConnection();
             MySqlDataReader reader = fetchRows("SELECT * FROM users");
             System.Console.WriteLine("Users read");
-            this.users.Clear();
+            users.Clear();
 
             if (reader.HasRows)
             {
                 while (reader.Read())
                 {
                     User newUser = new User(reader.GetString(1), reader.GetString(2), reader.GetString(3));
-                    this.users.Add(newUser);
+                    users.Add(newUser);
                 }
             }
 
@@ -74,14 +74,14 @@ namespace Server
 
         public ArrayList getUsers()
         {
-            return this.users;
+            return users;
         }
 
         public ArrayList getFriends(string login)
         {
             ArrayList friends = new ArrayList();
             DBConnection.startConnection();
-            MySqlDataReader reader = fetchRows("SELECT * FROM friendships WHERE first_user='"+login+"' OR second_user='"+login+"';");
+            MySqlDataReader reader = fetchRows("SELECT * FROM friendships WHERE first_user='" + login + "' OR second_user='" + login + "';");
             System.Console.WriteLine("Users read");
 
             //szukamy znajomych uzytkownika o loginie podanym w parametrze funckji
@@ -107,14 +107,15 @@ namespace Server
         public bool deleteFriend(string user_login, string friend_to_delete)
         {
             ArrayList friends = new ArrayList();
-            friends = this.getFriends(user_login);
+            friends = getFriends(user_login);
 
             foreach(string friend in friends)
             {
                 if(friend_to_delete == friend)
                 {
-                    string query = "DELETE FROM friendships WHERE (first_user='" + user_login + "' AND second_user='"+friend_to_delete+ "') OR (first_user='" + friend_to_delete + "' AND second_user='" + user_login + "');";
-                    if (this.DBConnection.processQuery(query))
+                    string query = "DELETE FROM friendships WHERE (first_user='" + user_login + "' AND second_user='" + friend_to_delete + "') OR (first_user='" + friend_to_delete
+                        + "' AND second_user='" + user_login + "');";
+                    if (DBConnection.processQuery(query))
                         return true;
                     else return false;
                 }

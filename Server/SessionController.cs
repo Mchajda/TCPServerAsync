@@ -16,56 +16,56 @@ namespace Server
         public SessionController()
         {
             UsersManager = new UsersManager();
-            this.session_is_logged = false;
-            this.session_admin = false;
+            session_is_logged = false;
+            session_admin = false;
         }
 
         public User getUser()
         {
-            return this.current_user;
+            return current_user;
         }
 
         public void setUser(User user)
         {
-            this.current_user = user;
+            current_user = user;
         }
 
         public bool getLoginStatus()
         {
-            return this.session_is_logged;
+            return session_is_logged;
         }
         public bool getAdminStatus()
         {
-            return this.session_admin;
+            return session_admin;
         }
 
         public void setStatus(bool var)
         {
-            this.session_is_logged = var;
+            session_is_logged = var;
         }
 
         public void setAdminStatus(bool var)
         {
-            this.session_admin = var;
+            session_admin = var;
         }
 
         public bool authorize(string login, string password)
         {
-            foreach (User user in this.UsersManager.getUsers())
+            foreach (User user in UsersManager.getUsers())
             {
                 if (user.getLogin() == login && user.getPassword() == password)
                 {
 
-                    this.setUser(new User(login, password));
-                    this.setStatus(true);
+                    setUser(new User(login, password));
+                    setStatus(true);
 
                     if(user.getRole() == "ROLE_ADMIN")
-                        this.session_admin = true;
+                        session_admin = true;
 
                     return true;
                 }
             }
-            this.setStatus(false);
+            setStatus(false);
             return false;
         }
 
@@ -73,7 +73,7 @@ namespace Server
         {
             bool is_valid_user = true;
 
-            foreach (User user in this.UsersManager.getUsers())
+            foreach (User user in UsersManager.getUsers())
             {
                 if (user.getLogin() == login)
                 {
@@ -86,7 +86,7 @@ namespace Server
             {
                 if (password == passwordCheck)
                 {
-                    if (this.UsersManager.insertRow(login, password, "ROLE_USER"))
+                    if (UsersManager.insertRow(login, password, "ROLE_USER"))
                         return true;
                     else return false;
 
@@ -102,28 +102,28 @@ namespace Server
             if (password == current_user.getPassword())
             {
                 string query = "UPDATE users SET password='" + password + "' WHERE username='" + login + "' ";
-                this.UsersManager.DBConnection.processQuery(query);
-                this.getUser().setPassword(password);
+                UsersManager.DBConnection.processQuery(query);
+                getUser().setPassword(password);
             }
         }
 
         public void addToFriends(string username)
         {
-            string query = "INSERT INTO friendships(first_user, second_user) VALUES('" + this.current_user.getLogin() + "', '" + username + "')";
-            this.UsersManager.DBConnection.processQuery(query);
+            string query = "INSERT INTO friendships(first_user, second_user) VALUES('" + current_user.getLogin() + "', '" + username + "')";
+            UsersManager.DBConnection.processQuery(query);
         }
 
         public void deleteFriend(string username, string friend)
         {
             string query = "DELETE FROM friendships WHERE first_user='" + username + "' AND second_user='" + friend + "'";
-            this.UsersManager.DBConnection.processQuery(query);
+            UsersManager.DBConnection.processQuery(query);
         }
 
         //admin methods
         public void deleteUser(string login)
         {
             string query = "DELETE FROM users WHERE username='" + login + "' ";
-            this.UsersManager.DBConnection.processQuery(query);
+            UsersManager.DBConnection.processQuery(query);
         }
 
         public void changeLogin(string login, string newlogin, string password)
@@ -131,14 +131,14 @@ namespace Server
             if(password == current_user.getPassword())
             {
                 string query = "UPDATE users SET username='" + newlogin + "' WHERE username='" + login + "' ";
-                this.UsersManager.DBConnection.processQuery(query);
-                this.getUser().setLogin(newlogin);
+                UsersManager.DBConnection.processQuery(query);
+                getUser().setLogin(newlogin);
             }
         }
 
         public void editUser(string login, string new_login, string new_password)
         {
-            if (!this.UsersManager.checkIfExists(new_login))
+            if (!UsersManager.checkIfExists(new_login))
             {
                 string query = "";
                 if (new_login != "" && new_password != "")
@@ -154,7 +154,7 @@ namespace Server
                     query = "UPDATE users SET password='" + new_password + "' WHERE username='" + login + "' ";
                 }
 
-                this.UsersManager.DBConnection.processQuery(query);
+                UsersManager.DBConnection.processQuery(query);
             }
             else throw new Exception("user already exists");
         }

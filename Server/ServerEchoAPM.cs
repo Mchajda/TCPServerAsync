@@ -51,223 +51,178 @@ namespace Server
 
             while (true)
             {
-                while (!this.ClientController.getSession().getLoginStatus())
+                try
                 {
-                    try
+                    //if (!ClientController.getSession().getLoginStatus())
+
+                    string username = StreamController.ReadString(stream, buffer);
+                    StreamController.SendString("StreamOpened", buffer, stream);
+
+                    switch (StreamController.ReadString(stream, buffer))
                     {
-                        switch (this.StreamController.ReadString(stream, buffer))
-                        {
-                            case "register":
+                        case "register":
                             {
-                                //Rejestracja
-                                this.StreamController.SendString("login", buffer, stream);
-                                string login = this.StreamController.ReadString(stream, buffer);
-                                this.StreamController.SendString("password", buffer, stream);
-                                string password = this.StreamController.ReadString(stream, buffer);
-                                this.StreamController.SendString("password confirm", buffer, stream);
-                                string passwordCheck = this.StreamController.ReadString(stream, buffer);
+                                //Rejestracja użytkownika
+                                StreamController.SendString("login", buffer, stream);
+                                string login = StreamController.ReadString(stream, buffer);
+                                StreamController.SendString("password", buffer, stream);
+                                string password = StreamController.ReadString(stream, buffer);
+                                StreamController.SendString("password confirm", buffer, stream);
+                                string passwordCheck = StreamController.ReadString(stream, buffer);
 
-                                this.ClientController.Register(login, password, passwordCheck);
-                                break;
-                            }
-                                
-                            case "login":
-                            {
-                                // LOGOWANIE
-                                this.StreamController.SendString("podaj login: ", buffer, stream);
-                                string loginl = this.StreamController.ReadString(stream, buffer);
-                                this.StreamController.SendString("podaj haslo: ", buffer, stream);
-                                string passwordl = this.StreamController.ReadString(stream, buffer);
-
-                                this.ClientController.LogIn(loginl, passwordl);
-                                break;
-                            }
-                                
-                            case "generate":
-                            {
-                                //Generowanie hasła
-                                this.StreamController.SendString(PasswordGenerator.GeneratePassword(8), buffer, stream);
+                                ClientController.Register(login, password, passwordCheck);
                                 break;
                             }
 
-                            case "is_admin":
+                        case "login":
                             {
-                                this.StreamController.SendString("false", buffer, stream);
+                                //LOGOWANIE - tworzenie nowej sesji
+                                StreamController.SendString("podaj login: ", buffer, stream);
+                                string loginl = StreamController.ReadString(stream, buffer);
+                                StreamController.SendString("podaj haslo: ", buffer, stream);
+                                string passwordl = StreamController.ReadString(stream, buffer);
+
+                                ClientController.LogIn(loginl, passwordl);
                                 break;
                             }
 
-                            case "close":
+                        case "close":
+                            {
+                                return;
+                            }
+
+                        case "add a friend":
+                            {
+                                //DODAWANIE ZNAJOMYCH - nazwa zalogowanego użytkownika + login znajomego
+
+                                StreamController.SendString("login", buffer, stream);
+                                string login = StreamController.ReadString(stream, buffer);
+
+                                ClientController.AddFriend(login);
+                                break;
+                            }
+
+                        case "friends":
+                            {
+                                ArrayList friends = ClientController.getFriends(ClientController.getSession().getUser().getLogin()); //parametr username
+
+                                for (int i = 0; i < friends.Count; i++)
                                 {
-                                    return;
+                                    StreamController.SendString(friends[i].ToString(), buffer, stream);
+                                    StreamController.ReadString(stream, buffer);
                                 }
 
-                            default:
-                            {
-                                break;
+                                throw new Exception("_");
                             }
-                                
-                        }
-                    }
-                    catch (IOException e)
-                    {
-                        break;
-                    }
-                    catch (Exception exc)
-                    {
-                        this.StreamController.SendString(exc.Message, buffer, stream);
-                    }
-                }
 
-                while (this.ClientController.getSession().getLoginStatus() == true)
-                {
-                    try
-                    {
-                        string str = this.StreamController.ReadString(stream, buffer);
-                        switch (str)
-                        {
-                            case "add a friend":
+                        case "delete friend":
                             {
-                                this.StreamController.SendString("login", buffer, stream);
-                                string login = this.StreamController.ReadString(stream, buffer);
+                                StreamController.SendString("friend", buffer, stream);
+                                string friend = StreamController.ReadString(stream, buffer);
 
-                                this.ClientController.AddFriend(login);
+                                ClientController.deleteFriend(ClientController.getSession().getUser().getLogin(), friend);
                                 break;
                             }
 
-                            case "friends":
-                                {
-                                    ArrayList friends = ClientController.getFriends(ClientController.getSession().getUser().getLogin());
-
-                                    for(int i = 0; i < friends.Count; i++)
-                                    {
-                                        this.StreamController.SendString(friends[i].ToString(), buffer, stream);
-                                        this.StreamController.ReadString(stream, buffer);
-                                    }
-
-                                    throw new Exception("_");
-                                }
-
-                            case "delete friend":
-                                {
-                                    this.StreamController.SendString("friend", buffer, stream);
-                                    string friend = this.StreamController.ReadString(stream, buffer);
-
-                                    this.ClientController.deleteFriend(ClientController.getSession().getUser().getLogin(), friend);
-                                    break;
-                                }
-
-                            case "delete_user":
+                        case "delete_user":
                             {
-                                this.StreamController.SendString("login", buffer, stream);
-                                string login = this.StreamController.ReadString(stream, buffer);
-
-                                this.ClientController.DeleteUser(login);
+                                StreamController.SendString("login", buffer, stream);
+                                string login = StreamController.ReadString(stream, buffer);
+                                ClientController.DeleteUser(login);
                                 break;
                             }
 
-                            case "edit_user":
+                        case "edit_user":
                             {
-                                this.StreamController.SendString("login", buffer, stream);
-                                string login = this.StreamController.ReadString(stream, buffer);
-                                this.StreamController.SendString("new_login", buffer, stream);
-                                string new_login = this.StreamController.ReadString(stream, buffer);
-                                this.StreamController.SendString("new password", buffer, stream);
-                                string password = this.StreamController.ReadString(stream, buffer);
-                                this.StreamController.SendString("role", buffer, stream);
-                                string role = this.StreamController.ReadString(stream, buffer);
+                                StreamController.SendString("login", buffer, stream);
+                                string login = StreamController.ReadString(stream, buffer);
+                                StreamController.SendString("new_login", buffer, stream);
+                                string new_login = StreamController.ReadString(stream, buffer);
+                                StreamController.SendString("new password", buffer, stream);
+                                string password = StreamController.ReadString(stream, buffer);
+                                StreamController.SendString("role", buffer, stream);
+                                string role = StreamController.ReadString(stream, buffer);
 
-                                this.ClientController.EditUser(login, new_login, password);
+                                ClientController.EditUser(login, new_login, password);
                                 break;
                             }
 
-                            case "add_user":
+                        case "add_user":
                             {
-                                this.StreamController.SendString("login", buffer, stream);
-                                string login = this.StreamController.ReadString(stream, buffer);
-                                this.StreamController.SendString("password", buffer, stream);
-                                string password = this.StreamController.ReadString(stream, buffer);
-                                this.StreamController.SendString("password confirm", buffer, stream);
-                                string passwordCheck = this.StreamController.ReadString(stream, buffer);
-                                this.StreamController.SendString("role", buffer, stream);
-                                string role = this.StreamController.ReadString(stream, buffer);
+                                StreamController.SendString("login", buffer, stream);
+                                string login = StreamController.ReadString(stream, buffer);
+                                StreamController.SendString("password", buffer, stream);
+                                string password = StreamController.ReadString(stream, buffer);
+                                StreamController.SendString("password confirm", buffer, stream);
+                                string passwordCheck = StreamController.ReadString(stream, buffer);
+                                StreamController.SendString("role", buffer, stream);
+                                string role = StreamController.ReadString(stream, buffer);
 
-                                this.ClientController.Register(login, password, passwordCheck);
+                                ClientController.Register(login, password, passwordCheck);
                                 break;
                             }
 
-                            case "is_admin":
+                        case "is_admin":
                             {
-                                if(this.ClientController.getSession().session_admin)
+                                if (ClientController.getSession().session_admin)
                                     throw new Exception("true");
                                 else
                                     throw new Exception("false");
-                            }                                
+                            }
 
-                            case "logout":
+                        case "logout":
                             {
-                                this.ClientController.getSession().session_is_logged = false;
+                                ClientController.getSession().session_is_logged = false;
                                 break;
                             }
 
-                            case "generate":
+                        case "generate":
                             {
                                 //Generowanie hasła
                                 throw new Exception(PasswordGenerator.GeneratePassword(8));
                             }
-                                
-                            case "change password":
-                            {
-                                this.StreamController.SendString("oldpassword", buffer, stream);
-                                string oldpassword = this.StreamController.ReadString(stream, buffer);
-                                this.StreamController.SendString("newpassword", buffer, stream);
-                                string password = this.StreamController.ReadString(stream, buffer);
-                                this.StreamController.SendString("password confirm", buffer, stream);
-                                string passwordCheck = this.StreamController.ReadString(stream, buffer);
 
-                                this.ClientController.ChangePassword(oldpassword, password, passwordCheck);
+                        case "change password":
+                            {
+                                StreamController.SendString("oldpassword", buffer, stream);
+                                string oldpassword = StreamController.ReadString(stream, buffer);
+                                StreamController.SendString("newpassword", buffer, stream);
+                                string password = StreamController.ReadString(stream, buffer);
+                                StreamController.SendString("password confirm", buffer, stream);
+                                string passwordCheck = StreamController.ReadString(stream, buffer);
+
+                                ClientController.ChangePassword(oldpassword, password, passwordCheck);
                                 break;
                             }
 
-                            case "change username":
+                        case "change username":
                             {
-                                this.StreamController.SendString("oldpassword", buffer, stream);
-                                string oldpassword1 = this.StreamController.ReadString(stream, buffer);
-                                this.StreamController.SendString("newlogin", buffer, stream);
-                                string login = this.StreamController.ReadString(stream, buffer);
+                                StreamController.SendString("oldpassword", buffer, stream);
+                                string oldpassword1 = StreamController.ReadString(stream, buffer);
+                                StreamController.SendString("newlogin", buffer, stream);
+                                string login = StreamController.ReadString(stream, buffer);
 
-                                this.ClientController.ChangeUsername(oldpassword1, login);
+                                ClientController.ChangeUsername(oldpassword1, login);
                                 break;
                             }
-                                
-                            case "username":
+
+                        case "check password":
                             {
-                                throw new Exception(this.ClientController.getSession().getUser().getLogin());
+                                throw new Exception(ClientController.getSession().getUser().getPassword());
                             }
 
-                            case "check password":
+                        default:
                             {
-                                throw new Exception(this.ClientController.getSession().getUser().getPassword());
-                            }
-
-                            default:
-                            {
-                                //throw new Exception("Nowy klient sie nie udal");
                                 break;
                             }
-                                
-                        }
-                    }
-                    catch (IOException e)
-                    {
-                        // e.Message;
-                        break;
-                    }
-                    catch (Exception exc)
-                    {
-                        this.StreamController.SendString(exc.Message, buffer, stream);
+
                     }
                 }
-            }
+                catch (Exception exc)
+                {
+                    StreamController.SendString(exc.Message, buffer, stream);
+                }
+            }            
         }
 
         public override void Start()

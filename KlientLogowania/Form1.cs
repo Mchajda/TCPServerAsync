@@ -14,9 +14,11 @@ namespace KlientLogowania
 {
     public partial class Form1 : Form
     {
-        TcpClient client;
-        NetworkStream stream;
-        byte[] buffer = new byte[1024];
+        private TcpClient client;
+        private NetworkStream stream;
+        private byte[] buffer = new byte[1024];
+        public bool is_admin = false;
+        public string current_username = "";
 
         public void Send(string message)
         {
@@ -54,8 +56,10 @@ namespace KlientLogowania
 
         public string addNewFriend(string username)
         {
-            Send("add a friend");
+            Send(current_username);
             string message = Receive();
+            Send("add a friend");
+            message = Receive();
             Send(username);
 
             return Receive();
@@ -64,8 +68,10 @@ namespace KlientLogowania
         public string ChangeUsername(string password, string newusername)
         {
             //This changes password
-            Send("change username");
+            Send(current_username);
             string message = Receive();
+            Send("change username");
+            message = Receive();
             Send(password);
             message = Receive();
             Send(newusername);
@@ -83,8 +89,10 @@ namespace KlientLogowania
         public string DeleteUser(string username)
         {
             //this deletes user form database
-            Send("delete_user");
+            Send(current_username);
             string message = Receive();
+            Send("delete_user");
+            message = Receive();
             Send(username);
 
             message = Receive();
@@ -108,8 +116,10 @@ namespace KlientLogowania
 
         public string EditUserData(string username, string newusername, string newpassword, string role)
         {
-            Send("edit user");
+            Send(current_username);
             string message = Receive();
+            Send("edit user");
+            message = Receive();
             Send(username);
             message = Receive();
             Send(newusername);
@@ -125,6 +135,8 @@ namespace KlientLogowania
         {
             label10.Hide();
             //This generates random 8-char password
+            Send("_anyone");
+            string message = Receive();
             Send("generate");
             return Receive();
         }
@@ -142,8 +154,10 @@ namespace KlientLogowania
             if (textBox1.TextLength != 0 && textBox2.TextLength != 0)
             {
                 //Username and password are typed
-                Send("login");
+                Send("_anyone");
                 string message = Receive();
+                Send("login");
+                message = Receive();
                 Send(textBox1.Text);
                 message = Receive();
                 Send(textBox2.Text);
@@ -151,6 +165,8 @@ namespace KlientLogowania
                 message = Receive();
                 if (message == "login success")
                 {
+                    is_admin = user_is_admin();
+                    current_username = textBox1.Text;
                     OpenLoggedIn();
                 }
                 else if(message == "login failed")
@@ -176,8 +192,10 @@ namespace KlientLogowania
 
         public string Register(string login, string password, string role)
         {
-            Send("register");
+            Send("_anyone");
             string message = Receive();
+            Send("register");
+            message = Receive();
             Send(login);
             message = Receive();
             Send(password);
@@ -200,8 +218,10 @@ namespace KlientLogowania
 
         public bool CheckPassword(string password)
         {
-            Send("check password");
+            Send(current_username);
             string message = Receive();
+            Send("check password");
+            message = Receive();
 
             if (message == password)
             {
@@ -216,8 +236,10 @@ namespace KlientLogowania
         public string ChangePassword(string password, string newpassword)
         {
             //This changes password
-            Send("change password");
+            Send(current_username);
             string message = Receive();
+            Send("change password");
+            message = Receive();
             Send(password);
             message = Receive();
             Send(newpassword);
@@ -281,7 +303,7 @@ namespace KlientLogowania
             button7.Show();
             button8.Show();
 
-            if (user_is_admin())
+            if (is_admin)
             {
                 button12.Show();
                 button13.Show();
@@ -308,33 +330,15 @@ namespace KlientLogowania
 
             ShowLoggedIn();
 
-            label13.Text = "User " + getUsername() + " is now logged in";
+            label13.Text = "User " + current_username + " is now logged in";
 
             ClearTextBoxes();
-        }
-
-        private void OpenChangePassword()
-        {
-            HideLoggedIn();
-
-            ClearTextBoxes();
-        }
-
-        private void OpenChangeUsername()
-        {
-            HideLoggedIn();
-
-            ClearTextBoxes();
-        }
-
-        protected string getUsername()
-        {
-            Send("username");
-            return Receive();
         }
 
         public bool user_is_admin()
         {
+            Send(current_username);
+            string message = Receive();
             Send("is_admin");
             if (Receive() == "true")
                 return true;
@@ -368,6 +372,7 @@ namespace KlientLogowania
             //Hide logged in form
             HideLoggedIn();
         }
+
         private void Form1_Load(object sender, EventArgs e)
         {
 
@@ -480,6 +485,8 @@ namespace KlientLogowania
         {
             //this logs out
 
+            Send(current_username);
+            string message = Receive();
             Send("logout");
 
             OpenLogin();
@@ -564,6 +571,8 @@ namespace KlientLogowania
 
         private void Form1_FormClosing(Object sender, FormClosingEventArgs e)
         {
+            Send(current_username);
+            string message = Receive();
             Send("logout");
             client.Close();
         }

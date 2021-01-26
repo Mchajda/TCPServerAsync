@@ -9,22 +9,23 @@ namespace Server
     {
         //User current_user;
         SessionController SessionController;
+
         public ClientController()
         {
             SessionController = new SessionController();
         }
 
-        public SessionController getSession()
+        public SessionController getSession() //parametr username, żeby zwrócić sesję konkretnego użytkownika
         {
-            return this.SessionController;
+            return SessionController;
         }
 
         public void ChangeUsername(String password, String new_login)
         {
             System.Console.WriteLine(this.SessionController.getUser().getLogin());
-            if (this.SessionController.getUser().getPassword() == password)
+            if (SessionController.getUser().getPassword() == password)
             {
-                this.SessionController.changeLogin(SessionController.getUser().getLogin(), new_login, password);
+                SessionController.changeLogin(SessionController.getUser().getLogin(), new_login, password);
                 throw new Exception("changed username");
             }
             else
@@ -35,16 +36,16 @@ namespace Server
 
         public bool Register(String login, String password, String passwordCheck)
         {
-            if (this.SessionController.register(login, password, passwordCheck))
+            if (SessionController.register(login, password, passwordCheck))
                 return true;
             else return false;
         }
 
         public void ChangePassword(String oldpassword, String password, String passwordCheck)
         {
-            if (this.SessionController.getUser().getPassword() == oldpassword)
+            if (SessionController.getUser().getPassword() == oldpassword)
             {
-                this.SessionController.changePassword(this.SessionController.getUser().getLogin(), oldpassword, password);
+                SessionController.changePassword(SessionController.getUser().getLogin(), oldpassword, password);
                 throw new Exception("changed password");
             }
             else
@@ -55,9 +56,11 @@ namespace Server
 
         public bool LogIn(String login, String password)
         {
-            this.SessionController.authorize(login, password);
+            // tworzenie nowej sesji
 
-            if (!(this.SessionController.getLoginStatus()))
+            SessionController.authorize(login, password);
+
+            if (!(SessionController.getLoginStatus()))
                 throw new Exception("login failed");
             else throw new Exception("login success");
         }
@@ -70,19 +73,19 @@ namespace Server
 
         public void DeleteUser(string login)
         {
-            if (this.SessionController.getAdminStatus() == true)
+            if (SessionController.getAdminStatus() == true)
             {
-                this.SessionController.deleteUser(login);
+                SessionController.deleteUser(login);
             }
         }
 
         public void EditUser(string login, string new_login, string new_password)
         {
-            this.SessionController.editUser(login, new_login, new_password);
+            SessionController.editUser(login, new_login, new_password);
             throw new Exception("user data edited");
         }
 
-        public void AddFriend(string login)
+        public void AddFriend(string login) //parametr username, by dodać relację znajomości konkretnego użytkownika z podanym loginem
         {
             SessionController.addToFriends(login);
             throw new Exception("added friend");

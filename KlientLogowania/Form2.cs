@@ -27,7 +27,7 @@ namespace KlientLogowania
             label5.Hide();
             label17.Hide();
             label18.Hide();
-            admin = mainForm.user_is_admin();
+            admin = mainForm.is_admin;
             if (!admin)
             {
                 radioButton1.Hide();
@@ -138,7 +138,7 @@ namespace KlientLogowania
 
         private void textBox4_TextChanged(object sender, EventArgs e)
         {
-            PasswordStrengthChange();
+            
         }
 
         private void label17_Click(object sender, EventArgs e)
@@ -153,7 +153,7 @@ namespace KlientLogowania
 
         private void textBox5_TextChanged(object sender, EventArgs e)
         {
-
+            PasswordStrengthChange();
         }
 
         private void label5_Click(object sender, EventArgs e)

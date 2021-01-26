@@ -23,11 +23,11 @@ namespace Server
         {
             try
             {
-                string connectionstring = "server="+this.server+";port="+this.port+";uid="+this.db_login+";pwd="+this.db_password+";database="+this.db_name+";charset=utf8;SslMode=none;";
-                this.connection = new MySqlConnection(connectionstring);
+                string connectionstring = "server=" + server + ";port=" + port + ";uid=" + db_login + ";pwd=" + db_password + ";database=" + db_name + ";charset=utf8;SslMode=none;";
+                connection = new MySqlConnection(connectionstring);
 
-                this.connection.Open();
-                Console.WriteLine("connection is " + this.connection.State.ToString());
+                connection.Open();
+                Console.WriteLine("connection is " + connection.State.ToString());
             }
             catch (MySql.Data.MySqlClient.MySqlException ex)
             {
@@ -37,26 +37,26 @@ namespace Server
 
         public void closeConnection()
         {
-            this.connection.Close();
-            Console.WriteLine("connection is " + this.connection.State.ToString());
+            connection.Close();
+            Console.WriteLine("connection is " + connection.State.ToString());
         }
 
         public bool processQuery(string query)
         {
-            this.startConnection();
+            startConnection();
 
-            MySqlCommand comm = this.connection.CreateCommand();
+            MySqlCommand comm = connection.CreateCommand();
 
-            comm = new MySqlCommand(query, this.connection);
+            comm = new MySqlCommand(query, connection);
 
             if (comm.ExecuteNonQuery() > 0)
             {
-                this.closeConnection();
+                closeConnection();
                 return true;
             }
             else
             {
-                this.closeConnection();
+                closeConnection();
                 return false;
             }
         }
