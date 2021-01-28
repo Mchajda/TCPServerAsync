@@ -25,6 +25,7 @@ namespace KlientLogowania
         {
             InitializeComponent();
             mainForm = _mainform;
+            this.Text += " username: " + mainForm.current_username;
 
             InitializeControls();
         }
@@ -33,7 +34,7 @@ namespace KlientLogowania
         {
             //Dodawanie kontrolek, czyli wypisywanie listy znajomych obok są dwa przyciski - jeden "Rozpocznij czat", drugi "Usuń znajomego"
             string username = "";
-            mainForm.Send("OpenStream");
+            mainForm.Send(mainForm.current_username);
             string message = mainForm.Receive();
             mainForm.Send("friends");
             username = mainForm.Receive();
@@ -90,7 +91,7 @@ namespace KlientLogowania
         private void DeleteFriend(object sender, EventArgs e)
         {
             var trigger = sender as Button;
-            mainForm.Send("OpenStream");
+            mainForm.Send(mainForm.current_username);
             string message = mainForm.Receive();
             mainForm.Send("delete friend");
             message = mainForm.Receive();

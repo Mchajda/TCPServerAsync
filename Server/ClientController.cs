@@ -8,24 +8,24 @@ namespace Server
     public class ClientController
     {
         //User current_user;
-        SessionController SessionController;
+        Dictionary<string, SessionController> SessionControllers = new Dictionary<string, SessionController>();
 
         public ClientController()
         {
-            SessionController = new SessionController();
+            SessionControllers["_anyone"] = new SessionController();
         }
 
-        public SessionController getSession() //parametr username, żeby zwrócić sesję konkretnego użytkownika
+        public SessionController getSession(String username) //parametr username, żeby zwrócić sesję konkretnego użytkownika
         {
-            return SessionController;
+            return SessionControllers[username];
         }
 
-        public void ChangeUsername(String password, String new_login)
+        public void ChangeUsername(String username, String password, String new_login)
         {
-            System.Console.WriteLine(this.SessionController.getUser().getLogin());
-            if (SessionController.getUser().getPassword() == password)
+            Console.WriteLine(SessionControllers[username].getUser().getLogin());
+            if (SessionControllers[username].getUser().getPassword() == password)
             {
-                SessionController.changeLogin(SessionController.getUser().getLogin(), new_login, password);
+                SessionControllers[username].changeLogin(username, new_login, password);
                 throw new Exception("changed username");
             }
             else
@@ -34,18 +34,18 @@ namespace Server
             }
         }
 
-        public bool Register(String login, String password, String passwordCheck)
+        public bool Register(String login, String password, String passwordCheck, String role)
         {
-            if (SessionController.register(login, password, passwordCheck))
+            if (SessionControllers["_anyone"].register(login, password, passwordCheck, role))
                 return true;
             else return false;
         }
 
-        public void ChangePassword(String oldpassword, String password, String passwordCheck)
+        public void ChangePassword(String username, String oldpassword, String password, String passwordCheck)
         {
-            if (SessionController.getUser().getPassword() == oldpassword)
+            if (SessionControllers[username].getUser().getPassword() == oldpassword)
             {
-                SessionController.changePassword(SessionController.getUser().getLogin(), oldpassword, password);
+                SessionControllers[username].changePassword(username, oldpassword, password);
                 throw new Exception("changed password");
             }
             else
@@ -58,9 +58,10 @@ namespace Server
         {
             // tworzenie nowej sesji
 
-            SessionController.authorize(login, password);
+            SessionControllers[login] = new SessionController();
+            SessionControllers[login].authorize(login, password);
 
-            if (!(SessionController.getLoginStatus()))
+            if (!(SessionControllers[login].getLoginStatus()))
                 throw new Exception("login failed");
             else throw new Exception("login success");
         }
@@ -71,34 +72,46 @@ namespace Server
 
         }
 
-        public void DeleteUser(string login)
+        public void DeleteUser(string username, string login)
         {
-            if (SessionController.getAdminStatus() == true)
+            if (SessionControllers[username].getAdminStatus() == true)
             {
-                SessionController.deleteUser(login);
+                SessionControllers[username].deleteUser(login);
+                throw new Exception("user deleted");
+            }
+            else
+            {
+                throw new Exception("no permission");
             }
         }
 
-        public void EditUser(string login, string new_login, string new_password)
+        public void EditUser(string username, string login, string new_login, string new_password)
         {
-            SessionController.editUser(login, new_login, new_password);
-            throw new Exception("user data edited");
+            if (SessionControllers[username].getAdminStatus() == true)
+            {
+                SessionControllers[username].editUser(login, new_login, new_password);
+                throw new Exception("user data edited");
+            }
+            else
+            {
+                throw new Exception("no permission");
+            }
         }
 
-        public void AddFriend(string login) //parametr username, by dodać relację znajomości konkretnego użytkownika z podanym loginem
+        public void AddFriend(string username, string login) //parametr username, by dodać relację znajomości konkretnego użytkownika z podanym loginem
         {
-            SessionController.addToFriends(login);
+            SessionControllers[username].addToFriends(login);
             throw new Exception("added friend");
         }
 
         public ArrayList getFriends(string username)
         {
-            return SessionController.getFriends(username);
+            return SessionControllers[username].getFriends(username);
         }
 
         public void deleteFriend(string username, string friend)
         {
-            SessionController.deleteFriend(username, friend);
+            SessionControllers[username].deleteFriend(username, friend);
             throw new Exception("friend deleted");
         }
     }

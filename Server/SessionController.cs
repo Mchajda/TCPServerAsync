@@ -69,7 +69,7 @@ namespace Server
             return false;
         }
 
-        public bool register(string login, string password, string passwordCheck)
+        public bool register(string login, string password, string passwordCheck, string role)
         {
             bool is_valid_user = true;
 
@@ -86,7 +86,7 @@ namespace Server
             {
                 if (password == passwordCheck)
                 {
-                    if (UsersManager.insertRow(login, password, "ROLE_USER"))
+                    if (UsersManager.insertRow(login, password, role))
                         return true;
                     else return false;
 

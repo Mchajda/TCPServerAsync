@@ -70,7 +70,7 @@ namespace Server
                                 StreamController.SendString("password confirm", buffer, stream);
                                 string passwordCheck = StreamController.ReadString(stream, buffer);
 
-                                ClientController.Register(login, password, passwordCheck);
+                                ClientController.Register(login, password, passwordCheck, "ROLE_USER");
                                 break;
                             }
 
@@ -98,13 +98,13 @@ namespace Server
                                 StreamController.SendString("login", buffer, stream);
                                 string login = StreamController.ReadString(stream, buffer);
 
-                                ClientController.AddFriend(login);
+                                ClientController.AddFriend(username, login);
                                 break;
                             }
 
                         case "friends":
                             {
-                                ArrayList friends = ClientController.getFriends(ClientController.getSession().getUser().getLogin()); //parametr username
+                                ArrayList friends = ClientController.getFriends(username); //parametr username
 
                                 for (int i = 0; i < friends.Count; i++)
                                 {
@@ -120,7 +120,7 @@ namespace Server
                                 StreamController.SendString("friend", buffer, stream);
                                 string friend = StreamController.ReadString(stream, buffer);
 
-                                ClientController.deleteFriend(ClientController.getSession().getUser().getLogin(), friend);
+                                ClientController.deleteFriend(username, friend);
                                 break;
                             }
 
@@ -128,7 +128,7 @@ namespace Server
                             {
                                 StreamController.SendString("login", buffer, stream);
                                 string login = StreamController.ReadString(stream, buffer);
-                                ClientController.DeleteUser(login);
+                                ClientController.DeleteUser(username, login);
                                 break;
                             }
 
@@ -143,7 +143,7 @@ namespace Server
                                 StreamController.SendString("role", buffer, stream);
                                 string role = StreamController.ReadString(stream, buffer);
 
-                                ClientController.EditUser(login, new_login, password);
+                                ClientController.EditUser(username, login, new_login, password);
                                 break;
                             }
 
@@ -158,13 +158,13 @@ namespace Server
                                 StreamController.SendString("role", buffer, stream);
                                 string role = StreamController.ReadString(stream, buffer);
 
-                                ClientController.Register(login, password, passwordCheck);
+                                ClientController.Register(login, password, passwordCheck, role);
                                 break;
                             }
 
                         case "is_admin":
                             {
-                                if (ClientController.getSession().session_admin)
+                                if (ClientController.getSession(username).session_admin)
                                     throw new Exception("true");
                                 else
                                     throw new Exception("false");
@@ -172,7 +172,7 @@ namespace Server
 
                         case "logout":
                             {
-                                ClientController.getSession().session_is_logged = false;
+                                ClientController.getSession(username).session_is_logged = false;
                                 break;
                             }
 
@@ -191,7 +191,7 @@ namespace Server
                                 StreamController.SendString("password confirm", buffer, stream);
                                 string passwordCheck = StreamController.ReadString(stream, buffer);
 
-                                ClientController.ChangePassword(oldpassword, password, passwordCheck);
+                                ClientController.ChangePassword(username, oldpassword, password, passwordCheck);
                                 break;
                             }
 
@@ -202,13 +202,13 @@ namespace Server
                                 StreamController.SendString("newlogin", buffer, stream);
                                 string login = StreamController.ReadString(stream, buffer);
 
-                                ClientController.ChangeUsername(oldpassword1, login);
+                                ClientController.ChangeUsername(username, oldpassword1, login);
                                 break;
                             }
 
                         case "check password":
                             {
-                                throw new Exception(ClientController.getSession().getUser().getPassword());
+                                throw new Exception(ClientController.getSession(username).getUser().getPassword());
                             }
 
                         default:

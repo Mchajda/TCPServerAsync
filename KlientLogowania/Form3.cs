@@ -23,6 +23,7 @@ namespace KlientLogowania
         {
             InitializeComponent();
             this.mainForm = form1;
+            this.Text += " username: " + mainForm.current_username;
             label5.Hide();
         }
 

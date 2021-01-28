@@ -165,8 +165,8 @@ namespace KlientLogowania
                 message = Receive();
                 if (message == "login success")
                 {
-                    is_admin = user_is_admin();
                     current_username = textBox1.Text;
+                    is_admin = user_is_admin();                    
                     OpenLoggedIn();
                 }
                 else if(message == "login failed")

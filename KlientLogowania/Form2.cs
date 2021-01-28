@@ -42,6 +42,7 @@ namespace KlientLogowania
                 label18.Show();
                 label8.Text = "CREATE A NEW USER";
                 this.Text = "Add a user to the database";
+                this.Text += " username: " + mainForm.current_username;
             }
         }
 
