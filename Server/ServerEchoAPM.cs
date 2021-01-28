@@ -172,7 +172,7 @@ namespace Server
 
                         case "logout":
                             {
-                                ClientController.getSession(username).session_is_logged = false;
+                                ClientController.LogOut(username);
                                 break;
                             }
 

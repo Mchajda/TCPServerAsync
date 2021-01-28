@@ -114,5 +114,10 @@ namespace Server
             SessionControllers[username].deleteFriend(username, friend);
             throw new Exception("friend deleted");
         }
+
+        public void LogOut(string username)
+        {
+            SessionControllers.Remove(username);
+        }
     }
 }
