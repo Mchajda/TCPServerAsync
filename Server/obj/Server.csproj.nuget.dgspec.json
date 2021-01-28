@@ -1,36 +1,29 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Vidugavia\\source\\repos\\TCPServerAsync\\Server\\Server.csproj": {}
+    "C:\\Users\\Maciej\\source\\repos\\TCPServerAsync\\Server\\Server.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Vidugavia\\source\\repos\\TCPServerAsync\\Server\\Server.csproj": {
+    "C:\\Users\\Maciej\\source\\repos\\TCPServerAsync\\Server\\Server.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Vidugavia\\source\\repos\\TCPServerAsync\\Server\\Server.csproj",
+        "projectUniqueName": "C:\\Users\\Maciej\\source\\repos\\TCPServerAsync\\Server\\Server.csproj",
         "projectName": "Server",
-        "projectPath": "C:\\Users\\Vidugavia\\source\\repos\\TCPServerAsync\\Server\\Server.csproj",
-        "packagesPath": "C:\\Users\\Vidugavia\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Vidugavia\\source\\repos\\TCPServerAsync\\Server\\obj\\",
+        "projectPath": "C:\\Users\\Maciej\\source\\repos\\TCPServerAsync\\Server\\Server.csproj",
+        "packagesPath": "C:\\Users\\Maciej\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Maciej\\source\\repos\\TCPServerAsync\\Server\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "F:\\Microsoft\\Xamarin\\NuGet\\"
-        ],
         "configFilePaths": [
-          "C:\\Users\\Vidugavia\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
+          "C:\\Users\\Maciej\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "netstandard2.0"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "netstandard2.0": {
-            "targetAlias": "netstandard2.0",
             "projectReferences": {}
           }
         },
@@ -42,7 +35,6 @@
       },
       "frameworks": {
         "netstandard2.0": {
-          "targetAlias": "netstandard2.0",
           "dependencies": {
             "MySql.Data": {
               "target": "Package",
@@ -69,7 +61,7 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.101\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.403\\RuntimeIdentifierGraph.json"
         }
       }
     }

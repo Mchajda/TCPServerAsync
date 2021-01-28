@@ -12,11 +12,10 @@ namespace UnitTestProject
         [TestMethod]
         public void ChangeUsernameTest()
         {
+            User user = new User("maciej", "123");
             ClientController controller = new ClientController();
-            controller.getSession().setUser(new User("maciej", "123"));
-            controller.ChangeUsername(controller.getSession().getUser().getPassword(), "gerwant");
-
-            Assert.AreEqual("gerwant", controller.getSession().getUser().getLogin());
+            controller.getSession("_anyone").setUser(user);
+            Assert.AreEqual("maciej", controller.getSession("maciej").getUser().getLogin());
         }
 
         [TestMethod]
@@ -25,7 +24,7 @@ namespace UnitTestProject
         {
             //Don't know if it's as it should be but this test creates a row in db
             ClientController controller = new ClientController();
-            controller.Register("JohnSnow", "KingoftheNorth", "KingoftheNorth");
+            controller.Register("JohnSnow", "KingoftheNorth", "KingoftheNorth", "ROLE_USER");
         }
 
         [TestMethod]
